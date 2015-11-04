@@ -442,7 +442,7 @@ PLATFORM_AR=$(NDK_ROOT)/toolchains/$(TOOLCHAIN)/prebuilt/$(HOST_PLATFORM)/bin/$(
 ZIPWINDOWS=..\\..\\..\\..\\..\\libs\\openFrameworksCompiled\\project\\android\\windows\\zip -r ../../res/raw/$(RESFILE)
 #endif
 
-afterplatform:$(RESFILE)
+afterplatform: datafolder
 	@if [ -f obj/$(BIN_NAME) ]; then rm obj/$(BIN_NAME); fi
 	
 	@echo copying debugging binaries for $(ABIS_TO_COMPILE)
@@ -543,23 +543,21 @@ afterplatform:$(RESFILE)
 	#	$(SDK_ROOT)/tools/android update project --target $(SDK_TARGET) --path .; \
 	#fi
 	
-$(RESFILE): $(DATA_FILES)
-	@echo compressing and copying resources from bin/data into res
+datafolder: 
+	@echo copying resources from bin/data to res/assets
 	cd "$(PROJECT_PATH)"; \
 	if [ -d "bin/data" ]; then \
-		mkdir -p res/raw; \
-		rm res/raw/$(RESNAME).zip; \
-		cd bin/data; \
+		mkdir -p assets/data; \
 		if [ "$(HOST_PLATFORM)" = "windows" ]; then \
 			echo "Windows Platform. Running Zip..."; \
-			cmd //c $(ZIPWINDOWS) * && exit; \
+		#	cmd //c $(ZIPWINDOWS) * && exit; \
 		else \
-			zip -r ../../res/raw/$(RESNAME).zip *; \
+		#	zip -r ../../res/raw/$(RESNAME).zip *; \
+			rsync -rupE --delete bin/data assets; \
 		fi; \
-		cd ../..; \
 	fi
 
-install:	
+install: datafolder
 	cd "$(OF_ROOT)/addons/ofxAndroid/ofAndroidLib"; \
 	echo installing on $(HOST_PLATFORM); \
 	if [ "$(HOST_PLATFORM)" = "windows" ]; then \
@@ -568,18 +566,6 @@ install:
 	$(SDK_ROOT)/tools/android update project --target $(SDK_TARGET) --path .; \
 	fi 
 	cd "$(PROJECT_PATH)"; \
-	if [ -d "bin/data" ]; then \
-		mkdir -p res/raw; \
-		rm res/raw/$(RESNAME).zip; \
-		cd bin/data; \
-		if [ "$(HOST_PLATFORM)" = "windows" ]; then \
-			echo "Windows Platform. Running Zip..."; \
-			cmd //c $(ZIPWINDOWS) * && exit; \
-		else \
-			zip -r ../../res/raw/$(RESNAME).zip; *; \
-		fi; \
-		cd ../..; \
-	fi 
 	if [ -f obj/$(BIN_NAME) ]; then rm obj/$(BIN_NAME); fi
 	#touch AndroidManifest.xml
 	if [ "$(HOST_PLATFORM)" = "windows" ]; then \

@@ -1,6 +1,7 @@
 package cc.openframeworks;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
@@ -154,19 +156,12 @@ public class OFAndroid {
 			@Override
 			public void run() {
 				Log.i("OF","starting resources extractor");
-				Class<?> raw = null;
-		        boolean copydata = false;
-		        Field[] files = null;
-		        try {
-		        	
-					// try to find if R.raw class exists will throw
-		        	// an exception if not
-		        	raw = Class.forName(packageName+".R$raw");
-		        	// if it exists copy all the raw resources
-		        	// to a folder in the sdcard
-			        files = raw.getDeclaredFields(); 
-		
-			        SharedPreferences preferences = ofActivity.getPreferences(Context.MODE_PRIVATE);
+				boolean copydata = false;
+		        String[] files = new String[0];
+				AssetManager am = getContext().getAssets();
+
+				try {
+					SharedPreferences preferences = ofActivity.getPreferences(Context.MODE_PRIVATE);
 			        long lastInstalled = preferences.getLong("installed", 0);
 			        
 			        PackageManager pm = ofActivity.getPackageManager();
@@ -180,14 +175,19 @@ public class OFAndroid {
 			        	editor.putLong("installed", installed);
 			        	editor.commit();
 			        	copydata = true;
-			        }
+
+						files = am.list("");
+					} else {
+						Log.i("OF", "No need to extract data resources");
+					}
 				} catch (NameNotFoundException e1) {
 					copydata = false;
-		        } catch (ClassNotFoundException e1) { 
-		        } 
-	        	
-		        
-		        ofActivity.onLoadPercent(.05f);
+		        } catch (IOException e) {
+					e.printStackTrace();
+				}
+
+
+				ofActivity.onLoadPercent(.05f);
 	
 		        dataPath="";
 	    		try{
@@ -197,102 +197,37 @@ public class OFAndroid {
 	    			Log.i("OF","creating app directory: " + dataPath);
 					try{
 						File dir = new File(dataPath);
-						if(!(dir.mkdirs() || dir.isDirectory())){
-							if(copydata){
+						if(!dir.isDirectory()) {
+							copydata = true;
+							if(!dir.mkdirs()){
 								fatalErrorDialog("Error while copying resources to sdcard:\nCouldn't create directory " + dataPath);
 								Log.e("OF","error creating dir " + dataPath);
 								return;
-							}else{
-								throw new Exception();
 							}
 						}
-					}catch(Exception e){
+					} catch(Exception e){
 						fatalErrorDialog("Error while copying resources to sdcard:\nCouldn't create directory " + dataPath + "\n"+e.getMessage());
 						Log.e("OF","error creating dir " + dataPath,e);
 					}
 					moveOldData(getOldExternalStorageDirectory(packageName), dataPath);
 					OFAndroid.setAppDataDir(dataPath);
 			        ofActivity.onLoadPercent(.10f);
-	    		}catch(Exception e){
-	    			Log.e("OF","couldn't move app resources to data directory " + dataPath,e);
-	    		}
-	    		
+	    		} catch(Exception e) {
+					Log.e("OF", "couldn't move app resources to data directory " + dataPath, e);
+				}
 	    		
 				try {
-					int app_name_id = Class.forName(packageName+".R$string").getField("app_name").getInt(null);
-
 					if(copydata){
-						StatFs stat = new StatFs(dataPath);
-						double sdAvailSize = (double)stat.getAvailableBlocks()
-				                   * (double)stat.getBlockSize();
-						for(int i=0; i<files.length; i++){
-		    	        	int fileId;
-		    	        	String fileName="";
-		    				
-		    				InputStream from=null;
-		    				FileOutputStream to=null;
-		    	        	try {
-		    					fileId = files[i].getInt(null);
-		    					String resName = ofActivity.getResources().getText(fileId).toString();
-		    					fileName = resName.substring(resName.lastIndexOf("/"));
-		    					if(fileName.equals("/ofdataresources.zip")){
-		    						
-			    					from = ofActivity.getResources().openRawResource(fileId);
-									try{
-										ZipInputStream resourceszip = new ZipInputStream(from);
-										int totalZipSize = 0;
-										ZipEntry entry;
-										File outdir = new File(dataPath);
-										while ((entry = resourceszip.getNextEntry()) != null){
-											totalZipSize+=entry.getSize();
-										}
-										resourceszip.close();
-										Log.i("OF","size of uncompressed resources: " + totalZipSize + " avaliable space:" + sdAvailSize);
-										if(totalZipSize>=sdAvailSize){
-											final int mbsize = totalZipSize/1024/1024;
-											fatalErrorDialog("Error while copying resources to sdcard:\nNot enough space available.("+mbsize+"Mb)\nMake more space by deleting some file in your sdcard");
-										}else{
-											from = ofActivity.getResources().openRawResource(fileId);
-											resourceszip = new ZipInputStream(from);
-											
-
-											while ((entry = resourceszip.getNextEntry()) != null){
-												String name = entry.getName();
-										        if( entry.isDirectory() )
-										        {
-										        	OFZipUtil.mkdirs(outdir,name);
-										          continue;
-										        }
-										        String dir = OFZipUtil.dirpart(name);
-										        if( dir != null )
-										        	OFZipUtil.mkdirs(outdir,dir);
-	
-										        OFZipUtil.extractFile(resourceszip, outdir, name);
-										        ofActivity.onLoadPercent((float)(.10+i*.01));
-											}
-
-											resourceszip.close();
-									        ofActivity.onLoadPercent(.80f);
-										}
-									}catch(Exception e){
-										fatalErrorDialog("Error while copying resources to sdcard:\nCheck that you have enough space available.\n");
-									}
-		    					}
-		    	        	}catch (Exception e) {
-		    					Log.e("OF","error copying file",e);
-		    				} finally {
-		    					if (from != null)
-		    					  try {
-		    					    from.close();
-		    					  } catch (IOException e) { }
-		    					  
-		    			        if (to != null)
-		    			          try {
-		    			            to.close();
-		    			          } catch (IOException e) { }
-		    				}
+						for (String file : files) {
+							if(file.equals("data")) {
+								try {
+									copyAssetFolder(am, file, dataPath);
+								} catch (Exception e) {
+									Log.e("OF", "error copying file", e);
+								}
+							}
 						}
-					}else{
+					} else {
 				        ofActivity.onLoadPercent(.80f);
 					}
 				} catch (Exception e) {
@@ -301,6 +236,7 @@ public class OFAndroid {
 
 			}
 		});
+
 
     	appInitThread = new Thread(new Runnable() {
 			@Override
@@ -315,6 +251,59 @@ public class OFAndroid {
     	appInitThread.start();
 		
     }
+
+	private static void copyAssetFolder(AssetManager am, String src, String dest) throws IOException {
+
+		Log.i("Copy ",src);
+		InputStream srcIS = null;
+		File destfh;
+
+		// this is the only way we can tell if this is a file or a
+		// folder - we have to open the asset, and if the open fails,
+		// it's a folder...
+		boolean isDir = false;
+		try {
+			srcIS = am.open(src);
+		} catch (FileNotFoundException e) {
+			isDir = true;
+		}
+
+		// either way, we'll use the dest as a File
+		destfh = new File(dest);
+
+		// and now, depending on ..
+		if(isDir) {
+
+			// If the directory doesn't yet exist, create it
+			if( !destfh.exists() ){
+				destfh.mkdir();
+			}
+
+			// list the assets in the directory...
+			String assets[] = am.list(src);
+
+			// and copy them all using same.
+			for(String asset : assets) {
+				copyAssetFolder(am, src + "/" + asset, dest + "/" + asset);
+			}
+
+		} else {
+			int count, buffer_len = 2048;
+			byte[] data = new byte[buffer_len];
+
+			// copy the file from the assets subsystem to the filesystem
+			FileOutputStream destOS = new FileOutputStream(destfh);
+
+			//copy the file content in bytes
+			while( (count = srcIS.read(data, 0, buffer_len)) != -1) {
+				destOS.write(data, 0, count);
+			}
+
+			// and close the two files
+			srcIS.close();
+			destOS.close();
+		}
+	}
 	
 	private void fatalErrorDialog(final String msg){
 		ofActivity.runOnUiThread(new Runnable(){
@@ -1026,8 +1015,8 @@ public class OFAndroid {
             Log.i("OF","loading x86 library");
             System.loadLibrary("OFAndroidApp_x86");
         }
-        catch(Throwable ex)	{
-            Log.i("OF","failed x86 loading, trying neon detection",ex);
+        catch (Throwable ex) {
+			Log.i("OF", "failed x86 loading, trying neon detection",ex);
             
             try{
                 System.loadLibrary("neondetection");
