@@ -26,12 +26,22 @@ public class OFAndroidSoundPlayer extends OFAndroidObject{
 				player = new MediaPlayer();
 				player.setDataSource(fileName);
 				player.prepare();
+				bIsLoaded = true;
 			}else{
+				bIsLoading = true;
 				if(soundID!=-1) unloadSound();
 				soundID = pool.load(fileName, 1);
+
+				pool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+					@Override
+					public void onLoadComplete(SoundPool soundPool, int mySoundId, int status) {
+						bIsLoading = false;
+						bIsLoaded = true;
+					}
+				});
 			}
 			setVolume(volume);
-			bIsLoaded = true;
+
 			this.fileName = fileName;
 			this.stream = stream;
 		} catch (Exception e) {
@@ -61,12 +71,24 @@ public class OFAndroidSoundPlayer extends OFAndroidObject{
 			if(player==null) return;
 			if(getIsPlaying()) setPosition(0);	
 			player.start();
-		}else{
+		} else {
 			if(!multiPlay){
 				pool.stop(streamID);
 			}
-			streamID = pool.play(soundID,leftVolume,rightVolume,1,loop?-1:0,speed);
-			bIsPlaying = true;
+
+			// Check if loading is done
+			if(bIsLoaded) {
+				streamID = pool.play(soundID, leftVolume, rightVolume, 1, loop ? -1 : 0, speed);
+				bIsPlaying = true;
+			} else {
+				// If loading is not done, then wait playing until loading is done
+				pool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+					@Override
+					public void onLoadComplete(SoundPool soundPool, int mySoundId, int status) {
+						play();
+					}
+				});
+			}
 		}
 	}
 	void stop(){
@@ -221,6 +243,7 @@ public class OFAndroidSoundPlayer extends OFAndroidObject{
 	private float volume;
 	private boolean bIsLoaded;
 	private boolean bIsPlaying;
+	private boolean bIsLoading;
 	private boolean multiPlay;
 	private String fileName;
 	private int soundID, streamID;
