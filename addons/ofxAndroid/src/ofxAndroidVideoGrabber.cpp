@@ -111,14 +111,11 @@ ofxAndroidVideoGrabber::Data::~Data(){
 
 void ofxAndroidVideoGrabber::Data::loadTexture(){
 	ofTextureData td;
-
-
-	//if(!texture.texData.bAllocated) return;
-
-	glGenTextures(1, (GLuint *)&td.textureID);
+	GLuint texId[1];
+	glGenTextures(1, texId);
 
 	glEnable(GL_TEXTURE_EXTERNAL_OES);
-	glBindTexture(GL_TEXTURE_EXTERNAL_OES, (GLuint)td.textureID);
+	glBindTexture(GL_TEXTURE_EXTERNAL_OES, texId[0]);
 
 	glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -128,24 +125,18 @@ void ofxAndroidVideoGrabber::Data::loadTexture(){
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	}
 
-	//glBindTexture(texture.texData.textureTarget,0);
-
 	glDisable(GL_TEXTURE_EXTERNAL_OES);
 
 	// Set the externally created texture reference
-	texture.setUseExternalTextureID(td.textureID);
+	texture.setUseExternalTextureID(texId[0]);
 	texture.texData.width = width;
 	texture.texData.height = height;
-	texture.texData.tex_w = td.width;
-	texture.texData.tex_h = td.height;
+	texture.texData.tex_w = width;
+	texture.texData.tex_h = height;
 	texture.texData.tex_t = 1; // Hack!
 	texture.texData.tex_u = 1;
 	texture.texData.textureTarget = GL_TEXTURE_EXTERNAL_OES;
 	texture.texData.glInternalFormat = GL_RGBA;
-
-
-	ofLogNotice("Grabber")<<"LOAD TEXTURE DONE"<<texture.isAllocated()<<" "<<td.textureID;
-
 }
 
 
@@ -225,12 +216,32 @@ void ofxAndroidVideoGrabber::update(){
 		// This will tell the camera api that we are ready for a new frame
 		jmethodID update = ofGetJNIEnv()->GetMethodID(getJavaClass(), "update", "()V");
 		ofGetJNIEnv()->CallVoidMethod(data->javaVideoGrabber, update);
+
+		// Get the texture matrix
+		jmethodID javaGetTextureMatrix = ofGetJNIEnv()->GetMethodID(getJavaClass(),"getTextureMatrix","([F)V");
+		if(!javaGetTextureMatrix){
+			ofLogError("ofxAndroidVideoPlayer") << "update(): couldn't get java javaGetTextureMatrix for VideoPlayer";
+			return;
+		}
+		ofGetJNIEnv()->CallVoidMethod(data->javaVideoGrabber,javaGetTextureMatrix,data->matrixJava);
+		jfloat * m = ofGetJNIEnv()->GetFloatArrayElements(data->matrixJava,0);
+
+		ofMatrix4x4 vFlipTextureMatrix;
+		vFlipTextureMatrix.scale(1,-1,1);
+		vFlipTextureMatrix.translate(0,1,0);
+		ofMatrix4x4 textureMatrix(m);
+		data->texture.setTextureMatrix(vFlipTextureMatrix * textureMatrix );
+
+		ofGetJNIEnv()->ReleaseFloatArrayElements(data->matrixJava,m,0);
 	} else {
 		data->bIsFrameNew = false;
 	}
 }
 
 void ofxAndroidVideoGrabber::close(){
+	// Release texture
+	glDeleteTextures(1, &data->texture.texData.textureID);
+
     JNIEnv *env = ofGetJNIEnv();
     jclass javaClass = getJavaClass();
     jmethodID javaCloseGrabber = env->GetMethodID(javaClass,"close","()V");
@@ -274,10 +285,7 @@ bool ofxAndroidVideoGrabber::setup(int w, int h){
 
 	ofLogNotice() << "initializing camera with external texture";
 
-
-	// hack to initialize gl resources from outside ofTexture
-	//data->texture.texData = td;
-	//data->texture.texData.bAllocated = false;
+	// Load opengl texture
 	data->width = w;
 	data->height = h;
 	data->loadTexture();
