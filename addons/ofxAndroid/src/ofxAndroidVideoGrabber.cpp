@@ -137,6 +137,8 @@ void ofxAndroidVideoGrabber::Data::loadTexture(){
 	texture.texData.tex_u = 1;
 	texture.texData.textureTarget = GL_TEXTURE_EXTERNAL_OES;
 	texture.texData.glInternalFormat = GL_RGBA;
+	texture.texData.bFlipTexture = false;
+
 }
 
 
