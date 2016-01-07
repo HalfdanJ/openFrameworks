@@ -159,7 +159,7 @@ def ofRunMake(List opts) {
 }
 
 task compileDebugOF {
-    ofRunMake(["-C", rootProject.projectDir.absolutePath, "PLATFORM_OS=Android", "Debug"])
+    ofRunMake(["-C", rootProject.projectDir.absolutePath, "PLATFORM_OS=Android", "Release"])
 }
 
 task compileReleaseOF {
