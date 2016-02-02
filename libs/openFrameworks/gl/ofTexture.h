@@ -890,6 +890,12 @@ class ofTexture : public ofBaseDraws {
 	/// \sa ofEnableArbTex()
 	/// \sa ofDisableArbTex()
 	void generateMipmap();
+
+	/// \brief Find out if a mipmap has been generated for the current texture.
+	///
+	/// \sa generateMipmap()
+	/// \sa enableMipmap()
+	bool hasMipmap() const;
 	
 	ofTextureData texData; ///< Internal texture data access.
 	                       ///< For backwards compatibility.
