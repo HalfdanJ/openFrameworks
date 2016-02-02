@@ -4,8 +4,7 @@ class ofVec3f;
 class ofVec4f;
 #include "ofConstants.h"
 
-/// \brief
-/// ofVec2f is a class for storing a two dimensional vector. 
+/// ofVec2f is a class for storing a two dimensional vector.
 ///
 /// Moving through space requires knowledge of where things are and where they are going.
 /// Vector Maths is the class of mathematics that gives us control over these
@@ -69,17 +68,15 @@ public:
 	static const int DIM = 2;
 	//// \endcond
 	
-	/// \brief Stores the `x` component of the vector.
+	/// Stores the `x` component of the vector.
 	float x;
 
-	/// \brief Stores the `y` component of the vector.
+	/// Stores the `y` component of the vector.
 	float y;
     
-    //---------------------
-	/// \name Construct a 2D vector
-	/// \{
-    
-	/// \brief Construct a 2D vector.
+	/// \section Construct a 2D vector
+	///
+	/// Construct a 2D vector.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1; // default: v1.x is 0, v1.y is 0
@@ -89,10 +86,10 @@ public:
 	///
 	ofVec2f();
 
-	/// \brief Construct a 2D vector with `x` and `y` set to `scalar`
+	/// Construct a 2D vector with `x` and `y` set to `scalar`
 	explicit ofVec2f( float scalar );
 	
-	/// \brief Construct a 2D vector with specific `x` and `y components
+	/// Construct a 2D vector with specific `x` and `y components
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1; // default: v1.x is 0, v1.y is 0
@@ -104,7 +101,7 @@ public:
 	/// \param y The y component
 	ofVec2f( float x, float y );
 
-	/// \brief Create a 2D vector (ofVec2f) from a 3D vector (ofVec3f) by
+	/// Create a 2D vector (ofVec2f) from a 3D vector (ofVec3f) by
 	/// \throwing away the z component of the 3D vector.
 	///
 	/// ~~~~{.cpp}
@@ -114,7 +111,7 @@ public:
 	/// 
     ofVec2f( const ofVec3f& vec );
 
-	/// \brief Create a 2D vector (ofVec2f) from a 4D vector (ofVec4f) by throwing away the z
+	/// Create a 2D vector (ofVec2f) from a 4D vector (ofVec4f) by throwing away the z
 	/// and w components of the 4D vector.
 	/// 
 	/// ~~~~{.cpp}
@@ -124,14 +121,9 @@ public:
 	/// 
     ofVec2f( const ofVec4f& vec );
 	
-    /// \}
-
-	//---------------------
-	/// \name Access components
-	/// \{
-
-
-	/// \brief Returns a pointer to the memory position of the first element of the vector (x);
+	/// \section Access components
+	///
+	/// Returns a pointer to the memory position of the first element of the vector (x);
 	/// the second element (y) immediately follows it in memory.
 	/// 
 	/// ~~~~{.cpp}
@@ -152,7 +144,7 @@ public:
 		return (const float *)&x;
 	}
 	
-	/// \brief Allows to access the x and y components of an ofVec2f as though it is an array
+	/// Allows to access the x and y components of an ofVec2f as though it is an array
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20);
@@ -172,7 +164,7 @@ public:
 	
 	
     
-	/// \brief Set x and y components of this vector with just one function call.
+	/// Set x and y components of this vector with just one function call.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1;
@@ -181,7 +173,7 @@ public:
 	/// 
     void set( float x, float y );
 
-	/// \brief Set the x and y components of this vector by copying the corresponding values from vec.
+	/// Set the x and y components of this vector by copying the corresponding values from vec.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(40, 20);
@@ -193,14 +185,9 @@ public:
 	
 	void set( float scalar );
 
-    /// \}
-
-    //---------------------
-	/// \name Comparison 
-	/// \{
-
-	
-	/// \brief Check for equality between two ofVec2f
+	/// \section Comparison
+	///
+	/// Check for equality between two ofVec2f
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(40, 20); 
@@ -215,7 +202,7 @@ public:
 	/// false.
     bool operator==( const ofVec2f& vec ) const;
 
-    /// \brief Check for inequality between two ofVec2f
+    /// Check for inequality between two ofVec2f
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(40, 20); 
@@ -230,7 +217,7 @@ public:
 	/// false.
     bool operator!=( const ofVec2f& vec ) const;
 
-	/// \brief Returns true if each component is *close enough* to its corresponding
+	/// Returns true if each component is *close enough* to its corresponding
 	/// component in vec, where what is *close enough* is determined by the value of
 	/// tolerance:
 	/// 
@@ -246,7 +233,7 @@ public:
 	/// 
     bool match( const ofVec2f& vec, float tolerance = 0.0001f ) const;
     
-	/// \brief Determine if two vectors are aligned
+	/// Determine if two vectors are aligned
     /// 
     /// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20);
@@ -258,13 +245,13 @@ public:
     /// \returns true if both vectors are aligned (pointing in the same direction). 
     bool isAligned( const ofVec2f& vec, float tolerance = 0.0001f ) const;
     
-    /// \brief Determine if two vectors are aligned with tolerance in radians
+    /// Determine if two vectors are aligned with tolerance in radians
     /// \param vec The vector to compare alignment with
     /// \param tolerance an angle tolerance/threshold (specified in radians) for deciding if the vectors are sufficiently aligned.
     /// \sa isAligned()
     bool isAlignedRad( const ofVec2f& vec, float tolerance = 0.0001f ) const;
 
-    /// \brief Determine if two vectors are aligned
+    /// Determine if two vectors are aligned
     /// 
     /// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20);
@@ -276,20 +263,15 @@ public:
     /// \returns true if both vectors are aligned (pointing in the same direction). 
     bool align( const ofVec2f& vec, float tolerance = 0.0001f ) const;
 
-    /// \brief Determine if two vectors are aligned with tolerance in radians
+    /// Determine if two vectors are aligned with tolerance in radians
     /// \param vec The vector to compare alignment with
     /// \param tolerance an angle tolerance/threshold (specified in radians) for deciding if the vectors are sufficiently aligned.
     /// \sa align()
     bool alignRad( const ofVec2f& vec, float tolerance = 0.0001f ) const;
 	
-	/// \}
-
-	//---------------------
-	/// \name Operators
-	/// \{
-
-    
-	/// \brief Super easy vector addition. Returns a new vector (x+vec.x,y+vec.y).
+	/// \section Operators
+	///
+	/// Super easy vector addition. Returns a new vector (x+vec.x,y+vec.y).
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -298,7 +280,7 @@ public:
 	/// ~~~~
     ofVec2f  operator+( const ofVec2f& vec ) const;
     
-    /// \brief Returns a new vector with a float value f added to both x and y members.
+    /// Returns a new vector with a float value f added to both x and y members.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -306,7 +288,7 @@ public:
 	/// ~~~~
     ofVec2f  operator+( const float f ) const;
 
-	/// \brief Super easy addition assignment. Adds vec.x to x, and adds vec.y to y.
+	/// Super easy addition assignment. Adds vec.x to x, and adds vec.y to y.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -315,7 +297,7 @@ public:
 	/// ~~~~
     ofVec2f& operator+=( const ofVec2f& vec );
 
-	/// \brief Adds a float value f to both x and y members.
+	/// Adds a float value f to both x and y members.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -323,7 +305,7 @@ public:
 	/// ~~~~
     ofVec2f& operator+=( const float f );
 
-    /// \brief Super easy vector subtraction. Returns a new vector (x-vec.x,y-vec.y).
+    /// Super easy vector subtraction. Returns a new vector (x-vec.x,y-vec.y).
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -332,7 +314,7 @@ public:
 	/// ~~~~
     ofVec2f  operator-( const ofVec2f& vec ) const;
     
-	/// \brief Returns a new vector with a float value f subtracted from both x and y members.
+	/// Returns a new vector with a float value f subtracted from both x and y members.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -340,7 +322,7 @@ public:
 	/// ~~~~
     ofVec2f  operator-( const float f ) const;
 
-	/// \brief Returns a new ofVec2f that is the inverted version (mirrored in X and Y) of this vector.
+	/// Returns a new ofVec2f that is the inverted version (mirrored in X and Y) of this vector.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -348,7 +330,7 @@ public:
 	/// ~~~~    
     ofVec2f  operator-() const;
 
-	/// \brief Super easy subtraction assignment. Subtracts vec.x from x, and subtracts vec.y from y.
+	/// Super easy subtraction assignment. Subtracts vec.x from x, and subtracts vec.y from y.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -357,7 +339,7 @@ public:
 	/// ~~~~
     ofVec2f& operator-=( const ofVec2f& vec );
 
-    /// \brief Subtract a float value f from both x and y members.
+    /// Subtract a float value f from both x and y members.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -365,7 +347,7 @@ public:
 	/// ~~~~
 	ofVec2f& operator-=( const float f );
 
-	/// \brief Returns a new vector (x*vec.x , y*vec.y).
+	/// Returns a new vector (x*vec.x , y*vec.y).
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -377,7 +359,7 @@ public:
 	/// 
     ofVec2f  operator*( const ofVec2f& vec ) const;
     
-	/// \brief Return a new ofVec2f that is this vector scaled by multiplying both x
+	/// Return a new ofVec2f that is this vector scaled by multiplying both x
 	/// and y members by the float.
 	/// 
 	/// ~~~~{.cpp}
@@ -386,7 +368,7 @@ public:
 	/// ~~~~
     ofVec2f  operator*( const float f ) const;
 
-	/// \brief Multiplies x by vec.x, and multiplies y by vec.y.
+	/// Multiplies x by vec.x, and multiplies y by vec.y.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -397,7 +379,7 @@ public:
 	/// Useful for scaling a 2D point by a non-uniform scale.
     ofVec2f& operator*=( const ofVec2f& vec );
 
-	/// \brief Scale this vector by multiplying both x and y members by f.
+	/// Scale this vector by multiplying both x and y members by f.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -405,7 +387,7 @@ public:
 	/// ~~~~
     ofVec2f& operator*=( const float f );
 
-	/// \brief Returns a new vector (x/vec.x,y/vec.y).
+	/// Returns a new vector (x/vec.x,y/vec.y).
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -416,7 +398,7 @@ public:
 	/// Useful for scaling a 2D point by a non-uniform scale.
     ofVec2f  operator/( const ofVec2f& vec ) const;
 
-	/// \brief Return a new ofVec2f that is this vector scaled by dividing
+	/// Return a new ofVec2f that is this vector scaled by dividing
 	/// both x and y members by f.
 	/// 
 	/// ~~~~{.cpp}
@@ -425,7 +407,7 @@ public:
 	/// ~~~~
     ofVec2f  operator/( const float f ) const;
 
-	/// \brief Divides x by vec.x, and divides y by vec.y.
+	/// Divides x by vec.x, and divides y by vec.y.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1 = ofVec2f(40, 20); 
@@ -436,7 +418,7 @@ public:
 	/// Useful for scaling a 2D point by a non-uniform scale.
     ofVec2f& operator/=( const ofVec2f& vec );
 	
-	/// \brief Scale this vector by dividing both x and y members by f.
+	/// Scale this vector by dividing both x and y members by f.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(2, 5);
@@ -450,24 +432,21 @@ public:
 	friend istream& operator>>(istream& is, const ofVec2f& vec);
 	/// \endcond
 	
-	/// \}
 	
-	//---------------------
-	/// \name Simple manipulations
-	/// \{
-
+	/// \section Simple manipulations
+	///
 	/// Return a new ofVec2f that is the result of scaling this vector up or down so
 	/// that it has the requested length.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1( 3, 4 ); // length is 5
 	/// ofVec2f v2 = v1.getScaled( 15 ); // ( 9, 12 ), length is now 15
-	/// ~~~~ofVec2f  
-	/// 
+	/// ~~~~
+	///
 	/// \sa scale()
     ofVec2f  getScaled( const float length ) const;
     
-	/// \brief Scales this vector up or down so that it has the requested length.
+	/// Scales this vector up or down so that it has the requested length.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1( 3, 4 ); // length is 5
@@ -478,7 +457,7 @@ public:
     ofVec2f& scale( const float length );
 	
 	
-	/// \brief Return a new ofVec2f that is the result of rotating this vector by angle
+	/// Return a new ofVec2f that is the result of rotating this vector by angle
 	/// degrees around the origin.
 	/// 
 	/// ~~~~{.cpp}
@@ -491,10 +470,10 @@ public:
 	/// \sa rotate()
     ofVec2f  getRotated( float angle ) const;
 
-    /// \brief Like getRotated() but rotates around `pivot` rather than around the origin
+    /// Like getRotated() but rotates around `pivot` rather than around the origin
     ofVec2f  getRotated( float angle, const ofVec2f& pivot ) const;
     
-	/// \brief Return a new ofVec2f that is the result of rotating this vector by angle
+	/// Return a new ofVec2f that is the result of rotating this vector by angle
 	/// radians around the origin.
 	/// 
 	/// ~~~~{.cpp}
@@ -505,11 +484,11 @@ public:
 	///     
     ofVec2f  getRotatedRad( float angle ) const;
 
-    /// \brief Like getRotatedRad() but rotates around `pivot` rather than around the origin
+    /// Like getRotatedRad() but rotates around `pivot` rather than around the origin
     ofVec2f  getRotatedRad( float angle, const ofVec2f& pivot ) const;
 
 
-	/// \brief Rotate this vector by angle degrees around the origin.
+	/// Rotate this vector by angle degrees around the origin.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(1, 0);
@@ -520,10 +499,10 @@ public:
 	/// \sa getRotated()
     ofVec2f& rotate( float angle );
 
-    /// \brief Like rotate() but rotates around `pivot` rather than around the origin
+    /// Like rotate() but rotates around `pivot` rather than around the origin
     ofVec2f& rotate( float angle, const ofVec2f& pivot );
     
-	/// \brief Rotate this vector by angle radians around the origin.
+	/// Rotate this vector by angle radians around the origin.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(1, 0);
@@ -534,12 +513,12 @@ public:
 	/// \sa getRotatedRad()
     ofVec2f& rotateRad( float angle );
 	
-    /// \brief Like rotateRad() but rotates around `pivot` rather than around the origin
+    /// Like rotateRad() but rotates around `pivot` rather than around the origin
 	ofVec2f& rotateRad( float angle, const ofVec2f& pivot );
 	
 	
     
-	/// \brief Get vector mapped to new coordinate system
+	/// Get vector mapped to new coordinate system
 	/// 
 	/// In most cases you want `vx` and `vy` to be perpendicular and of unit length; if
 	/// they are not perpendicular you will have shearing as part of the mapping, and
@@ -554,7 +533,7 @@ public:
 					  const ofVec2f& vy ) const;
 
 
-	/// \brief Maps this vector from its default coordinate system -- origin (0,0), X
+	/// Maps this vector from its default coordinate system -- origin (0,0), X
 	/// direction (1,0), Y direction (0,1) -- to a new coordinate system defined with
 	/// origin at origin, X direction vx, and Y direction vy.
 	/// 
@@ -567,14 +546,9 @@ public:
 				 const ofVec2f& vx, const ofVec2f& vy );
 
 
-    /// \}
-	
-	
-	//---------------------
-	/// \name Distance
-	/// \{
-
-    /// \brief Distance between two points.
+	/// \section Distance
+	///
+    /// Distance between two points.
     ///
     /// Treats both this vector and pnt as points in 2D space, and calculates and
     /// returns the distance between them.
@@ -597,7 +571,7 @@ public:
 	/// \sa squareDistance()
     float distance( const ofVec2f& pnt) const;
 
-    /// \brief Distance between two points squared.
+    /// Distance between two points squared.
     ///
 	/// Treats both this vector and pnt as points in 2D space, and calculates and
 	/// returns the squared distance between them.
@@ -619,13 +593,9 @@ public:
 	/// \sa distance()
     float squareDistance( const ofVec2f& pnt ) const;
 	
-	/// \}
-
-	//---------------------
-	/// \name Interpolation
-	/// \{
-
-    /// \brief Linear interpolation
+	/// \section Interpolation
+	///
+    /// Linear interpolation
     /// 
 	/// Perform a linear interpolation of this vector's position towards pnt
 	/// and return the interpolated position without altering the original
@@ -647,7 +617,7 @@ public:
 	/// \sa interpolate()
     ofVec2f   getInterpolated( const ofVec2f& pnt, float p ) const;
     
-    /// \brief Linear interpolation
+    /// Linear interpolation
     /// 
 	/// Perform a linear interpolation of this vector's position towards pnt. p
 	/// controls the amount to move towards pnt. p is normally between 0 and 1 and
@@ -668,7 +638,7 @@ public:
 	/// \sa getInterpolated()
     ofVec2f&  interpolate( const ofVec2f& pnt, float p );
 
-	/// \brief Calculate and return the midpoint between this vector and pnt.
+	/// Calculate and return the midpoint between this vector and pnt.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(5, 0);
@@ -681,7 +651,7 @@ public:
 	/// \sa middle()
     ofVec2f   getMiddle( const ofVec2f& pnt ) const;
 
-	/// \brief Set this vector to the midpoint between itself and pnt.
+	/// Set this vector to the midpoint between itself and pnt.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1( 0, 5 );
@@ -695,7 +665,7 @@ public:
 	/// \sa getMiddle()
     ofVec2f&  middle( const ofVec2f& pnt );
 
-	/// \brief Average vector over an array of points 
+	/// Average vector over an array of points 
 	///  
 	/// Sets this vector to be the average (*centre of gravity* or *centroid*) 
 	/// of a given array of ofVec2f. 
@@ -716,13 +686,9 @@ public:
 	/// \returns Vector that is the avarage of the points in the array
     ofVec2f&  average( const ofVec2f* points, int num );
     
-    /// \}
-
-    //---------------------
-	/// \name Limit
-	/// \{
-
-	/// \brief Returns a normalized copy of this vector. 
+	/// \section Limit
+	///
+	/// Returns a normalized copy of this vector. 
 	/// 	
 	/// *Normalization* means to scale the vector so that its length
 	/// (magnitude) is exactly 1, at which stage all that is left is the
@@ -737,7 +703,7 @@ public:
 	/// ~~~~
     ofVec2f  getNormalized() const;
 
-	/// \brief Normalize the vector.
+	/// Normalize the vector.
 	/// 
 	/// *Normalizing* means to scale the vector so that its length (magnitude) is
 	/// exactly 1, at which stage all that is left is the direction. A normalized
@@ -755,7 +721,7 @@ public:
 	
 	
     
-    /// \brief Get vector limited by length
+    /// Get vector limited by length
 	///     
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(5, 1); // length is about 5.1
@@ -773,7 +739,7 @@ public:
 	ofVec2f  getLimited(float max) const;
 
 
-   	/// \brief Restrict the length (magnitude) of this vector to a maximum of max units by scaling down if necessary.
+   	/// Restrict the length (magnitude) of this vector to a maximum of max units by scaling down if necessary.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(5, 1); // length is about 5.1
@@ -788,14 +754,9 @@ public:
     ofVec2f& limit(float max);
 
 	
-	/// \}
-
-	//---------------------
-	/// \name Measurement
-	/// \{
-
-	
-	/// \brief Return the length (magnitude) of this vector.
+	/// \section Measurement
+	///
+	/// Return the length (magnitude) of this vector.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v(3, 4);
@@ -812,7 +773,7 @@ public:
 	/// \sa lengthSquared()
     float length() const;
     
-	/// \brief Return the squared length (squared magnitude) of this vector.
+	/// Return the squared length (squared magnitude) of this vector.
 	/// 
 	/// ~~~~{.cpp}
 	/// ofVec2f v(3, 4);
@@ -829,7 +790,7 @@ public:
 	/// \sa length()
     float lengthSquared() const;
 
-    /// \brief Calculate the angle to another vector in degrees
+    /// Calculate the angle to another vector in degrees
     ///
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(1,0);
@@ -840,7 +801,7 @@ public:
 	/// \returns The angle in degrees (-180...180)
 	float angle( const ofVec2f& vec ) const;
 
-    /// \brief Calculate the angle to another vector in radians
+    /// Calculate the angle to another vector in radians
     ///
 	/// ~~~~{.cpp}
 	/// ofVec2f v1(1,0);
@@ -851,13 +812,9 @@ public:
 	/// \returns The angle in radians (-PI...PI)
     float angleRad( const ofVec2f& vec ) const;
 	
-	/// \}
-
-	//---------------------
-	/// \name Perpendicular
-	/// \{
-
-	/// \brief Return the *normalized* ofVec2f that is perpendicular to this vector
+	/// \section Perpendicular
+	///
+	/// Return the *normalized* ofVec2f that is perpendicular to this vector
 	/// (ie rotated 90 degrees and normalized).
 	/// 
 	/// ![PERPENDICULAR](math/perpendicular.png)
@@ -871,7 +828,7 @@ public:
 	/// \sa perpendicular()
     ofVec2f  getPerpendicular() const;
 
-	/// \brief Set this vector to its own **normalized** perpendicular (by
+	/// Set this vector to its own **normalized** perpendicular (by
 	/// rotating 90 degrees and normalizing).
 	/// 
 	/// ![PERPENDICULAR](math/perpendicular.png)
@@ -884,7 +841,7 @@ public:
 	/// \sa getPerpendicular()
 	ofVec2f& perpendicular();
 	
-	/// \brief Calculate and return the dot product of this vector with vec.
+	/// Calculate and return the dot product of this vector with vec.
 	/// 
 	/// *Dot product* (less commonly known as *Euclidean inner product*) expresses 
 	/// the angular relationship between two vectors. In other words it is a measure 

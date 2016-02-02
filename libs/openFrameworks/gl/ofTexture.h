@@ -21,9 +21,7 @@
 
 
 
-/// \name Global texture settings
-/// \{
-
+/// \section Global texture settings
 /// \brief Check whether OF is using GL_TEXTURE_RECTANGLE rectangular or GL_TEXTURE_2D textures.
 /// \sa ofEnableArbTex()
 /// \returns true if using GL_TEXTURE_RECTANGLE textures, false if using GL_TEXTURE_2D textures.
@@ -133,8 +131,6 @@ OF_DEPRECATED_MSG("Use member method ofTexture::setTextureMinMagFilter() instead
 /// \warning Deprecated. Use member methods instead.
 OF_DEPRECATED_MSG("Use member method ofTexture::setTextureMinMagFilter() instead.",void ofRestoreMinMagFilters());
 
-/// \}
-
 /// \brief Texture compression types.
 ///
 /// Compression is only available through OpenGL for textures using
@@ -148,10 +144,9 @@ enum ofTexCompression {
 };
 
 
-/// \cond INTERNAL
-
 /// \class ofTextureData
 /// \brief Internal texture data structure.
+/// \internal
 ///
 /// Used by ofTexture internally. You won't need to work with this in most cases.
 class ofTextureData {
@@ -223,8 +218,7 @@ private:
 
 };
 
-/// \endcond
-
+/// \section Edge hack
 /// \brief Enable the global texture "edge hack" to compensate for edge artifacts.
 ///
 /// Adds a 2 pixel offset to avoid possible edge artifacts (typically a black or
@@ -248,9 +242,7 @@ bool ofIsTextureEdgeHackEnabled();
 class ofTexture : public ofBaseDraws {
 	public :
 
-	/// \name Construction and allocation
-	/// \{
-
+	/// \section Construction and allocation
 	/// \brief Construct an ofTexture instance.
 	ofTexture();
 
@@ -430,11 +422,7 @@ class ofTexture : public ofBaseDraws {
 	virtual ~ofTexture();
 
 
-	/// \}
-
-	/// \name Update texture
-	/// \{
-
+	/// \section Update texture
 	/// \brief Copy a given ofTexture into this texture.
 	/// \param mom The ofTexture to copy from. Reuses internal GL texture ID.
 	ofTexture& operator=(const ofTexture & mom);
@@ -564,13 +552,8 @@ class ofTexture : public ofBaseDraws {
 	/// \param w Width of the area to copy in pixels.
 	/// \param h Height of the area to copy in pixels.
 	void loadScreenData(int x, int y, int w, int h);
-	
-	/// \}
 
-
-	/// \name Drawing
-	/// \{
-
+	/// \section Drawing
 	using ofBaseDraws::draw;
 	
 	void draw(float x, float y) const;
@@ -696,11 +679,8 @@ class ofTexture : public ofBaseDraws {
 #endif
 
 	const ofTexture * getAlphaMask() const;
-	/// \}
 
-	/// \name Size and coordinates
-	/// \{
-
+	/// \section Size and coordinates
 	/// \brief Display height of texture.
 	///
 	/// Return value is pixel size (default) or normalized (0 - 1) if ofEnableNormalizedTextures() is set to true.
@@ -752,11 +732,7 @@ class ofTexture : public ofBaseDraws {
 	/// \returns Texture coordinate or ofPoint::zero() if texture is not allocated.
 	ofPoint getCoordFromPercent(float xPts, float yPts) const;
 
-	/// \}
-
-	/// \name Texture settings
-	/// \{
-
+	/// \section Texture settings
 	/// \brief Set another ofTexture to use as an alpha mask.
 	/// \param mask The texture to use as alpha mask.
 	void setAlphaMask(ofTexture & mask);
@@ -806,7 +782,7 @@ class ofTexture : public ofBaseDraws {
 
 	/// \brief Set the texture compression.
 	///
-	/// \warning: not yet implemented.
+	/// \warning not yet implemented.
 	/// \sa ofTexCompression
 	void setCompression(ofTexCompression compression);
 
@@ -834,11 +810,7 @@ class ofTexture : public ofBaseDraws {
 	/// \sa https://en.wikipedia.org/wiki/Swizzling_(computer_graphics)
 	void setSwizzle(GLenum srcSwizzle, GLenum dstChannel);
 
-	/// \}
-
-	/// \name Read pixel data
-	/// \{
-
+	/// \section Read pixel data
 	/// \brief Read current texture data from the GPU into pixels.
 	///
 	/// \warning This is not supported in OpenGL ES and does nothing.
@@ -866,11 +838,7 @@ class ofTexture : public ofBaseDraws {
 	void copyTo(ofBufferObject & buffer) const;
 #endif
 
-	/// \}
-
-	/// \name Texture data
-	/// \{
-
+	/// \section Texture data
 	/// \brief Internal texture data access.
 	///
 	/// This returns the internal texture data for this texture, for instance,
@@ -884,12 +852,7 @@ class ofTexture : public ofBaseDraws {
 	/// \sa ofTextureData::getTextureData()
 	const ofTextureData& getTextureData() const;
 
-	/// \}
-
-
-	/// \name Mipmapping
-	/// \{
-
+	/// \section Mipmapping
 	/// \brief Sets flag allowing texture to auto-generate a mipmap.
 	///
 	/// By default, this will set your minFilter to GL_LINEAR_MIPMAP_LINEAR.
@@ -928,9 +891,6 @@ class ofTexture : public ofBaseDraws {
 	/// \sa ofDisableArbTex()
 	void generateMipmap();
 	
-	/// \}
-
-	/// \cond INTERNAL
 	ofTextureData texData; ///< Internal texture data access.
 	                       ///< For backwards compatibility.
 
