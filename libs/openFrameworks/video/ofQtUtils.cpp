@@ -250,7 +250,7 @@ OSErr MediaGetStaticFrameRate(Media inMovieMedia, double *outFPS) {
 	return err;
 }
 
-//----------------------------------------
+	//----------------------------------------
 
 #ifdef TARGET_OSX
 // GetSettingsPreference

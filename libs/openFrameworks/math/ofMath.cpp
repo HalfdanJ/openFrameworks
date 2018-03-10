@@ -23,8 +23,8 @@ int ofNextPow2(int a) {
 //--------------------------------------------------
 void ofSeedRandom() {
 
-	// good info here:
-	// http://stackoverflow.com/questions/322938/recommended-way-to-initialize-srand
+// good info here:
+// http://stackoverflow.com/questions/322938/recommended-way-to-initialize-srand
 
 #ifdef TARGET_WIN32
 	srand(GetTickCount());

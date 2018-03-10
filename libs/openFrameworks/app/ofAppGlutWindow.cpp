@@ -623,7 +623,7 @@ void ofAppGlutWindow::display(void) {
 				if(instance->events().getFrameNum() > 0) {
 					glutPositionWindow(nonFullScreenX, nonFullScreenY);
 				}
-				//----------------------------------------------------
+					//----------------------------------------------------
 
 #ifdef TARGET_OSX
 				[NSApp setPresentationOptions:NSApplicationPresentationDefault];

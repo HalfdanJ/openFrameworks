@@ -109,7 +109,7 @@ OSErr DrawCompleteProc(Movie theMovie, long refCon) {
 //---------------------------------------------------------------------------
 ofQuickTimePlayer::ofQuickTimePlayer() {
 
-	//--------------------------------------------------------------
+//--------------------------------------------------------------
 #if defined(TARGET_WIN32) || defined(TARGET_OSX)
 	//--------------------------------------------------------------
 	moviePtr = nullptr;
@@ -164,7 +164,7 @@ void ofQuickTimePlayer::update() {
 
 //--------------------------------------------------------------
 #ifdef OF_VIDEO_PLAYER_QUICKTIME
-		//--------------------------------------------------------------
+//--------------------------------------------------------------
 
 // is this necessary on windows with quicktime?
 #ifdef TARGET_OSX

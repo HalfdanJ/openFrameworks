@@ -784,6 +784,6 @@ bool ofQuickTimeGrabber::qtSelectDevice(int deviceNumber, bool didWeChooseADevic
 
 //---------------------------------
 #endif
-//---------------------------------
+	//---------------------------------
 
 #endif

@@ -581,8 +581,8 @@ void ofFbo::allocate(Settings _settings) {
 		_settings.numSamples = 0;
 	}
 
-	// currently depth only works if stencil is enabled.
-	// http://forum.openframeworks.cc/index.php/topic,6837.0.html
+		// currently depth only works if stencil is enabled.
+		// http://forum.openframeworks.cc/index.php/topic,6837.0.html
 #ifdef TARGET_OPENGLES
 	if(_settings.useDepth) {
 		_settings.useStencil = true;

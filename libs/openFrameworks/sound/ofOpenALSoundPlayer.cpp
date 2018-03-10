@@ -678,7 +678,7 @@ void ofOpenALSoundPlayer::unload() {
 		buffers.clear();
 	}
 
-	// Free resources and close file descriptors.
+		// Free resources and close file descriptors.
 #ifdef OF_USING_MPG123
 	if(mp3streamf) {
 		mpg123_close(mp3streamf);

@@ -245,7 +245,7 @@ void ofSerial::close() {
 		::close(fd);
 		bInited = false;
 	}
-	// [CHECK] -- anything else need to be reset?
+		// [CHECK] -- anything else need to be reset?
 
 #endif
 }

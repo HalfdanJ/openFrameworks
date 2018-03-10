@@ -470,8 +470,8 @@ void ofAppEGLWindow::setup(const Settings &_settings) {
 		}
 	}
 
-	////////////////
-	// TODO remove the following ifdef once x11 is accelerated on RPI
+		////////////////
+		// TODO remove the following ifdef once x11 is accelerated on RPI
 #ifdef TARGET_RASPBERRY_PI
 	if(isUsingX11) {
 		isUsingX11 = false;

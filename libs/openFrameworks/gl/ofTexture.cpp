@@ -676,7 +676,7 @@ void ofTexture::loadData(const void *data, int w, int h, int glFormat, int glTyp
 		}
 	}
 
-	// compute new tex co-ords based on the ratio of data's w, h to texture w,h;
+		// compute new tex co-ords based on the ratio of data's w, h to texture w,h;
 #ifndef TARGET_OPENGLES
 	if(texData.textureTarget == GL_TEXTURE_RECTANGLE_ARB) {
 		texData.tex_t = w;

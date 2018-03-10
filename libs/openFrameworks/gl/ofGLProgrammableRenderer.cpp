@@ -208,11 +208,11 @@ void ofGLProgrammableRenderer::draw(const ofMesh &vertexData, ofPolyRenderMode r
 		draw(meshVbo, drawMode, 0, vertexData.getNumVertices());
 	}
 
-	// tig: note further that we could glGet() and store the current polygon mode, but don't, since that would
-	// infer a massive performance hit. instead, we revert the glPolygonMode to mirror the current ofFill state
-	// after we're finished drawing, following the principle of least surprise.
-	// ideally the glPolygonMode (or the polygon draw mode) should be part of ofStyle so that we can keep track
-	// of its state on the client side...
+		// tig: note further that we could glGet() and store the current polygon mode, but don't, since that would
+		// infer a massive performance hit. instead, we revert the glPolygonMode to mirror the current ofFill state
+		// after we're finished drawing, following the principle of least surprise.
+		// ideally the glPolygonMode (or the polygon draw mode) should be part of ofStyle so that we can keep track
+		// of its state on the client side...
 
 #ifndef TARGET_OPENGLES
 	glPolygonMode(GL_FRONT_AND_BACK, currentStyle.bFill ? GL_FILL : GL_LINE);
@@ -1885,9 +1885,9 @@ void ofGLProgrammableRenderer::drawString(const ofTrueTypeFont &font, string tex
 
 #define STRINGIFY(x) #x
 
-// ----------------------------------------------------------------------
-// tig: GLSL #150 shaders written against spec:
-// http://www.opengl.org/registry/doc/GLSLangSpec.1.50.09.pdf
+	// ----------------------------------------------------------------------
+	// tig: GLSL #150 shaders written against spec:
+	// http://www.opengl.org/registry/doc/GLSLangSpec.1.50.09.pdf
 
 #ifdef TARGET_OPENGLES
 static const string vertex_shader_header = "%extensions%\n"
