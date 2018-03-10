@@ -13,6 +13,8 @@ else
     exit 1
 fi
 
+echo $($CLANG_FORMAT --version)
+
 for DIRECTORY in "$OF_ROOT/libs/openFrameworks"
 do
     echo "Formatting code under $DIRECTORY/"
