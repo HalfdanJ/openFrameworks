@@ -14,6 +14,18 @@ matrix:
   - os: linux
     dist: trusty
     sudo: required
+    env: TARGET="lint"
+    addons:
+      apt:
+        sources:
+          - llvm-toolchain-precise
+          - ubuntu-toolchain-r-test
+        packages:
+          - clang-format
+
+  - os: linux
+    dist: trusty
+    sudo: required
     env: TARGET="linux64"
     addons:
       apt:
@@ -129,7 +141,9 @@ install:
   - if [ -f scripts/ci/$TARGET/install.sh ]; then
         scripts/ci/$TARGET/install.sh;
     fi
-  - if [ "$TARGET" == "linux64" ]; then
+  - if [ "$TARGET" == "lint" ]; then
+       return
+    elif [ "$TARGET" == "linux64" ]; then
         scripts/linux/download_libs.sh -a 64gcc4;
     elif [ "$TARGET" == "linuxarmv6l" ]; then
         scripts/linux/download_libs.sh -a armv6l;
@@ -159,6 +173,9 @@ script:
     fi
   - if [ "$TARGET" != "osx" ] || [ "$OPT" != "makefiles" ]; then
       scripts/ci/upload_of_lib.sh;
+    fi
+  - if [ "$TARGET" = "lint" ]; then
+      scripts/ci/lint.sh;
     fi
   - ccache -s
 

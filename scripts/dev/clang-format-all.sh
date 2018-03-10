@@ -4,7 +4,7 @@ cd $SCRIPT_DIR
 
 OF_ROOT="../.."
 
-for DIRECTORY in "$OF_ROOT/libs/openFrameworks" "$OF_ROOT/examples" 
+for DIRECTORY in "$OF_ROOT/libs/openFrameworks"
 do
     echo "Formatting code under $DIRECTORY/"
     find "$DIRECTORY" \( -name '*.h' -or -name '*.m' -or -name '*.cpp' -or -name '*.mm' \) -print0 | xargs -0 clang-format -i
