@@ -13,15 +13,18 @@ matrix:
 
   - os: linux
     dist: trusty
-    sudo: required
+    sudo: true
     env: TARGET="lint"
     addons:
       apt:
         sources:
-          - llvm-toolchain-trusty-5.0
           - ubuntu-toolchain-r-test
-        packages:
-          - clang-format-5.0
+    install:
+      - scripts/ci/install_format_dependencies.sh;      
+    before_script:
+      - export PATH=$PWD/../clang/bin/:$PATH
+    script:
+      - scripts/ci/check_code_format.sh;
 
   - os: linux
     dist: trusty
