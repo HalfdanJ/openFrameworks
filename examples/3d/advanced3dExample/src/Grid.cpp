@@ -5,10 +5,10 @@
 //  created in this
 //  example.
 
-void grid::customDraw(){
+void grid::customDraw() {
 	ofPushStyle();
 
-	//give a saturation and lightness
+	// give a saturation and lightness
 	ofSetColor(255, 100, 100);
 
 	ofDrawGrid(100.0f);

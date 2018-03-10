@@ -4,10 +4,9 @@
 #include "utf8.h"
 #include <bitset> // For ofToBinary.
 #include <chrono>
-#include <iomanip>  //for setprecision
+#include <iomanip> //for setprecision
 #include <algorithm>
 #include <sstream>
-
 
 /// \section Elapsed Time
 /// \brief Reset the elapsed time counter.
@@ -26,7 +25,6 @@ void ofResetElapsedTimeCounter();
 ///
 /// \returns the floating point elapsed time in seconds.
 float ofGetElapsedTimef();
-
 
 /// \brief Get the elapsed time in milliseconds.
 ///
@@ -82,12 +80,11 @@ uint64_t ofGetSystemTimeMillis();
 /// \returns the system time in microseconds.
 uint64_t ofGetSystemTimeMicros();
 
-
-struct ofTime{
+struct ofTime {
 	uint64_t seconds = 0;
 	uint64_t nanoseconds = 0;
 
-	enum Mode{
+	enum Mode {
 		System,
 		FixedRate,
 	} mode = System;
@@ -101,35 +98,33 @@ struct ofTime{
 #endif
 
 	std::chrono::time_point<std::chrono::nanoseconds> getAsTimePoint() const;
-	std::chrono::nanoseconds operator-(const ofTime&) const;
-	bool operator<(const ofTime&) const;
-	bool operator>(const ofTime&) const;
-	bool operator<=(const ofTime&) const;
-	bool operator>=(const ofTime&) const;
+	std::chrono::nanoseconds operator-(const ofTime &) const;
+	bool operator<(const ofTime &) const;
+	bool operator>(const ofTime &) const;
+	bool operator<=(const ofTime &) const;
+	bool operator>=(const ofTime &) const;
 
-	template<typename rep, typename ratio>
-	ofTime operator+(const std::chrono::duration<rep,ratio> & duration) const{
+	template<typename rep, typename ratio> ofTime operator+(const std::chrono::duration<rep, ratio> &duration) const {
 		constexpr uint64_t NANOS_PER_SEC = 1000000000ll;
 		auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
 		ofTime t = *this;
 		t.nanoseconds += ns.count();
-		if(this->nanoseconds>NANOS_PER_SEC){
+		if(this->nanoseconds > NANOS_PER_SEC) {
 			uint64_t secs = this->nanoseconds / NANOS_PER_SEC;
-			t.nanoseconds -= NANOS_PER_SEC*secs;
-			t.seconds+=secs;
+			t.nanoseconds -= NANOS_PER_SEC * secs;
+			t.seconds += secs;
 		}
 		return t;
 	}
 
-	template<typename rep, typename ratio>
-	ofTime &operator+=(const std::chrono::duration<rep,ratio> & duration){
+	template<typename rep, typename ratio> ofTime &operator+=(const std::chrono::duration<rep, ratio> &duration) {
 		constexpr uint64_t NANOS_PER_SEC = 1000000000ll;
 		auto ns = std::chrono::duration_cast<std::chrono::nanoseconds>(duration);
 		this->nanoseconds += ns.count();
-		if(this->nanoseconds>NANOS_PER_SEC){
+		if(this->nanoseconds > NANOS_PER_SEC) {
 			uint64_t secs = this->nanoseconds / NANOS_PER_SEC;
-			this->nanoseconds -= NANOS_PER_SEC*secs;
-			this->seconds+=secs;
+			this->nanoseconds -= NANOS_PER_SEC * secs;
+			this->seconds += secs;
 		}
 		return *this;
 	}
@@ -186,7 +181,7 @@ std::string ofGetTimestampString();
 /// \param timestampFormat The formatting pattern.
 /// \returns the formatted timestamp as a string.
 /// \warning an invalid timestampFormat may crash windows apps.
-std::string ofGetTimestampString(const std::string& timestampFormat);
+std::string ofGetTimestampString(const std::string &timestampFormat);
 
 /// \brief Get the current year.
 /// \returns the current year.
@@ -231,7 +226,7 @@ void ofDisableDataPath();
 /// \param path The path to make relative to the data/ folder.
 /// \param absolute Set to true to return an absolute path.
 /// \returns the new path, unless paths were disabled with ofDisableDataPath().
-std::string ofToDataPath(const std::filesystem::path & path, bool absolute=false);
+std::string ofToDataPath(const std::filesystem::path &path, bool absolute = false);
 
 /// \brief Reset the working directory to the platform default.
 ///
@@ -250,16 +245,14 @@ bool ofRestoreWorkingDirectoryToDefault();
 ///
 /// \warning The provided path must have a trailing slash (/).
 /// \param root The path to the data/ folder relative to the app executable.
-void ofSetDataPathRoot(const std::filesystem::path& root);
-
+void ofSetDataPathRoot(const std::filesystem::path &root);
 
 /// \section Vectors
 /// \brief Randomly reorder the values in a vector.
 /// \tparam T the type contained by the vector.
 /// \param values The vector of values to modify.
 /// \sa http://www.cplusplus.com/reference/algorithm/random_shuffle/
-template<class T>
-void ofRandomize(std::vector<T>& values) {
+template<class T> void ofRandomize(std::vector<T> &values) {
 	random_shuffle(values.begin(), values.end());
 }
 
@@ -301,8 +294,7 @@ void ofRandomize(std::vector<T>& values) {
 /// \param values The vector of values to modify.
 /// \param shouldErase A boolean function as described above.
 /// \sa http://www.cplusplus.com/reference/algorithm/remove_if/
-template<class T, class BoolFunction>
-void ofRemove(std::vector<T>& values, BoolFunction shouldErase) {
+template<class T, class BoolFunction> void ofRemove(std::vector<T> &values, BoolFunction shouldErase) {
 	values.erase(remove_if(values.begin(), values.end(), shouldErase), values.end());
 }
 
@@ -315,8 +307,7 @@ void ofRemove(std::vector<T>& values, BoolFunction shouldErase) {
 /// \tparam T the type contained by the vector.
 /// \param values The vector of values to be sorted.
 /// \sa http://www.cplusplus.com/reference/algorithm/sort/
-template<class T>
-void ofSort(std::vector<T>& values) {
+template<class T> void ofSort(std::vector<T> &values) {
 	sort(values.begin(), values.end());
 }
 
@@ -360,8 +351,7 @@ void ofSort(std::vector<T>& values) {
 /// \param values The vector of values to be sorted.
 /// \param compare The comparison function.
 /// \sa http://www.cplusplus.com/reference/algorithm/sort/
-template<class T, class BoolFunction>
-void ofSort(std::vector<T>& values, BoolFunction compare) {
+template<class T, class BoolFunction> void ofSort(std::vector<T> &values, BoolFunction compare) {
 	std::sort(values.begin(), values.end(), compare);
 }
 
@@ -371,8 +361,7 @@ void ofSort(std::vector<T>& values, BoolFunction compare) {
 /// \param target The target value to be found.
 /// \returns true the index of the first target value found.
 /// \sa http://www.cplusplus.com/reference/iterator/distance/
-template <class T>
-std::size_t ofFind(const std::vector<T>& values, const T& target) {
+template<class T> std::size_t ofFind(const std::vector<T> &values, const T &target) {
 	return std::distance(values.begin(), find(values.begin(), values.end(), target));
 }
 
@@ -381,12 +370,9 @@ std::size_t ofFind(const std::vector<T>& values, const T& target) {
 /// \param values The vector of values to be searched.
 /// \param target The target value to be found.
 /// \returns true if at least one value equal to the target value is found.
-template <class T>
-bool ofContains(const std::vector<T>& values, const T& target) {
+template<class T> bool ofContains(const std::vector<T> &values, const T &target) {
 	return ofFind(values, target) != values.size();
 }
-
-
 
 /// \section String Manipulation
 /// \brief Splits a string using a delimiter.
@@ -414,19 +400,20 @@ bool ofContains(const std::vector<T>& values, const T& target) {
 /// \param ignoreEmpty Set to true to remove empty tokens.
 /// \param trim Set to true to trim the resulting tokens.
 /// \returns A vector of strings split with the delimiter.
-std::vector<std::string> ofSplitString(const std::string& source, const std::string& delimiter, bool ignoreEmpty = false, bool trim = false);
+std::vector<std::string> ofSplitString(const std::string &source, const std::string &delimiter,
+                                       bool ignoreEmpty = false, bool trim = false);
 
 /// \brief Join a vector of strings together into one string.
 /// \param stringElements The vector of strings to join.
 /// \param delimiter The delimiter to put betweeen each string.
-std::string ofJoinString(const std::vector<std::string>& stringElements, const std::string& delimiter);
+std::string ofJoinString(const std::vector<std::string> &stringElements, const std::string &delimiter);
 
 /// \brief Replace all occurrences of a string with another string.
 /// \note The input string is passed by reference, so it will be modified.
 /// \param input The string to run the replacement on.
 /// \param searchStr The string to be replaced.
 /// \param replaceStr The string to put in place.
-void ofStringReplace(std::string& input, const std::string& searchStr, const std::string& replaceStr);
+void ofStringReplace(std::string &input, const std::string &searchStr, const std::string &replaceStr);
 
 /// \brief Check if string contains another string.
 ///
@@ -439,12 +426,12 @@ void ofStringReplace(std::string& input, const std::string& searchStr, const std
 /// ~~~
 /// \param haystack The string to check for occurrence in.
 /// \param needle The string to check for.
-bool ofIsStringInString(const std::string& haystack, const std::string& needle);
+bool ofIsStringInString(const std::string &haystack, const std::string &needle);
 
 /// \brief Check how many times a string contains another string.
 /// \param haystack The string to check for occurrence in .
 /// \param needle The string to check for.
-std::size_t ofStringTimesInString(const std::string& haystack, const std::string& needle);
+std::size_t ofStringTimesInString(const std::string &haystack, const std::string &needle);
 
 /// \brief Converts all characters in a string to lowercase.
 ///
@@ -459,7 +446,7 @@ std::size_t ofStringTimesInString(const std::string& haystack, const std::string
 ///
 /// \param src The UTF-8 encoded string to convert to lowercase.
 /// \returns the UTF-8 encoded string as all lowercase characters.
-std::string ofToLower(const std::string& src, const std::string & locale="");
+std::string ofToLower(const std::string &src, const std::string &locale = "");
 
 /// \brief Converts all characters in the string to uppercase.
 ///
@@ -474,31 +461,31 @@ std::string ofToLower(const std::string& src, const std::string & locale="");
 ///
 /// \param src The UTF-8 encoded string to convert to uppercase.
 /// \returns the UTF-8 encoded string as all uppercase characters.
-std::string ofToUpper(const std::string& src, const std::string & locale="");
+std::string ofToUpper(const std::string &src, const std::string &locale = "");
 
-std::string ofTrimFront(const std::string & src, const std::string & locale = "");
-std::string ofTrimBack(const std::string & src, const std::string & locale = "");
-std::string ofTrim(const std::string & src, const std::string & locale = "");
+std::string ofTrimFront(const std::string &src, const std::string &locale = "");
+std::string ofTrimBack(const std::string &src, const std::string &locale = "");
+std::string ofTrim(const std::string &src, const std::string &locale = "");
 
-OF_DEPRECATED_MSG("Use ofUTF8Append instead", void ofAppendUTF8(std::string & str, uint32_t utf8));
+OF_DEPRECATED_MSG("Use ofUTF8Append instead", void ofAppendUTF8(std::string &str, uint32_t utf8));
 
-void ofUTF8Append(std::string & str, uint32_t utf8);
-void ofUTF8Insert(std::string & str, size_t pos, uint32_t utf8);
-void ofUTF8Erase(std::string & str, size_t start, size_t len);
-std::string ofUTF8Substring(const std::string & str, size_t start, size_t len);
+void ofUTF8Append(std::string &str, uint32_t utf8);
+void ofUTF8Insert(std::string &str, size_t pos, uint32_t utf8);
+void ofUTF8Erase(std::string &str, size_t start, size_t len);
+std::string ofUTF8Substring(const std::string &str, size_t start, size_t len);
 std::string ofUTF8ToString(uint32_t utf8);
-size_t ofUTF8Length(const std::string & str);
+size_t ofUTF8Length(const std::string &str);
 
 /// \brief Convert a variable length argument to a string.
 /// \param format a printf-style format string.
 /// \returns A string representation of the argument list.
-std::string ofVAArgsToString(const char * format, ...);
+std::string ofVAArgsToString(const char *format, ...);
 
 /// \brief Convert a variable length argument to a string.
 /// \param format A printf-style format string.
 /// \param args A variable argument list.
 /// \returns A string representation of the argument list.
-std::string ofVAArgsToString(const char * format, va_list args);
+std::string ofVAArgsToString(const char *format, va_list args);
 
 /// \section String Conversion
 /// \brief Convert a value to a string.
@@ -516,8 +503,7 @@ std::string ofVAArgsToString(const char * format, va_list args);
 /// \tparam T The data type of the value to convert to a string.
 /// \param value The value to convert to a string.
 /// \returns A string representing the value or an empty string on failure.
-template <class T>
-std::string ofToString(const T& value){
+template<class T> std::string ofToString(const T &value) {
 	std::ostringstream out;
 	out << value;
 	return out.str();
@@ -531,8 +517,7 @@ std::string ofToString(const T& value){
 /// \param value The value to convert to a string.
 /// \param precision The precision to use when converting to a string.
 /// \returns The string representation of the value.
-template <class T>
-std::string ofToString(const T& value, int precision){
+template<class T> std::string ofToString(const T &value, int precision) {
 	std::ostringstream out;
 	out << std::fixed << std::setprecision(precision) << value;
 	return out.str();
@@ -547,8 +532,7 @@ std::string ofToString(const T& value, int precision){
 /// \param width The width of the value to use when converting to a string.
 /// \param fill The character to use when padding the converted string.
 /// \returns The string representation of the value.
-template <class T>
-std::string ofToString(const T& value, int width, char fill ){
+template<class T> std::string ofToString(const T &value, int width, char fill) {
 	std::ostringstream out;
 	out << std::fixed << std::setfill(fill) << std::setw(width) << value;
 	return out.str();
@@ -564,8 +548,7 @@ std::string ofToString(const T& value, int width, char fill ){
 /// \param width The width of the value to use when converting to a string.
 /// \param fill The character to use when padding the converted string.
 /// \returns The string representation of the value.
-template <class T>
-std::string ofToString(const T& value, int precision, int width, char fill ){
+template<class T> std::string ofToString(const T &value, int precision, int width, char fill) {
 	std::ostringstream out;
 	out << std::fixed << std::setfill(fill) << std::setw(width) << std::setprecision(precision) << value;
 	return out.str();
@@ -579,8 +562,7 @@ std::string ofToString(const T& value, int precision, int width, char fill ){
 /// \tparam T The data type held by the vector.
 /// \param values The vector of values to be converted to a string.
 /// \returns a comma-delimited string representation of the intput values.
-template<class T>
-std::string ofToString(const std::vector<T>& values) {
+template<class T> std::string ofToString(const std::vector<T> &values) {
 	std::stringstream out;
 	int n = values.size();
 	out << "{";
@@ -601,20 +583,18 @@ std::string ofToString(const std::vector<T>& values) {
 /// \tparam T The target data type.
 /// \param value The string value to convert to type T.
 /// \returns the string converted to the target data type T.
-template<class T>
-T ofFromString(const std::string & value){
+template<class T> T ofFromString(const std::string &value) {
 	T data;
 	std::stringstream ss;
-    ss << value;
-    ss >> data;
-    return data;
+	ss << value;
+	ss >> data;
+	return data;
 }
 
 /// \brief Convert a string represetnation to another string.
 /// \param value The string value to convert to another string.
 /// \returns the string converted to another string.
-template<>
-std::string ofFromString(const std::string & value);
+template<> std::string ofFromString(const std::string &value);
 
 /// \brief Convert a string represetnation to another string.
 ///
@@ -622,10 +602,9 @@ std::string ofFromString(const std::string & value);
 ///
 /// \param value The string value to convert to another string.
 /// \returns the string converted to a c-style string.
-template<>
-const char * ofFromString(const std::string & value);
+template<> const char *ofFromString(const std::string &value);
 
-template<typename T> T ofTo(const std::string & str){
+template<typename T> T ofTo(const std::string &str) {
 	T x;
 	std::istringstream cur(str);
 	cur >> x;
@@ -640,7 +619,7 @@ template<typename T> T ofTo(const std::string & str){
 ///
 /// \param intString The string representation of the integer.
 /// \returns the integer represented by the string or 0 on failure.
-int ofToInt(const std::string& intString);
+int ofToInt(const std::string &intString);
 
 /// \brief Convert a string to a int64_t.
 ///
@@ -649,7 +628,7 @@ int ofToInt(const std::string& intString);
 ///
 /// \param intString The string representation of the long integer.
 /// \returns the long integer represented by the string or 0 on failure.
-int64_t ofToInt64(const std::string& intString);
+int64_t ofToInt64(const std::string &intString);
 
 /// \brief Convert a string to a float.
 ///
@@ -658,7 +637,7 @@ int64_t ofToInt64(const std::string& intString);
 ///
 /// \param floatString string representation of the float.
 /// \returns the float represented by the string or 0 on failure.
-float ofToFloat(const std::string& floatString);
+float ofToFloat(const std::string &floatString);
 
 /// \brief Convert a string to a double.
 ///
@@ -667,7 +646,7 @@ float ofToFloat(const std::string& floatString);
 ///
 /// \param doubleString The string representation of the double.
 /// \returns the double represented by the string or 0 on failure.
-double ofToDouble(const std::string& doubleString);
+double ofToDouble(const std::string &doubleString);
 
 /// \brief Convert a string to a boolean.
 ///
@@ -677,7 +656,7 @@ double ofToDouble(const std::string& doubleString);
 ///
 /// \param boolString The string representation of the boolean.
 /// \returns the boolean represented by the string or 0 on failure.
-bool ofToBool(const std::string& boolString);
+bool ofToBool(const std::string &boolString);
 
 /// \brief Converts any value to its equivalent hexadecimal representation.
 ///
@@ -687,17 +666,16 @@ bool ofToBool(const std::string& boolString);
 /// \tparam T The data type of the value to convert to a hexadecimal string.
 /// \param value The value to convert to a hexadecimal string.
 /// \returns the hexadecimal string representation of the value.
-template <class T>
-std::string ofToHex(const T& value) {
+template<class T> std::string ofToHex(const T &value) {
 	std::ostringstream out;
 	// pretend that the value is a bunch of bytes
-	unsigned char* valuePtr = (unsigned char*) &value;
+	unsigned char *valuePtr = (unsigned char *)&value;
 	// the number of bytes is determined by the datatype
 	int numBytes = sizeof(T);
 	// the bytes are stored backwards (least significant first)
 	for(int i = numBytes - 1; i >= 0; i--) {
 		// print each byte out as a 2-character wide hex value
-		out << std::setfill('0') << std::setw(2) << std::hex << (int) valuePtr[i];
+		out << std::setfill('0') << std::setw(2) << std::hex << (int)valuePtr[i];
 	}
 	return out.str();
 }
@@ -709,8 +687,7 @@ std::string ofToHex(const T& value) {
 ///
 /// \param value The value to convert to a hexadecimal string.
 /// \returns a hexadecimal string.
-template <>
-std::string ofToHex(const std::string& value);
+template<> std::string ofToHex(const std::string &value);
 
 /// \brief Convert a c-style string to a hexadecimal string.
 ///
@@ -719,7 +696,7 @@ std::string ofToHex(const std::string& value);
 ///
 /// \param value The value to convert to a hexadecimal string.
 /// \returns a hexadecimal string.
-std::string ofToHex(const char* value);
+std::string ofToHex(const char *value);
 
 /// \brief Convert a string representing an integer in hexadecimal to a string.
 ///
@@ -728,7 +705,7 @@ std::string ofToHex(const char* value);
 ///
 /// \param intHexString The string representing an integer in hexadecimal.
 /// \returns the integer represented by the string.
-int ofHexToInt(const std::string& intHexString);
+int ofHexToInt(const std::string &intHexString);
 
 /// \brief Convert a string representing an char in hexadecimal to a char.
 ///
@@ -737,7 +714,7 @@ int ofHexToInt(const std::string& intHexString);
 ///
 /// \param charHexString The string representing an char in hexadecimal.
 /// \returns the char represented by the string.
-char ofHexToChar(const std::string& charHexString);
+char ofHexToChar(const std::string &charHexString);
 
 /// \brief Convert a string representing an float in hexadecimal to a float.
 ///
@@ -746,7 +723,7 @@ char ofHexToChar(const std::string& charHexString);
 ///
 /// \param floatHexString The string representing an float in hexadecimal.
 /// \returns the float represented by the string.
-float ofHexToFloat(const std::string& floatHexString);
+float ofHexToFloat(const std::string &floatHexString);
 
 /// \brief Convert a string representing an string in hexadecimal to a string.
 ///
@@ -755,7 +732,7 @@ float ofHexToFloat(const std::string& floatHexString);
 ///
 /// \param stringHexString The string representing an string in hexadecimal.
 /// \returns the string represented by the string.
-std::string ofHexToString(const std::string& stringHexString);
+std::string ofHexToString(const std::string &stringHexString);
 
 /// \brief Convert a string representation of a char to a actual char.
 ///
@@ -766,7 +743,7 @@ std::string ofHexToString(const std::string& stringHexString);
 ///
 /// \param charString The char string to convert.
 /// \returns The string as a char or 0 on failure.
-char ofToChar(const std::string& charString);
+char ofToChar(const std::string &charString);
 
 /// \brief Converts any datatype value to a string of only 1s and 0s.
 ///
@@ -776,9 +753,8 @@ char ofToChar(const std::string& charString);
 /// \tparam T The data type of the value to convert to a binary string.
 /// \param value The data to convert to a binary string.
 /// \returns a binary string.
-template <class T>
-std::string ofToBinary(const T& value) {
-	return std::bitset<8 * sizeof(T)>(*reinterpret_cast<const uint64_t*>(&value)).to_string();
+template<class T> std::string ofToBinary(const T &value) {
+	return std::bitset<8 * sizeof(T)>(*reinterpret_cast<const uint64_t *>(&value)).to_string();
 }
 
 /// \brief Converts a string value to a string of only 1s and 0s.
@@ -788,8 +764,7 @@ std::string ofToBinary(const T& value) {
 ///
 /// \param value The string to convert to a binary string.
 /// \returns a binary string.
-template <>
-std::string ofToBinary(const std::string& value);
+template<> std::string ofToBinary(const std::string &value);
 
 /// \brief Converts a c-style string to a string of only 1s and 0s.
 ///
@@ -798,7 +773,7 @@ std::string ofToBinary(const std::string& value);
 ///
 /// \param value The c-style string to convert to a binary string.
 /// \returns a binary string.
-std::string ofToBinary(const char* value);
+std::string ofToBinary(const char *value);
 
 /// \brief Convert a binary string to an int.
 ///
@@ -807,7 +782,7 @@ std::string ofToBinary(const char* value);
 ///
 /// \value The binary string.
 /// \returns the integer represented by the string or 0 on failure.
-int ofBinaryToInt(const std::string& value);
+int ofBinaryToInt(const std::string &value);
 
 /// \brief Convert a binary string to an char.
 ///
@@ -816,7 +791,7 @@ int ofBinaryToInt(const std::string& value);
 ///
 /// \value The binary string.
 /// \returns the char represented by the string or 0 on failure.
-char ofBinaryToChar(const std::string& value);
+char ofBinaryToChar(const std::string &value);
 
 /// \brief Convert a binary string to a float.
 ///
@@ -825,7 +800,7 @@ char ofBinaryToChar(const std::string& value);
 ///
 /// \value The binary string.
 /// \returns the float represented by the string or 0 on failure.
-float ofBinaryToFloat(const std::string& value);
+float ofBinaryToFloat(const std::string &value);
 
 /// \brief Convert a binary string to ASCII characters.
 ///
@@ -834,7 +809,7 @@ float ofBinaryToFloat(const std::string& value);
 ///
 /// \value The binary string.
 /// \returns the ASCII string represented by the string.
-std::string ofBinaryToString(const std::string& value);
+std::string ofBinaryToString(const std::string &value);
 
 /// \section openFrameworks Version
 /// \brief Get the current version of openFrameworks as a string.
@@ -843,7 +818,7 @@ std::string ofBinaryToString(const std::string& value);
 ///
 /// \sa http://semver.org/
 /// \returns The string representation of the version (e.g. `0.9.0`).
-std::string 	ofGetVersionInfo();
+std::string ofGetVersionInfo();
 
 /// \brief Get the major version number of openFrameworks.
 ///
@@ -882,7 +857,6 @@ unsigned int ofGetVersionPatch();
 /// \returns The pre-release version string.
 std::string ofGetVersionPreRelease();
 
-
 /// \section Frame Saving
 /// \brief Saves the current screen image to a file on disk.
 ///
@@ -894,7 +868,7 @@ std::string ofGetVersionPreRelease();
 /// The output file type will be deduced from the given file name.
 ///
 /// \param filename The image output file.
-void ofSaveScreen(const std::string& filename);
+void ofSaveScreen(const std::string &filename);
 
 /// \brief Saves the current frame as a PNG image.
 ///
@@ -909,8 +883,7 @@ void ofSaveFrame(bool bUseViewport = false);
 /// The output file type will be deduced from the given file name.
 ///
 /// \param filename The image output file.
-void ofSaveViewport(const std::string& filename);
-
+void ofSaveViewport(const std::string &filename);
 
 /// \section System
 /// \brief Launch the given URL in the default browser.
@@ -918,20 +891,19 @@ void ofSaveViewport(const std::string& filename);
 /// \param uriEncodeQuery true if the query parameters in the given URL have
 /// already been URL encoded.
 #ifndef TARGET_EMSCRIPTEN
-void ofLaunchBrowser(const std::string& url, bool uriEncodeQuery=false);
+void ofLaunchBrowser(const std::string &url, bool uriEncodeQuery = false);
 #endif
 
 /// \brief Executes a system command. Similar to run a command in terminal.
 /// \note Will block until the executed program/command has finished.
 /// \returns the system command output as string.
-std::string ofSystem(const std::string& command);
+std::string ofSystem(const std::string &command);
 
 /// \brief Get the target platform of the current system.
 /// \returns the current ofTargetPlatform.
 ofTargetPlatform ofGetTargetPlatform();
 
-
-std::string ofGetEnv(const std::string & var);
+std::string ofGetEnv(const std::string &var);
 
 /// Allows to iterate over a string's utf8 codepoints.
 /// The easiest way to use it is with a c++11 range style
@@ -943,9 +915,9 @@ std::string ofGetEnv(const std::string & var);
 ///
 /// which will iterate through all the utf8 codepoints in the
 /// string.
-class ofUTF8Iterator{
+class ofUTF8Iterator {
 public:
-	ofUTF8Iterator(const std::string & str);
+	ofUTF8Iterator(const std::string &str);
 	utf8::iterator<std::string::const_iterator> begin() const;
 	utf8::iterator<std::string::const_iterator> end() const;
 	utf8::iterator<std::string::const_reverse_iterator> rbegin() const;
@@ -955,14 +927,12 @@ private:
 	std::string src_valid;
 };
 
-
-
 /*! \cond PRIVATE */
-namespace of{
-namespace priv{
-    void setWorkingDirectoryToDefault();
-    void initutils();
-    void endutils();
-}
-}
+namespace of {
+namespace priv {
+void setWorkingDirectoryToDefault();
+void initutils();
+void endutils();
+} // namespace priv
+} // namespace of
 /*! \endcond */

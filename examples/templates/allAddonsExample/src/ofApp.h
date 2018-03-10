@@ -12,39 +12,38 @@
 #include "ofxSvg.h"
 #include "ofxXmlPoco.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
-	public:
+public:
+	void setup();
+	void update();
+	void draw();
 
-		void setup();
-		void update();
-		void draw();
-		
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);		
+	void keyPressed(int key);
+	void keyReleased(int key);
+	void mouseMoved(int x, int y);
+	void mouseDragged(int x, int y, int button);
+	void mousePressed(int x, int y, int button);
+	void mouseReleased(int x, int y, int button);
+	void mouseEntered(int x, int y);
+	void mouseExited(int x, int y);
+	void windowResized(int w, int h);
+	void dragEvent(ofDragInfo dragInfo);
+	void gotMessage(ofMessage msg);
 
-		// we don't actually use these
-        // just checking to see if they
-        // all work in the same place :)
+	// we don't actually use these
+	// just checking to see if they
+	// all work in the same place :)
 
-        ofxCvGrayscaleImage cvGray;
-        ofxTCPClient client;
-        ofxTCPServer server;
-        ofxOscSender osc_sender;
-        ofxXmlSettings settings;
+	ofxCvGrayscaleImage cvGray;
+	ofxTCPClient client;
+	ofxTCPServer server;
+	ofxOscSender osc_sender;
+	ofxXmlSettings settings;
 	ofxAssimpModelLoader betterModelLoader;
 	ofxThreadedImageLoader threadedLoader;
 	ofxKinect kinect;
 	ofxPanel gui;
 	ofxSVG svg;
-    ofxXmlPoco xml;
+	ofxXmlPoco xml;
 };

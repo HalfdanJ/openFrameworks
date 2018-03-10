@@ -2,7 +2,6 @@
 
 #include "ofConstants.h"
 
-
 //----------------------------------------------------------
 // ofMutex
 //----------------------------------------------------------
@@ -80,10 +79,7 @@ typedef std::mutex ofMutex;
 /// \sa ofMutex
 typedef std::unique_lock<std::mutex> ofScopedLock;
 
-
-
 //----------------------------------------------------------
 // ofPtr
 //----------------------------------------------------------
-template <typename T>
-using ofPtr = std::shared_ptr<T>;
+template<typename T> using ofPtr = std::shared_ptr<T>;

@@ -1,31 +1,29 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	ofSetVerticalSync(true);
 	mesh.load("lofi-bunny.ply");
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
-}
+void ofApp::update() {}
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	ofBackgroundGradient(ofColor(64), ofColor(0));
-	
+
 	ofSetColor(255);
 	cam.begin();
-	
+
 	ofSetColor(ofColor::gray);
 	mesh.drawWireframe();
-	
+
 	glPointSize(2);
 	ofSetColor(ofColor::white);
 	mesh.drawVertices();
 	cam.end();
-	
+
 	int n = mesh.getNumVertices();
 	float nearestDistance = 0;
 	ofVec2f nearestVertex;
@@ -40,71 +38,49 @@ void ofApp::draw(){
 			nearestIndex = i;
 		}
 	}
-	
+
 	ofSetColor(ofColor::gray);
 	ofDrawLine(nearestVertex, mouse);
-	
+
 	ofNoFill();
 	ofSetColor(ofColor::yellow);
 	ofSetLineWidth(2);
 	ofDrawCircle(nearestVertex, 4);
 	ofSetLineWidth(1);
-	
+
 	ofVec2f offset(10, -10);
 	ofDrawBitmapStringHighlight(ofToString(nearestIndex), mouse + offset);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

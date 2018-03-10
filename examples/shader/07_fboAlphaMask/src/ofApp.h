@@ -2,13 +2,12 @@
 
 #include "ofMain.h"
 
-class ofApp : public ofBaseApp{
-	public:
-		
+class ofApp : public ofBaseApp {
+public:
 	void setup();
 	void update();
 	void draw();
-	
+
 	void keyPressed(int key);
 	void keyReleased(int key);
 	void mouseMoved(int x, int y);
@@ -19,13 +18,13 @@ class ofApp : public ofBaseApp{
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
-    ofShader shader;
-    
-    ofImage backgroundImage;
-    ofImage foregroundImage;
-    ofImage brushImage;
-    
-    ofFbo maskFbo;
-    
-    bool bBrushDown;
+	ofShader shader;
+
+	ofImage backgroundImage;
+	ofImage foregroundImage;
+	ofImage brushImage;
+
+	ofFbo maskFbo;
+
+	bool bBrushDown;
 };

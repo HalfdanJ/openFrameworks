@@ -17,15 +17,15 @@
 class ofBaseDraws;
 class ofAppBaseWindow;
 class ofFbo;
-enum ofOrientation: short;
+enum ofOrientation : short;
 
 class ofMatrixStack {
 public:
-	ofMatrixStack(const ofAppBaseWindow * window);
+	ofMatrixStack(const ofAppBaseWindow *window);
 
-	void setRenderSurface(const ofBaseDraws & fbo);
-	void setRenderSurfaceNoMatrixFlip(const ofBaseDraws & fbo);
-	void setRenderSurface(const ofAppBaseWindow & window);
+	void setRenderSurface(const ofBaseDraws &fbo);
+	void setRenderSurfaceNoMatrixFlip(const ofBaseDraws &fbo);
+	void setRenderSurface(const ofAppBaseWindow &window);
 
 	void setOrientation(ofOrientation orientation, bool vFlip);
 	ofOrientation getOrientation() const;
@@ -36,17 +36,17 @@ public:
 	ofRectangle getNativeViewport() const;
 	ofRectangle getFullSurfaceViewport() const;
 
-	const glm::mat4 & getProjectionMatrix() const;
-	const glm::mat4 & getViewInverse() const;
-	const glm::mat4 & getViewMatrix() const;
-	const glm::mat4 & getModelMatrix() const;
-	const glm::mat4 & getModelViewMatrix() const;
-	const glm::mat4 & getModelViewProjectionMatrix() const;
-	const glm::mat4 & getTextureMatrix() const;
-	const glm::mat4 & getCurrentMatrix() const;
-	const glm::mat4 & getProjectionMatrixNoOrientation() const;
-	const glm::mat4 & getOrientationMatrix() const;
-	const glm::mat4 & getOrientationMatrixInverse() const;
+	const glm::mat4 &getProjectionMatrix() const;
+	const glm::mat4 &getViewInverse() const;
+	const glm::mat4 &getViewMatrix() const;
+	const glm::mat4 &getModelMatrix() const;
+	const glm::mat4 &getModelViewMatrix() const;
+	const glm::mat4 &getModelViewProjectionMatrix() const;
+	const glm::mat4 &getTextureMatrix() const;
+	const glm::mat4 &getCurrentMatrix() const;
+	const glm::mat4 &getProjectionMatrixNoOrientation() const;
+	const glm::mat4 &getOrientationMatrix() const;
+	const glm::mat4 &getOrientationMatrixInverse() const;
 
 	ofMatrixMode getCurrentMatrixMode() const;
 
@@ -56,7 +56,7 @@ public:
 	bool customMatrixNeedsFlip() const;
 
 	void pushView();
-    void popView();
+	void popView();
 
 	void pushMatrix();
 	void popMatrix();
@@ -64,26 +64,26 @@ public:
 	void scale(float xAmnt, float yAmnt, float zAmnt = 1);
 	void rotateRad(float radians, float vecX, float vecY, float vecZ);
 	void matrixMode(ofMatrixMode mode);
-	void loadIdentityMatrix (void);
-	
-	void loadMatrix (const glm::mat4 & m);
-	void multMatrix (const glm::mat4 & m);
+	void loadIdentityMatrix(void);
 
-	void loadViewMatrix(const glm::mat4 & matrix);
-	void multViewMatrix(const glm::mat4 & matrix);
+	void loadMatrix(const glm::mat4 &m);
+	void multMatrix(const glm::mat4 &m);
+
+	void loadViewMatrix(const glm::mat4 &matrix);
+	void multViewMatrix(const glm::mat4 &matrix);
 
 	void clearStacks();
 	bool doesHardwareOrientation() const;
 
 private:
 	bool vFlipped;
-    ofOrientation orientation;
+	ofOrientation orientation;
 	ofRectangle currentViewport;
 	ofHandednessType handedness;
-	ofBaseDraws * currentRenderSurface;
-	ofAppBaseWindow * currentWindow;
+	ofBaseDraws *currentRenderSurface;
+	ofAppBaseWindow *currentWindow;
 
-    ofMatrixMode currentMatrixMode;
+	ofMatrixMode currentMatrixMode;
 
 	glm::mat4 modelMatrix;
 	glm::mat4 viewMatrix;
@@ -96,21 +96,20 @@ private:
 	glm::mat4 orientationMatrix;
 	glm::mat4 orientationMatrixInverse;
 
-	glm::mat4 * currentMatrix;
+	glm::mat4 *currentMatrix;
 
-	std::stack <ofRectangle> viewportHistory;
-	std::stack <glm::mat4> viewMatrixStack;
-	std::stack <glm::mat4> modelViewMatrixStack;
-	std::stack <glm::mat4> projectionMatrixStack;
-	std::stack <glm::mat4> textureMatrixStack;
-	std::stack <std::pair<ofOrientation,bool> > orientationStack;
+	std::stack<ofRectangle> viewportHistory;
+	std::stack<glm::mat4> viewMatrixStack;
+	std::stack<glm::mat4> modelViewMatrixStack;
+	std::stack<glm::mat4> projectionMatrixStack;
+	std::stack<glm::mat4> textureMatrixStack;
+	std::stack<std::pair<ofOrientation, bool>> orientationStack;
 	bool flipRenderSurfaceMatrix;
 
 	int getRenderSurfaceWidth() const;
 	int getRenderSurfaceHeight() const;
 	bool doesHWOrientation() const;
 	inline void updatedRelatedMatrices();
-
 };
 
 #endif /* OFMATRIXSTACK_H_ */

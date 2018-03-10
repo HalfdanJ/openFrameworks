@@ -1,7 +1,7 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	ofSetVerticalSync(true);
 
 	// this uses depth information for occlusion
@@ -21,12 +21,10 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
-}
+void ofApp::update() {}
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	ofBackground(0, 0, 0);
 
 	float movementSpeed = .1;
@@ -41,10 +39,7 @@ void ofApp::draw(){
 		ofPushMatrix();
 
 		float t = (ofGetElapsedTimef() + i * spacing) * movementSpeed;
-		ofVec3f pos(
-			ofSignedNoise(t, 0, 0),
-			ofSignedNoise(0, t, 0),
-			ofSignedNoise(0, 0, t));
+		ofVec3f pos(ofSignedNoise(t, 0, 0), ofSignedNoise(0, t, 0), ofSignedNoise(0, 0, t));
 
 		float boxSize = maxBoxSize * ofNoise(pos.x, pos.y, pos.z);
 
@@ -70,58 +65,35 @@ void ofApp::draw(){
 	cam.end();
 }
 
+//--------------------------------------------------------------
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

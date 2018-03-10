@@ -13,26 +13,25 @@ public:
 	ofMainLoop();
 	virtual ~ofMainLoop();
 
-	std::shared_ptr<ofAppBaseWindow> createWindow(const ofWindowSettings & settings);
-	template<typename Window>
-	void addWindow(std::shared_ptr<Window> window){
+	std::shared_ptr<ofAppBaseWindow> createWindow(const ofWindowSettings &settings);
+	template<typename Window> void addWindow(std::shared_ptr<Window> window) {
 		allowMultiWindow = Window::allowsMultiWindow();
-		if(Window::doesLoop()){
-		    windowLoop = Window::loop;
+		if(Window::doesLoop()) {
+			windowLoop = Window::loop;
 		}
-		if(Window::needsPolling()){
+		if(Window::needsPolling()) {
 			windowPollEvents = Window::pollEvents;
 		}
-		if(!allowMultiWindow){
-		    windowsApps.clear();
+		if(!allowMultiWindow) {
+			windowsApps.clear();
 		}
 		windowsApps[window] = std::shared_ptr<ofBaseApp>();
 		currentWindow = window;
-		ofAddListener(window->events().keyPressed,this,&ofMainLoop::keyPressed);
+		ofAddListener(window->events().keyPressed, this, &ofMainLoop::keyPressed);
 	}
 
-	void run(std::shared_ptr<ofAppBaseWindow> window, std::shared_ptr<ofBaseApp> && app);
-	void run(std::shared_ptr<ofBaseApp> && app);
+	void run(std::shared_ptr<ofAppBaseWindow> window, std::shared_ptr<ofBaseApp> &&app);
+	void run(std::shared_ptr<ofBaseApp> &&app);
 	int loop();
 	void loopOnce();
 	void pollEvents();
@@ -40,15 +39,16 @@ public:
 	void shouldClose(int status);
 	std::shared_ptr<ofAppBaseWindow> getCurrentWindow();
 	void setCurrentWindow(std::shared_ptr<ofAppBaseWindow> window);
-	void setCurrentWindow(ofAppBaseWindow * window);
+	void setCurrentWindow(ofAppBaseWindow *window);
 	std::shared_ptr<ofBaseApp> getCurrentApp();
 	void setEscapeQuitsLoop(bool quits);
 
 	ofEvent<void> exitEvent;
 	ofEvent<void> loopEvent;
+
 private:
-	void keyPressed(ofKeyEventArgs & key);
-	std::map<std::shared_ptr<ofAppBaseWindow>,std::shared_ptr<ofBaseApp> > windowsApps;
+	void keyPressed(ofKeyEventArgs &key);
+	std::map<std::shared_ptr<ofAppBaseWindow>, std::shared_ptr<ofBaseApp>> windowsApps;
 	bool bShouldClose;
 	std::weak_ptr<ofAppBaseWindow> currentWindow;
 	int status;

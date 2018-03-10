@@ -9,18 +9,16 @@
 class ofVec3f;
 class ofVec2f;
 
-template<typename T>
-class ofColor_;
+template<typename T> class ofColor_;
 
 typedef ofColor_<unsigned char> ofColor;
 typedef ofColor_<float> ofFloatColor;
 typedef ofColor_<unsigned short> ofShortColor;
 
-template<typename T>
-std::string ofToString(const T&);
+template<typename T> std::string ofToString(const T &);
 
 /// \cond INTERNAL
-#define  	CIRC_RESOLUTION		    22
+#define CIRC_RESOLUTION 22
 /// \endcond
 
 /// \name Color
@@ -54,8 +52,8 @@ void ofSetColor(int r, int g, int b);
 /// }
 /// ~~~~
 void ofSetColor(int r, int g, int b, int a);
-void ofSetColor(const ofColor & color);
-void ofSetColor(const ofColor & color, int _a);
+void ofSetColor(const ofColor &color);
+void ofSetColor(const ofColor &color, int _a);
 void ofSetColor(int gray);
 
 /// Sets the draw color with r,g,b, passed in as a hex. Hex is a conventient
@@ -68,7 +66,7 @@ void ofSetColor(int gray);
 ///     ofSetColor(0x00ff00);  // green  (0,255,0);
 /// }
 /// ~~~~
-void ofSetHexColor( int hexColor );
+void ofSetHexColor(int hexColor);
 
 /// \brief Draw shapes as outlines with the current draw color.
 /// ~~~~{.cpp}
@@ -97,8 +95,7 @@ ofFillFlag ofGetFill();
 
 /// \brief Returns the current background color as an ofColor.
 ofColor ofGetBackgroundColor();
-OF_DEPRECATED_MSG("Use ofGetBackgroundColor instead",ofColor ofGetBackground());
-
+OF_DEPRECATED_MSG("Use ofGetBackgroundColor instead", ofColor ofGetBackground());
 
 /// \brief Sets the background color.
 ///
@@ -113,9 +110,9 @@ OF_DEPRECATED_MSG("Use ofGetBackgroundColor instead",ofColor ofGetBackground());
 ///     ofBackground(255,0,0);  // Sets the background color to red
 /// }
 /// ~~~~
-void ofBackground(int r, int g, int b, int a=255);
+void ofBackground(int r, int g, int b, int a = 255);
 void ofBackground(int brightness, int alpha = 255);
-void ofBackground(const ofColor & c);
+void ofBackground(const ofColor &c);
 
 /// \brief Sets the background color using a hex color value.
 /// ~~~~{.cpp}
@@ -124,7 +121,6 @@ void ofBackground(const ofColor & c);
 /// }
 /// ~~~~
 void ofBackgroundHex(int hexColor, int alpha = 255);
-
 
 /// \brief Sets the background color to a gradient.
 ///
@@ -175,7 +171,7 @@ void ofBackgroundHex(int hexColor, int alpha = 255);
 ///       // Sets the background to a bar gradient
 /// }
 /// ~~~~
-void ofBackgroundGradient(const ofColor& start, const ofColor& end, ofGradientMode mode = OF_GRADIENT_CIRCULAR);
+void ofBackgroundGradient(const ofColor &start, const ofColor &end, ofGradientMode mode = OF_GRADIENT_CIRCULAR);
 
 /// \brief Sets the background color. It takes as input r,g,b (0-255). The
 /// background is cleared automatically, just before the draw() command, so
@@ -188,9 +184,9 @@ void ofBackgroundGradient(const ofColor& start, const ofColor& end, ofGradientMo
 ///     ofSetBackgroundColor(255,0,0);  // Sets the background color to red
 /// }
 /// ~~~~
-void ofSetBackgroundColor(int r, int g, int b, int a=255);
+void ofSetBackgroundColor(int r, int g, int b, int a = 255);
 void ofSetBackgroundColor(int brightness, int alpha = 255);
-void ofSetBackgroundColor(const ofColor & c);
+void ofSetBackgroundColor(const ofColor &c);
 
 /// \brief Sets the background color using a hex color value.
 /// ~~~~{.cpp}
@@ -215,7 +211,7 @@ void ofSetBackgroundColorHex(int hexColor, int alpha = 255);
 ///     }
 /// }
 /// ~~~~
-void ofSetBackgroundAuto(bool bManual);		// default is true
+void ofSetBackgroundAuto(bool bManual); // default is true
 bool ofGetBackgroundAuto();
 
 /// \brief Clears the color and depth bits of current renderer and replaces it with
@@ -252,7 +248,7 @@ bool ofGetBackgroundAuto();
 ///
 /// [1]: http://www.openframeworks.cc/documentation/gl/ofFbo.html
 /// [2]: http://www.opengl.org/sdk/docs/man/xhtml/glClear.xml
-void ofClear(float r, float g, float b, float a=0);
+void ofClear(float r, float g, float b, float a = 0);
 
 /// \brief Clears the color and depth bits of current renderer and replaces it with a
 /// grayscale value.
@@ -263,7 +259,7 @@ void ofClear(float r, float g, float b, float a=0);
 ///     // Clears current screen and replaces it with a grayscale value.
 /// }
 /// ~~~~
-void ofClear(float brightness, float a=0);
+void ofClear(float brightness, float a = 0);
 
 /// \brief Clears the color and depth bits of current renderer and replaces it with
 /// an ofColor.
@@ -276,11 +272,11 @@ void ofClear(float brightness, float a=0);
 /// }
 /// ~~~~
 
-void ofClear(const ofColor & c);
+void ofClear(const ofColor &c);
 void ofClearAlpha();
 
 // OF's access to settings (bgAuto, origin, corner mode):
-OF_DEPRECATED_MSG("Use ofGetBackgroundAuto instead",bool ofbClearBg());
+OF_DEPRECATED_MSG("Use ofGetBackgroundAuto instead", bool ofbClearBg());
 
 /// \}
 /// \name 2D Primitives Drawing
@@ -292,10 +288,10 @@ OF_DEPRECATED_MSG("Use ofGetBackgroundAuto instead",bool ofbClearBg());
 ///     ofDrawTriangle(50,10,10,40,90,40);
 /// }
 /// ~~~~
-void ofDrawTriangle(float x1,float y1,float x2,float y2,float x3, float y3);
-void ofDrawTriangle(float x1,float y1,float z1,float x2,float y2,float z2,float x3, float y3,float z3);
-void ofDrawTriangle(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3);
-void ofDrawTriangle(const glm::vec2 & p1, const glm::vec2 & p2, const glm::vec2 & p3);
+void ofDrawTriangle(float x1, float y1, float x2, float y2, float x3, float y3);
+void ofDrawTriangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
+void ofDrawTriangle(const glm::vec3 &p1, const glm::vec3 &p2, const glm::vec3 &p3);
+void ofDrawTriangle(const glm::vec2 &p1, const glm::vec2 &p2, const glm::vec2 &p3);
 
 /// \brief Draws a circle, centered at x,y, with a given radius.
 ///
@@ -310,8 +306,8 @@ void ofDrawTriangle(const glm::vec2 & p1, const glm::vec2 & p2, const glm::vec2 
 ///
 void ofDrawCircle(float x, float y, float radius);
 void ofDrawCircle(float x, float y, float z, float radius);
-void ofDrawCircle(const glm::vec3 & p, float radius);
-void ofDrawCircle(const glm::vec2 & p, float radius);
+void ofDrawCircle(const glm::vec3 &p, float radius);
+void ofDrawCircle(const glm::vec2 &p, float radius);
 
 /// \brief Draws an ellipse from point (x,y) with a given width (w) and height (h).
 /// ~~~~{.cpp}
@@ -321,8 +317,8 @@ void ofDrawCircle(const glm::vec2 & p, float radius);
 /// ~~~~
 void ofDrawEllipse(float x, float y, float width, float height);
 void ofDrawEllipse(float x, float y, float z, float width, float height);
-void ofDrawEllipse(const glm::vec3 & p, float width, float height);
-void ofDrawEllipse(const glm::vec2 & p, float width, float height);
+void ofDrawEllipse(const glm::vec3 &p, float width, float height);
+void ofDrawEllipse(const glm::vec2 &p, float width, float height);
 
 /// Draws a line between two points: (x1,y1),(x2,y2).
 /// ~~~~{.cpp}
@@ -330,10 +326,10 @@ void ofDrawEllipse(const glm::vec2 & p, float width, float height);
 ///     ofDrawLine(10,10,100,100);
 /// }
 /// ~~~~
-void ofDrawLine(float x1,float y1,float x2,float y2);
-void ofDrawLine(float x1,float y1,float z1,float x2,float y2,float z2);
-void ofDrawLine(const glm::vec3 & p1, const glm::vec3 & p2);
-void ofDrawLine(const glm::vec2 & p1, const glm::vec2 & p2);
+void ofDrawLine(float x1, float y1, float x2, float y2);
+void ofDrawLine(float x1, float y1, float z1, float x2, float y2, float z2);
+void ofDrawLine(const glm::vec3 &p1, const glm::vec3 &p2);
+void ofDrawLine(const glm::vec2 &p1, const glm::vec2 &p2);
 
 /// \brief Draws a rectangle from point x,y with a given width and height.
 /// ~~~~{.cpp}
@@ -341,8 +337,7 @@ void ofDrawLine(const glm::vec2 & p1, const glm::vec2 & p2);
 ///     ofDrawRect(10,10,100,100);
 /// }
 /// ~~~~
-void ofDrawRectangle(float x1,float y1,float w,float h);
-
+void ofDrawRectangle(float x1, float y1, float w, float h);
 
 /// \brief Draws an rectangle from the given rectangle.
 /// ~~~~{.cpp}
@@ -356,8 +351,7 @@ void ofDrawRectangle(float x1,float y1,float w,float h);
 ///     ofDrawRectangle(rect);
 /// }
 /// ~~~~
-void ofDrawRectangle(const ofRectangle & r);
-
+void ofDrawRectangle(const ofRectangle &r);
 
 /// \brief Draws an rectangle from point p, with a given width and height.
 /// ~~~~{.cpp}
@@ -369,9 +363,8 @@ void ofDrawRectangle(const ofRectangle & r);
 ///     ofDrawRectangle(p, 80, 80); // Draw the rectangle
 /// }
 /// ~~~~
-void ofDrawRectangle(const glm::vec3 & p,float w,float h);
-void ofDrawRectangle(const glm::vec2 & p,float w,float h);
-
+void ofDrawRectangle(const glm::vec3 &p, float w, float h);
+void ofDrawRectangle(const glm::vec2 &p, float w, float h);
 
 /// Draws an rectangle from point X, Y at depth Z with a given width and height.
 /// ~~~~{.cpp}
@@ -379,7 +372,7 @@ void ofDrawRectangle(const glm::vec2 & p,float w,float h);
 ///     ofDrawRectangle(10,10,-100, 80, 80); // Draw a rectangle at 100 pixels in depth
 /// }
 /// ~~~~
-void ofDrawRectangle(float x,float y,float z,float w,float h);
+void ofDrawRectangle(float x, float y, float z, float w, float h);
 
 /// \brief Draws a rounded rectangle from the given rectangle using given
 /// radius.
@@ -395,7 +388,7 @@ void ofDrawRectangle(float x,float y,float z,float w,float h);
 ///     ofDrawRectRounded(myRect, 10);
 /// }
 /// ~~~~
-void ofDrawRectRounded(const ofRectangle & b, float r);
+void ofDrawRectRounded(const ofRectangle &b, float r);
 
 /// \brief Draws a rectangle from point p with a given width, height and radius of
 /// rounded corners.
@@ -407,9 +400,8 @@ void ofDrawRectRounded(const ofRectangle & b, float r);
 ///     ofDrawRectRounded( p, 100, 100, 10 );
 /// }
 /// ~~~~
-void ofDrawRectRounded(const glm::vec3 & p, float w, float h, float r);
-void ofDrawRectRounded(const glm::vec2 & p, float w, float h, float r);
-
+void ofDrawRectRounded(const glm::vec3 &p, float w, float h, float r);
+void ofDrawRectRounded(const glm::vec2 &p, float w, float h, float r);
 
 /// \brief Draws a rectangle from point X, Y with a given width, height and radius of
 /// rounded corners.
@@ -421,7 +413,6 @@ void ofDrawRectRounded(const glm::vec2 & p, float w, float h, float r);
 /// ~~~~
 void ofDrawRectRounded(float x, float y, float w, float h, float r);
 
-
 /// \brief Draws a rectangle from point X, Y, at depth Z with a given width, height and
 /// radius of rounded corners.
 ///
@@ -432,7 +423,6 @@ void ofDrawRectRounded(float x, float y, float w, float h, float r);
 /// ~~~~
 void ofDrawRectRounded(float x, float y, float z, float w, float h, float r);
 
-
 /// \brief Draws a rounded rectangle from point X, Y, at depth Z with a given width,
 /// height and radius of rounded corners.
 ///
@@ -441,15 +431,10 @@ void ofDrawRectRounded(float x, float y, float z, float w, float h, float r);
 ///     ofDrawRectRounded(10, 10, 10, 100, 100, 10);
 /// }
 /// ~~~~
-void ofDrawRectRounded(const glm::vec3 & p, float w, float h, float topLeftRadius,
-					   float topRightRadius,
-					   float bottomRightRadius,
-					   float bottomLeftRadius);
-void ofDrawRectRounded(const glm::vec2 & p, float w, float h, float topLeftRadius,
-					   float topRightRadius,
-					   float bottomRightRadius,
-					   float bottomLeftRadius);
-
+void ofDrawRectRounded(const glm::vec3 &p, float w, float h, float topLeftRadius, float topRightRadius,
+                       float bottomRightRadius, float bottomLeftRadius);
+void ofDrawRectRounded(const glm::vec2 &p, float w, float h, float topLeftRadius, float topRightRadius,
+                       float bottomRightRadius, float bottomLeftRadius);
 
 /// \brief Draws a rounded rectangle from the given rectangle using different given
 /// radius for each of the corners.
@@ -465,10 +450,8 @@ void ofDrawRectRounded(const glm::vec2 & p, float w, float h, float topLeftRadiu
 ///     ofDrawRectRounded( myRect, 10, 20, 30, 40 );
 /// }
 /// ~~~~
-void ofDrawRectRounded(const ofRectangle & b, float topLeftRadius,
-					   float topRightRadius,
-					   float bottomRightRadius,
-					   float bottomLeftRadius);
+void ofDrawRectRounded(const ofRectangle &b, float topLeftRadius, float topRightRadius, float bottomRightRadius,
+                       float bottomLeftRadius);
 
 /// \brief Draws a rounded rectangle from point X, Y, at depth Z with a given width,
 /// height and different radius for each rounded corner.
@@ -478,10 +461,8 @@ void ofDrawRectRounded(const ofRectangle & b, float topLeftRadius,
 ///     ofDrawRectRounded(10, 10, 10, 100, 100, 10, 20, 30, 40);
 /// }
 /// ~~~~
-void ofDrawRectRounded(float x, float y, float z, float w, float h, float topLeftRadius,
-					   float topRightRadius,
-					   float bottomRightRadius,
-					   float bottomLeftRadius);
+void ofDrawRectRounded(float x, float y, float z, float w, float h, float topLeftRadius, float topRightRadius,
+                       float bottomRightRadius, float bottomLeftRadius);
 
 /// \brief Draws a curve from point (x1, y1) to point (x2, y2). The curve is shaped by
 /// the two control points (x0,y0) and (x3,y3).
@@ -489,57 +470,64 @@ void ofDrawCurve(float x0, float y0, float x1, float y1, float x2, float y2, flo
 
 /// \brief Draws a 3-dimensional curve from point (x1, y1, z1) to point (x2, y2, z2).
 /// The curve is shaped by the two control points (x0, y0, z0) and (x3, y3, z3).
-void ofDrawCurve(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
+void ofDrawCurve(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3,
+                 float y3, float z3);
 void ofDrawBezier(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3);
-void ofDrawBezier(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
+void ofDrawBezier(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3,
+                  float y3, float z3);
 
-OF_DEPRECATED_MSG("Use ofDrawTriangle instead",void ofTriangle(float x1,float y1,float x2,float y2,float x3, float y3));
-OF_DEPRECATED_MSG("Use ofDrawTriangle instead",void ofTriangle(float x1,float y1,float z1,float x2,float y2,float z2,float x3, float y3,float z3));
-OF_DEPRECATED_MSG("Use ofDrawTriangle instead",void ofTriangle(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3));
+OF_DEPRECATED_MSG("Use ofDrawTriangle instead",
+                  void ofTriangle(float x1, float y1, float x2, float y2, float x3, float y3));
+OF_DEPRECATED_MSG("Use ofDrawTriangle instead", void ofTriangle(float x1, float y1, float z1, float x2, float y2,
+                                                                float z2, float x3, float y3, float z3));
+OF_DEPRECATED_MSG("Use ofDrawTriangle instead",
+                  void ofTriangle(const glm::vec3 &p1, const glm::vec3 &p2, const glm::vec3 &p3));
 
-OF_DEPRECATED_MSG("Use ofDrawCircle instead",void ofCircle(float x, float y, float radius));
-OF_DEPRECATED_MSG("Use ofDrawCircle instead",void ofCircle(float x, float y, float z, float radius));
-OF_DEPRECATED_MSG("Use ofDrawCircle instead",void ofCircle(const glm::vec3 & p, float radius));
+OF_DEPRECATED_MSG("Use ofDrawCircle instead", void ofCircle(float x, float y, float radius));
+OF_DEPRECATED_MSG("Use ofDrawCircle instead", void ofCircle(float x, float y, float z, float radius));
+OF_DEPRECATED_MSG("Use ofDrawCircle instead", void ofCircle(const glm::vec3 &p, float radius));
 
-OF_DEPRECATED_MSG("Use ofDrawEllipse instead",void ofEllipse(float x, float y, float width, float height));
-OF_DEPRECATED_MSG("Use ofDrawEllipse instead",void ofEllipse(float x, float y, float z, float width, float height));
-OF_DEPRECATED_MSG("Use ofDrawEllipse instead",void ofEllipse(const glm::vec3 & p, float width, float height));
+OF_DEPRECATED_MSG("Use ofDrawEllipse instead", void ofEllipse(float x, float y, float width, float height));
+OF_DEPRECATED_MSG("Use ofDrawEllipse instead", void ofEllipse(float x, float y, float z, float width, float height));
+OF_DEPRECATED_MSG("Use ofDrawEllipse instead", void ofEllipse(const glm::vec3 &p, float width, float height));
 
-OF_DEPRECATED_MSG("Use ofDrawLine instead",void ofLine(float x1,float y1,float x2,float y2));
-OF_DEPRECATED_MSG("Use ofDrawLine instead",void ofLine(float x1,float y1,float z1,float x2,float y2,float z2));
-OF_DEPRECATED_MSG("Use ofDrawLine instead",void ofLine(const glm::vec3 & p1, const glm::vec3 & p2));
+OF_DEPRECATED_MSG("Use ofDrawLine instead", void ofLine(float x1, float y1, float x2, float y2));
+OF_DEPRECATED_MSG("Use ofDrawLine instead", void ofLine(float x1, float y1, float z1, float x2, float y2, float z2));
+OF_DEPRECATED_MSG("Use ofDrawLine instead", void ofLine(const glm::vec3 &p1, const glm::vec3 &p2));
 
-OF_DEPRECATED_MSG("Use ofDrawRectangle instead",void ofRect(float x1,float y1,float w,float h));
-OF_DEPRECATED_MSG("Use ofDrawRectangle instead",void ofRect(const ofRectangle & r));
-OF_DEPRECATED_MSG("Use ofDrawRectangle instead",void ofRect(const glm::vec3 & p,float w,float h));
-OF_DEPRECATED_MSG("Use ofDrawRectangle instead",void ofRect(float x,float y,float z,float w,float h));
+OF_DEPRECATED_MSG("Use ofDrawRectangle instead", void ofRect(float x1, float y1, float w, float h));
+OF_DEPRECATED_MSG("Use ofDrawRectangle instead", void ofRect(const ofRectangle &r));
+OF_DEPRECATED_MSG("Use ofDrawRectangle instead", void ofRect(const glm::vec3 &p, float w, float h));
+OF_DEPRECATED_MSG("Use ofDrawRectangle instead", void ofRect(float x, float y, float z, float w, float h));
 
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(const ofRectangle & b, float r));
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(const glm::vec3 & p, float w, float h, float r));
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(float x, float y, float w, float h, float r));
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(float x, float y, float z, float w, float h, float r));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead", void ofRectRounded(const ofRectangle &b, float r));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead", void ofRectRounded(const glm::vec3 &p, float w, float h, float r));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead", void ofRectRounded(float x, float y, float w, float h, float r));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",
+                  void ofRectRounded(float x, float y, float z, float w, float h, float r));
 
 //----------------------------------------------------------
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(const glm::vec3 & p, float w, float h, float topLeftRadius,
-																	 float topRightRadius,
-																	 float bottomRightRadius,
-																	 float bottomLeftRadius));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",
+                  void ofRectRounded(const glm::vec3 &p, float w, float h, float topLeftRadius, float topRightRadius,
+                                     float bottomRightRadius, float bottomLeftRadius));
 
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(const ofRectangle & b, float topLeftRadius,
-																	 float topRightRadius,
-																	 float bottomRightRadius,
-																	 float bottomLeftRadius));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",
+                  void ofRectRounded(const ofRectangle &b, float topLeftRadius, float topRightRadius,
+                                     float bottomRightRadius, float bottomLeftRadius));
 
-OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",void ofRectRounded(float x, float y, float z, float w, float h, float topLeftRadius,
-																	 float topRightRadius,
-																	 float bottomRightRadius,
-																	 float bottomLeftRadius));
+OF_DEPRECATED_MSG("Use ofDrawRectRounded instead",
+                  void ofRectRounded(float x, float y, float z, float w, float h, float topLeftRadius,
+                                     float topRightRadius, float bottomRightRadius, float bottomLeftRadius));
 
-OF_DEPRECATED_MSG("Use ofDrawCurve instead",void ofCurve(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3));
-OF_DEPRECATED_MSG("Use ofDrawCurve instead",void ofCurve(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3));
-OF_DEPRECATED_MSG("Use ofDrawBezier instead",void ofBezier(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3));
-OF_DEPRECATED_MSG("Use ofDrawBezier instead",void ofBezier(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3));
-
+OF_DEPRECATED_MSG("Use ofDrawCurve instead",
+                  void ofCurve(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3));
+OF_DEPRECATED_MSG("Use ofDrawCurve instead", void ofCurve(float x0, float y0, float z0, float x1, float y1, float z1,
+                                                          float x2, float y2, float z2, float x3, float y3, float z3));
+OF_DEPRECATED_MSG("Use ofDrawBezier instead",
+                  void ofBezier(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3));
+OF_DEPRECATED_MSG("Use ofDrawBezier instead",
+                  void ofBezier(float x0, float y0, float z0, float x1, float y1, float z1, float x2, float y2,
+                                float z2, float x3, float y3, float z3));
 
 /// \}
 /// \name Custom Shapes Drawing
@@ -567,12 +555,12 @@ void ofBeginShape();
 /// ofEndShape().
 void ofVertex(float x, float y);
 void ofVertex(float x, float y, float z);
-void ofVertex(const glm::vec3 & p);
-void ofVertex(const glm::vec2 & p);
-void ofVertices(const std::vector <glm::vec3> & polyPoints);
-void ofVertices(const std::vector <glm::vec2> & polyPoints);
-void ofVertices(const std::vector <ofVec3f> & polyPoints);
-void ofVertices(const std::vector <ofVec2f> & polyPoints);
+void ofVertex(const glm::vec3 &p);
+void ofVertex(const glm::vec2 &p);
+void ofVertices(const std::vector<glm::vec3> &polyPoints);
+void ofVertices(const std::vector<glm::vec2> &polyPoints);
+void ofVertices(const std::vector<ofVec3f> &polyPoints);
+void ofVertices(const std::vector<ofVec2f> &polyPoints);
 
 /// \brief Specifies a single point of a shape. The difference from ofVertex is that
 /// the line describing the edge of the shape between two points will be a
@@ -582,25 +570,24 @@ void ofVertices(const std::vector <ofVec2f> & polyPoints);
 /// This function has to be called between ofBeginShape() and ofEndShape().
 void ofCurveVertex(float x, float y);
 void ofCurveVertex(float x, float y, float z);
-void ofCurveVertex(const glm::vec3 & p);
-void ofCurveVertex(const glm::vec2 & p);
+void ofCurveVertex(const glm::vec3 &p);
+void ofCurveVertex(const glm::vec2 &p);
 
 /// \brief Draws a curve through a series of vertices stored as a vector of
 /// ofPoints. Should be called between ofBeginShape() and ofEndShape().
-void ofCurveVertices(const std::vector <glm::vec3> & curvePoints);
-void ofCurveVertices(const std::vector <glm::vec2> & curvePoints);
-void ofCurveVertices(const std::vector <ofVec3f> & curvePoints);
-void ofCurveVertices(const std::vector <ofVec2f> & curvePoints);
+void ofCurveVertices(const std::vector<glm::vec3> &curvePoints);
+void ofCurveVertices(const std::vector<glm::vec2> &curvePoints);
+void ofCurveVertices(const std::vector<ofVec3f> &curvePoints);
+void ofCurveVertices(const std::vector<ofVec2f> &curvePoints);
 
 /// \brief Describes a bezier curve through three points of a shape. To be called
 /// between ofBeginShape() and ofEndShape().
 void ofBezierVertex(float x1, float y1, float x2, float y2, float x3, float y3);
-void ofBezierVertex(const glm::vec3 & p1, const glm::vec3 & p2, const glm::vec3 & p3);
-void ofBezierVertex(const glm::vec2 & p1, const glm::vec2 & p2, const glm::vec2 & p3);
+void ofBezierVertex(const glm::vec3 &p1, const glm::vec3 &p2, const glm::vec3 &p3);
+void ofBezierVertex(const glm::vec2 &p1, const glm::vec2 &p2, const glm::vec2 &p3);
 void ofBezierVertex(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3);
 
-
-enum ofCloseShape{
+enum ofCloseShape {
 	OF_OPEN = 0,
 	OF_CLOSE = 1,
 };
@@ -620,13 +607,11 @@ void ofEndShape(bool bClose = false);
 ///
 /// \param bClose If set to true then the previous contour will be
 /// automatically closed. Default false
-void ofNextContour(bool bClose = false);  // for multi contour shapes!
-
+void ofNextContour(bool bClose = false); // for multi contour shapes!
 
 /// \}
 /// \name Text Drawing
 /// \{
-
 
 /// \brief Set the bitmap drawing mode
 ///
@@ -676,24 +661,21 @@ void ofSetDrawBitmapMode(ofDrawBitmapMode mode);
 /// with a small typeface, non-anti-aliased, as a suitable alternative.
 ///
 /// \sa ofTrueTypeFont
-template<typename T>
-void ofDrawBitmapString(const T & textString, float x, float y);
-template<typename T>
-void ofDrawBitmapString(const T & textString, const glm::vec3 & p);
-template<typename T>
-void ofDrawBitmapString(const T & textString, const glm::vec2 & p);
-template<typename T>
-void ofDrawBitmapString(const T & textString, float x, float y, float z);
-template<>
-void ofDrawBitmapString(const std::string & textString, const glm::vec3 & p);
-template<>
-void ofDrawBitmapString(const std::string & textString, const glm::vec2 & p);
-template<>
-void ofDrawBitmapString(const std::string & textString, float x, float y, float z);
-void ofDrawBitmapStringHighlight(std::string text, const glm::vec3& position, const ofColor& background = ofColor::black, const ofColor& foreground = ofColor::white);
-void ofDrawBitmapStringHighlight(std::string text, const glm::vec2& position, const ofColor& background = ofColor::black, const ofColor& foreground = ofColor::white);
-void ofDrawBitmapStringHighlight(std::string text, int x, int y, const ofColor& background = ofColor::black, const ofColor& foreground = ofColor::white);
-
+template<typename T> void ofDrawBitmapString(const T &textString, float x, float y);
+template<typename T> void ofDrawBitmapString(const T &textString, const glm::vec3 &p);
+template<typename T> void ofDrawBitmapString(const T &textString, const glm::vec2 &p);
+template<typename T> void ofDrawBitmapString(const T &textString, float x, float y, float z);
+template<> void ofDrawBitmapString(const std::string &textString, const glm::vec3 &p);
+template<> void ofDrawBitmapString(const std::string &textString, const glm::vec2 &p);
+template<> void ofDrawBitmapString(const std::string &textString, float x, float y, float z);
+void ofDrawBitmapStringHighlight(std::string text, const glm::vec3 &position,
+                                 const ofColor &background = ofColor::black,
+                                 const ofColor &foreground = ofColor::white);
+void ofDrawBitmapStringHighlight(std::string text, const glm::vec2 &position,
+                                 const ofColor &background = ofColor::black,
+                                 const ofColor &foreground = ofColor::white);
+void ofDrawBitmapStringHighlight(std::string text, int x, int y, const ofColor &background = ofColor::black,
+                                 const ofColor &foreground = ofColor::white);
 
 /// \}
 /// \name Rendering Settings
@@ -720,7 +702,7 @@ void ofSetupScreen();
 /// }
 /// ~~~~
 /// \sa ofSetRectMode()
-ofRectMode  ofGetRectMode();
+ofRectMode ofGetRectMode();
 
 /// \brief Sets the resolution for the ofDrawCircle command. By default, the circle is 22
 /// points, but if you need to draw larger circles, you can adjust the
@@ -735,9 +717,8 @@ ofRectMode  ofGetRectMode();
 ///     ofDrawCircle(450,150,100);          //draws a fine circle
 /// }
 /// ~~~~
-void ofSetCircleResolution(int res);      // if there 22 is a problem, you can change it here
+void ofSetCircleResolution(int res); // if there 22 is a problem, you can change it here
 void ofSetCurveResolution(int res);
-
 
 /// \brief Sets the width of the ofDrawLine() called after.
 /// ~~~~{.cpp}
@@ -753,7 +734,6 @@ void ofSetLineWidth(float lineWidth);
 /// \brief Set depth testing on or off to either sort by z-depth (`true`)
 /// or draw order (`false`).
 void ofSetDepthTest(bool depthTest);
-
 
 /// \brief Turns on depth testing so rendering happens according to z-depth rather
 /// than draw order.
@@ -831,7 +811,7 @@ void ofDisablePointSprites();
 ///     ofDrawRectangle(120,20,100,100);     // draws the rect without alpha
 /// }
 /// ~~~~
-void ofEnableAlphaBlending();  // this just turns on and off opengl blending, the common mode
+void ofEnableAlphaBlending(); // this just turns on and off opengl blending, the common mode
 
 /// \brief Turn off alpha blending.
 /// ~~~~{.cpp}
@@ -980,15 +960,15 @@ glm::mat4 ofGetCurrentNormalMatrix();
 /// ~~~~
 void ofTranslate(float x, float y, float z = 0);
 
-void ofTranslate(const glm::vec3 & p);
-void ofTranslate(const glm::vec2 & p);
+void ofTranslate(const glm::vec3 &p);
+void ofTranslate(const glm::vec2 &p);
 
 void ofScale(float xAmnt, float yAmnt, float zAmnt = 1);
 
 /// \brief Scale along the X, Y and Z axis with the same amount.
 void ofScale(float amount);
 
-void ofScale(const glm::vec3 & p);
+void ofScale(const glm::vec3 &p);
 
 /// \brief Produces a rotation around the vector (vecX,vecY,vecZ).
 ///
@@ -996,8 +976,8 @@ void ofScale(const glm::vec3 & p);
 /// and ofPopMatrix() to save and restore the unrotated coordinate system.
 /// ~~~~{.cpp}
 /// void ofApp::draw(){
-///     ofRotate(50, 1, 0.5, 0); //rotates the coordinate system 50 degrees along the x-axis and 25 degrees on the y-axis
-///     ofDrawRectangle(20,20,100,100);
+///     ofRotate(50, 1, 0.5, 0); //rotates the coordinate system 50 degrees along the x-axis and 25 degrees on the
+///     y-axis ofDrawRectangle(20,20,100,100);
 /// }
 /// ~~~~
 ///
@@ -1049,8 +1029,8 @@ OF_DEPRECATED_MSG("Use ofRotateZDeg or ofRotateZRad", void ofRotateZ(float degre
 /// and ofPopMatrix() to save and restore the unrotated coordinate system.
 /// ~~~~{.cpp}
 /// void ofApp::draw(){
-///     ofRotate(50, 1, 0.5, 0); //rotates the coordinate system 50 degrees along the x-axis and 25 degrees on the y-axis
-///     ofDrawRectangle(20,20,100,100);
+///     ofRotate(50, 1, 0.5, 0); //rotates the coordinate system 50 degrees along the x-axis and 25 degrees on the
+///     y-axis ofDrawRectangle(20,20,100,100);
 /// }
 /// ~~~~
 ///
@@ -1102,8 +1082,8 @@ void ofRotateZDeg(float degrees);
 /// and ofPopMatrix() to save and restore the unrotated coordinate system.
 /// ~~~~{.cpp}
 /// void ofApp::draw(){
-///     ofRotate(50, 1, 0.5, 0); //rotates the coordinate system 50 degrees along the x-axis and 25 degrees on the y-axis
-///     ofDrawRectangle(20,20,100,100);
+///     ofRotate(50, 1, 0.5, 0); //rotates the coordinate system 50 degrees along the x-axis and 25 degrees on the
+///     y-axis ofDrawRectangle(20,20,100,100);
 /// }
 /// ~~~~
 ///
@@ -1153,16 +1133,15 @@ void ofRotateZRad(float degrees);
 /// \name Matrix Transformation
 /// \{
 
-void ofLoadIdentityMatrix (void);
-void ofLoadMatrix (const glm::mat4 & m);   // Andreas: I've included both a mat and a float* version here,
-void ofLoadMatrix (const float *m);     // ideally we would always use mat4, but in a lot of temporary
-void ofMultMatrix (const glm::mat4 & m);  // mat objects when interacting with non-OF code
-void ofMultMatrix (const float *m);
+void ofLoadIdentityMatrix(void);
+void ofLoadMatrix(const glm::mat4 &m); // Andreas: I've included both a mat and a float* version here,
+void ofLoadMatrix(const float *m);     // ideally we would always use mat4, but in a lot of temporary
+void ofMultMatrix(const glm::mat4 &m); // mat objects when interacting with non-OF code
+void ofMultMatrix(const float *m);
 void ofSetMatrixMode(ofMatrixMode matrixMode);
-void ofLoadViewMatrix(const glm::mat4 & m);
-void ofMultViewMatrix(const glm::mat4 & m);
+void ofLoadViewMatrix(const glm::mat4 &m);
+void ofMultViewMatrix(const glm::mat4 &m);
 glm::mat4 ofGetCurrentViewMatrix();
-
 
 /// \}
 /// \name Viewport Setup
@@ -1188,7 +1167,7 @@ void ofViewport(ofRectangle viewport);
 /// \param y The y position of the viewport
 /// \param width The width of the viewport, defaults to ofGetWidth()
 /// \param height The height of the viewport, defaults to ofGetHeight()
-void ofViewport(float x = 0, float y = 0, float width = -1, float height = -1, bool vflip=ofIsVFlipped());
+void ofViewport(float x = 0, float y = 0, float width = -1, float height = -1, bool vflip = ofIsVFlipped());
 
 /// \brief Get the position and size of the current viewport
 /// \returns A rectangle describing the viewport
@@ -1206,17 +1185,20 @@ int ofGetViewportWidth();
 /// \returns A height in pixels
 int ofGetViewportHeight();
 
-
 // if nearDist or farDist are 0 assume defaults (calculated based on width / height)
-void ofSetupScreenPerspective(float width = -1, float height = -1, float fov = 60, float nearDist = 0, float farDist = 0);
+void ofSetupScreenPerspective(float width = -1, float height = -1, float fov = 60, float nearDist = 0,
+                              float farDist = 0);
 void ofSetupScreenOrtho(float width = -1, float height = -1, float nearDist = -1, float farDist = 1);
 
-OF_DEPRECATED_MSG("ofSetupScreenPerspective() doesn't accept orientation and vflip parameters anymore, use ofSetOrientation() to specify them",
-				  void ofSetupScreenPerspective(float width, float height, ofOrientation orientation, bool vFlip = ofIsVFlipped(), float fov = 60, float nearDist = 0, float farDist = 0)
-				  );
-OF_DEPRECATED_MSG("ofSetupScreenOrtho() doesn't accept orientation and vflip parameters anymore, use ofSetOrientation() to specify them",
-				  void ofSetupScreenOrtho(float width, float height, ofOrientation orientation, bool vFlip = ofIsVFlipped(), float nearDist = -1, float farDist = 1)
-				  );
+OF_DEPRECATED_MSG("ofSetupScreenPerspective() doesn't accept orientation and vflip parameters anymore, use "
+                  "ofSetOrientation() to specify them",
+                  void ofSetupScreenPerspective(float width, float height, ofOrientation orientation,
+                                                bool vFlip = ofIsVFlipped(), float fov = 60, float nearDist = 0,
+                                                float farDist = 0));
+OF_DEPRECATED_MSG("ofSetupScreenOrtho() doesn't accept orientation and vflip parameters anymore, use "
+                  "ofSetOrientation() to specify them",
+                  void ofSetupScreenOrtho(float width, float height, ofOrientation orientation,
+                                          bool vFlip = ofIsVFlipped(), float nearDist = -1, float farDist = 1));
 
 int ofOrientationToDegrees(ofOrientation orientation);
 
@@ -1242,7 +1224,8 @@ ofHandednessType ofGetCoordHandedness();
 /// }
 /// ~~~~
 /// \sa End drawing with ofEndSaveScreenAsPDF()
-void ofBeginSaveScreenAsPDF(std::string filename, bool bMultipage = false, bool b3D = false, ofRectangle outputsize = ofRectangle(0,0,0,0));
+void ofBeginSaveScreenAsPDF(std::string filename, bool bMultipage = false, bool b3D = false,
+                            ofRectangle outputsize = ofRectangle(0, 0, 0, 0));
 
 /// \brief Terminates draw to PDF through ofCairoRenderer and outputs the file.
 /// \sa ofBeginSaveScreenAsPDF()
@@ -1250,7 +1233,8 @@ void ofEndSaveScreenAsPDF();
 
 /// \brief Begin rendering to a SVG file.
 /// \sa ofEndSaveScreenAsSVG(), ofBeginSaveScreenAsPDF()
-void ofBeginSaveScreenAsSVG(std::string filename, bool bMultipage = false, bool b3D = false, ofRectangle outputsize = ofRectangle(0,0,0,0));
+void ofBeginSaveScreenAsSVG(std::string filename, bool bMultipage = false, bool b3D = false,
+                            ofRectangle outputsize = ofRectangle(0, 0, 0, 0));
 
 /// \brief Terminates draw to SVG and outputs the file.
 /// \sa ofBeginSaveScreenAsSVG()
@@ -1258,27 +1242,22 @@ void ofEndSaveScreenAsSVG();
 
 /// \}
 
-
 //--------------------------------------------------
-template<typename T>
-void ofDrawBitmapString(const T & textString, const glm::vec3 & p){
+template<typename T> void ofDrawBitmapString(const T &textString, const glm::vec3 &p) {
 	ofDrawBitmapString(ofToString(textString), p);
 }
 
 //--------------------------------------------------
-template<typename T>
-void ofDrawBitmapString(const T & textString, const glm::vec2 & p){
+template<typename T> void ofDrawBitmapString(const T &textString, const glm::vec2 &p) {
 	ofDrawBitmapString(ofToString(textString), p);
 }
 
 //--------------------------------------------------
-template<typename T>
-void ofDrawBitmapString(const T & textString, float x, float y){
+template<typename T> void ofDrawBitmapString(const T &textString, float x, float y) {
 	ofDrawBitmapString(ofToString(textString), x, y, 0.f);
 }
 
 //--------------------------------------------------
-template<typename T>
-void ofDrawBitmapString(const T & textString, float x, float y, float z){
+template<typename T> void ofDrawBitmapString(const T &textString, float x, float y, float z) {
 	ofDrawBitmapString(ofToString(textString), x, y, z);
 }

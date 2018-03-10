@@ -7,8 +7,8 @@
 
 //----------------------------------------
 ofNode::ofNode()
-:parent(nullptr)
-,legacyCustomDrawOverrided(true){
+    : parent(nullptr)
+    , legacyCustomDrawOverrided(true) {
 	setPosition({0.f, 0.f, 0.f});
 	setOrientation({0.f, 0.f, 0.f});
 	setScale(1.f);
@@ -18,8 +18,8 @@ ofNode::ofNode()
 }
 
 //----------------------------------------
-ofNode::~ofNode(){
-	if(parent){
+ofNode::~ofNode() {
+	if(parent) {
 		parent->removeListener(*this);
 	}
 
@@ -27,18 +27,18 @@ ofNode::~ofNode(){
 	// This changes the "children", and so we can't use a normal foreach
 	// loop, but must use the following construction to deal with newly
 	// invalidated iterators:
-	while (!children.empty()){
+	while(!children.empty()) {
 		(*children.begin())->clearParent();
 	}
 }
 
 //----------------------------------------
-ofNode::ofNode(const ofNode & node)
-:parent(node.parent)
-,axis(node.axis)
-,localTransformMatrix(node.localTransformMatrix)
-,legacyCustomDrawOverrided(true){
-	if(parent){
+ofNode::ofNode(const ofNode &node)
+    : parent(node.parent)
+    , axis(node.axis)
+    , localTransformMatrix(node.localTransformMatrix)
+    , legacyCustomDrawOverrided(true) {
+	if(parent) {
 		parent->addListener(*this);
 	}
 	position = node.position;
@@ -50,23 +50,24 @@ ofNode::ofNode(const ofNode & node)
 }
 
 //----------------------------------------
-ofNode::ofNode(ofNode && node)
-:parent(node.parent)
-,position(std::move(node.position))
-,orientation(std::move(node.orientation))
-,scale(std::move(node.scale))
-,axis(std::move(node.axis))
-,localTransformMatrix(std::move(node.localTransformMatrix))
-,legacyCustomDrawOverrided(std::move(node.legacyCustomDrawOverrided))
-,children(std::move(node.children)){
-	if(parent){
+ofNode::ofNode(ofNode &&node)
+    : parent(node.parent)
+    , position(std::move(node.position))
+    , orientation(std::move(node.orientation))
+    , scale(std::move(node.scale))
+    , axis(std::move(node.axis))
+    , localTransformMatrix(std::move(node.localTransformMatrix))
+    , legacyCustomDrawOverrided(std::move(node.legacyCustomDrawOverrided))
+    , children(std::move(node.children)) {
+	if(parent) {
 		parent->addListener(*this);
 	}
 }
 
 //----------------------------------------
-ofNode & ofNode::operator=(const ofNode & node){
-	if(this == &node) return *this;
+ofNode &ofNode::operator=(const ofNode &node) {
+	if(this == &node)
+		return *this;
 	parent = node.parent;
 	position = node.position;
 	orientation = node.orientation;
@@ -77,15 +78,16 @@ ofNode & ofNode::operator=(const ofNode & node){
 	orientation.disableEvents();
 	localTransformMatrix = node.localTransformMatrix;
 	legacyCustomDrawOverrided = true;
-	if(parent){
+	if(parent) {
 		parent->addListener(*this);
 	}
 	return *this;
 }
 
 //----------------------------------------
-ofNode & ofNode::operator=(ofNode && node){
-	if(this == &node) return *this;
+ofNode &ofNode::operator=(ofNode &&node) {
+	if(this == &node)
+		return *this;
 	parent = node.parent;
 	position = std::move(node.position);
 	orientation = std::move(node.orientation);
@@ -94,14 +96,14 @@ ofNode & ofNode::operator=(ofNode && node){
 	localTransformMatrix = std::move(node.localTransformMatrix);
 	legacyCustomDrawOverrided = std::move(node.legacyCustomDrawOverrided);
 	children = std::move(node.children);
-	if(parent){
+	if(parent) {
 		parent->addListener(*this);
 	}
 	return *this;
 }
 
 //----------------------------------------
-void ofNode::addListener(ofNode & node){
+void ofNode::addListener(ofNode &node) {
 	position.addListener(&node, &ofNode::onParentPositionChanged);
 	orientation.addListener(&node, &ofNode::onParentOrientationChanged);
 	scale.addListener(&node, &ofNode::onParentScaleChanged);
@@ -112,11 +114,11 @@ void ofNode::addListener(ofNode & node){
 }
 
 //----------------------------------------
-void ofNode::removeListener(ofNode & node){
+void ofNode::removeListener(ofNode &node) {
 	position.removeListener(&node, &ofNode::onParentPositionChanged);
 	orientation.removeListener(&node, &ofNode::onParentOrientationChanged);
 	scale.removeListener(&node, &ofNode::onParentScaleChanged);
-	if(position.getNumListeners()==0){
+	if(position.getNumListeners() == 0) {
 		position.disableEvents();
 		scale.disableEvents();
 		orientation.disableEvents();
@@ -125,9 +127,8 @@ void ofNode::removeListener(ofNode & node){
 }
 
 //----------------------------------------
-void ofNode::setParent(ofNode& parent, bool bMaintainGlobalTransform) {
-	if (this->parent)
-	{
+void ofNode::setParent(ofNode &parent, bool bMaintainGlobalTransform) {
+	if(this->parent) {
 		// we need to make sure to clear before
 		// re-assigning parenthood.
 		clearParent(bMaintainGlobalTransform);
@@ -148,7 +149,7 @@ void ofNode::setParent(ofNode& parent, bool bMaintainGlobalTransform) {
 
 //----------------------------------------
 void ofNode::clearParent(bool bMaintainGlobalTransform) {
-	if(parent){
+	if(parent) {
 		parent->removeListener(*this);
 	}
 	if(bMaintainGlobalTransform && parent) {
@@ -159,14 +160,13 @@ void ofNode::clearParent(bool bMaintainGlobalTransform) {
 		setOrientation(orientation);
 		setPosition(position);
 		setScale(scale);
-	}else{
+	} else {
 		this->parent = nullptr;
 	}
-
 }
 
 //----------------------------------------
-ofNode* ofNode::getParent() const {
+ofNode *ofNode::getParent() const {
 	return parent;
 }
 
@@ -176,7 +176,7 @@ void ofNode::setPosition(float px, float py, float pz) {
 }
 
 //----------------------------------------
-void ofNode::setPosition(const glm::vec3& p) {
+void ofNode::setPosition(const glm::vec3 &p) {
 	position = p;
 	createMatrix();
 	onPositionChanged();
@@ -188,7 +188,7 @@ void ofNode::setGlobalPosition(float px, float py, float pz) {
 }
 
 //----------------------------------------
-void ofNode::setGlobalPosition(const glm::vec3& p) {
+void ofNode::setGlobalPosition(const glm::vec3 &p) {
 	if(parent == nullptr) {
 		setPosition(p);
 	} else {
@@ -218,19 +218,21 @@ float ofNode::getZ() const {
 }
 
 //----------------------------------------
-void ofNode::setOrientation(const glm::quat& q) {
+void ofNode::setOrientation(const glm::quat &q) {
 	orientation = q;
 	createMatrix();
 	onOrientationChanged();
 }
 
 //----------------------------------------
-void ofNode::setOrientation(const glm::vec3& eulerAngles) {
-	setOrientation(glm::angleAxis(ofDegToRad(eulerAngles.x), glm::vec3(1, 0, 0)) * glm::angleAxis(ofDegToRad(eulerAngles.z), glm::vec3(0, 0, 1)) * glm::angleAxis(ofDegToRad(eulerAngles.y), glm::vec3(0, 1, 0)));
+void ofNode::setOrientation(const glm::vec3 &eulerAngles) {
+	setOrientation(glm::angleAxis(ofDegToRad(eulerAngles.x), glm::vec3(1, 0, 0)) *
+	               glm::angleAxis(ofDegToRad(eulerAngles.z), glm::vec3(0, 0, 1)) *
+	               glm::angleAxis(ofDegToRad(eulerAngles.y), glm::vec3(0, 1, 0)));
 }
 
 //----------------------------------------
-void ofNode::setGlobalOrientation(const glm::quat& q) {
+void ofNode::setGlobalOrientation(const glm::quat &q) {
 	if(parent == nullptr) {
 		setOrientation(q);
 	} else {
@@ -272,7 +274,7 @@ void ofNode::setScale(float sx, float sy, float sz) {
 }
 
 //----------------------------------------
-void ofNode::setScale(const glm::vec3& s) {
+void ofNode::setScale(const glm::vec3 &s) {
 	this->scale = s;
 	createMatrix();
 	onScaleChanged();
@@ -289,7 +291,7 @@ void ofNode::move(float x, float y, float z) {
 }
 
 //----------------------------------------
-void ofNode::move(const glm::vec3& offset) {
+void ofNode::move(const glm::vec3 &offset) {
 	position += offset;
 	createMatrix();
 	onPositionChanged();
@@ -356,24 +358,24 @@ void ofNode::rollRad(float radians) {
 }
 
 //----------------------------------------
-void ofNode::rotate(const glm::quat& q) {
-	orientation = q * (const glm::quat&)orientation;
+void ofNode::rotate(const glm::quat &q) {
+	orientation = q * (const glm::quat &)orientation;
 	createMatrix();
 	onOrientationChanged();
 }
 
 //----------------------------------------
-void ofNode::rotate(float degrees, const glm::vec3& v) {
+void ofNode::rotate(float degrees, const glm::vec3 &v) {
 	rotateDeg(degrees, v);
 }
 
 //----------------------------------------
-void ofNode::rotateDeg(float degrees, const glm::vec3& v) {
+void ofNode::rotateDeg(float degrees, const glm::vec3 &v) {
 	rotate(glm::angleAxis(ofDegToRad(degrees), v));
 }
 
 //----------------------------------------
-void ofNode::rotateRad(float radians, const glm::vec3& v) {
+void ofNode::rotateRad(float radians, const glm::vec3 &v) {
 	rotate(glm::angleAxis(radians, v));
 }
 
@@ -393,54 +395,54 @@ void ofNode::rotateRad(float radians, float vx, float vy, float vz) {
 }
 
 //----------------------------------------
-void ofNode::rotateAround(const glm::quat& q, const glm::vec3& point) {
+void ofNode::rotateAround(const glm::quat &q, const glm::vec3 &point) {
 	//	ofLogVerbose("ofNode") << "rotateAround(const glm::quat& q, const ofVec3f& point) not implemented yet";
 	//	ofMatrix4x4 m = getLocalTransformMatrix();
 	//	m.setTranslation(point);
 	//	m.rotate(q);
-	
+
 	setGlobalPosition(q * (getGlobalPosition() - point) + point);
-	
+
 	onOrientationChanged();
 	onPositionChanged();
 }
 
 //----------------------------------------
-void ofNode::rotateAround(float degrees, const glm::vec3& axis, const glm::vec3& point) {
+void ofNode::rotateAround(float degrees, const glm::vec3 &axis, const glm::vec3 &point) {
 	rotateAroundDeg(degrees, axis, point);
 }
 
 //----------------------------------------
-void ofNode::rotateAroundDeg(float degrees, const glm::vec3& axis, const glm::vec3& point) {
+void ofNode::rotateAroundDeg(float degrees, const glm::vec3 &axis, const glm::vec3 &point) {
 	rotateAround(glm::angleAxis(ofDegToRad(degrees), axis), point);
 }
 
 //----------------------------------------
-void ofNode::rotateAroundRad(float radians, const glm::vec3& axis, const glm::vec3& point) {
+void ofNode::rotateAroundRad(float radians, const glm::vec3 &axis, const glm::vec3 &point) {
 	rotateAround(glm::angleAxis(radians, axis), point);
 }
 
 //----------------------------------------
-void ofNode::lookAt(const glm::vec3& lookAtPosition){
-    auto relPosition = (getGlobalPosition() - lookAtPosition);
+void ofNode::lookAt(const glm::vec3 &lookAtPosition) {
+	auto relPosition = (getGlobalPosition() - lookAtPosition);
 	auto radius = glm::length(relPosition);
-    if(radius>0){
+	if(radius > 0) {
 		float latitude = acos(relPosition.y / radius) - glm::half_pi<float>();
-		float longitude = atan2(relPosition.x , relPosition.z);
-		glm::quat q = glm::angleAxis(latitude, glm::vec3(1,0,0)) * glm::angleAxis(longitude, glm::vec3(0,1,0)) * glm::angleAxis(0.f, glm::vec3(0,0,1));
-        setGlobalOrientation(q);
-    }
-
+		float longitude = atan2(relPosition.x, relPosition.z);
+		glm::quat q = glm::angleAxis(latitude, glm::vec3(1, 0, 0)) * glm::angleAxis(longitude, glm::vec3(0, 1, 0)) *
+		              glm::angleAxis(0.f, glm::vec3(0, 0, 1));
+		setGlobalOrientation(q);
+	}
 }
 
 //----------------------------------------
-void ofNode::lookAt(const glm::vec3& lookAtPosition, glm::vec3 upVector) {
-	if(parent){
+void ofNode::lookAt(const glm::vec3 &lookAtPosition, glm::vec3 upVector) {
+	if(parent) {
 		auto upVector4 = glm::inverse(parent->getGlobalTransformMatrix()) * glm::vec4(upVector, 1.0);
 		upVector = upVector4.xyz() / upVector4.w;
 	}
 	auto zaxis = glm::normalize(getGlobalPosition() - lookAtPosition);
-	if (glm::length(zaxis) > 0) {
+	if(glm::length(zaxis) > 0) {
 		auto xaxis = glm::normalize(glm::cross(upVector, zaxis));
 		auto yaxis = glm::cross(zaxis, xaxis);
 		glm::mat4 m;
@@ -453,20 +455,23 @@ void ofNode::lookAt(const glm::vec3& lookAtPosition, glm::vec3 upVector) {
 }
 
 //----------------------------------------
-void ofNode::lookAt(const ofNode& lookAtNode){
-    lookAt(lookAtNode.getGlobalPosition());
+void ofNode::lookAt(const ofNode &lookAtNode) {
+	lookAt(lookAtNode.getGlobalPosition());
 }
 
 //----------------------------------------
-void ofNode::lookAt(const ofNode& lookAtNode, const glm::vec3& upVector) {
+void ofNode::lookAt(const ofNode &lookAtNode, const glm::vec3 &upVector) {
 	lookAt(lookAtNode.getGlobalPosition(), upVector);
 }
 
 //----------------------------------------
 void ofNode::updateAxis() {
-	if(scale->x>0) axis[0] = (getLocalTransformMatrix()[0]/scale->x).xyz();
-	if(scale->y>0) axis[1] = (getLocalTransformMatrix()[1]/scale->y).xyz();
-	if(scale->z>0) axis[2] = (getLocalTransformMatrix()[2]/scale->z).xyz();
+	if(scale->x > 0)
+		axis[0] = (getLocalTransformMatrix()[0] / scale->x).xyz();
+	if(scale->y > 0)
+		axis[1] = (getLocalTransformMatrix()[1] / scale->y).xyz();
+	if(scale->z > 0)
+		axis[2] = (getLocalTransformMatrix()[2] / scale->z).xyz();
 }
 
 //----------------------------------------
@@ -545,14 +550,16 @@ float ofNode::getRollRad() const {
 }
 
 //----------------------------------------
-const glm::mat4& ofNode::getLocalTransformMatrix() const {
+const glm::mat4 &ofNode::getLocalTransformMatrix() const {
 	return localTransformMatrix;
 }
 
 //----------------------------------------
 glm::mat4 ofNode::getGlobalTransformMatrix() const {
-	if(parent) return parent->getGlobalTransformMatrix() * getLocalTransformMatrix();
-	else return getLocalTransformMatrix();
+	if(parent)
+		return parent->getGlobalTransformMatrix() * getLocalTransformMatrix();
+	else
+		return getLocalTransformMatrix();
 }
 
 //----------------------------------------
@@ -562,41 +569,42 @@ glm::vec3 ofNode::getGlobalPosition() const {
 
 //----------------------------------------
 glm::quat ofNode::getGlobalOrientation() const {
-	auto rot = glm::scale(getGlobalTransformMatrix(), 1.f/getGlobalScale());
+	auto rot = glm::scale(getGlobalTransformMatrix(), 1.f / getGlobalScale());
 	return glm::toQuat(rot);
 }
 
 //----------------------------------------
 glm::vec3 ofNode::getGlobalScale() const {
-	if(parent) return getScale()*parent->getGlobalScale();
-	else return getScale();
+	if(parent)
+		return getScale() * parent->getGlobalScale();
+	else
+		return getScale();
 }
 
 //----------------------------------------
-void ofNode::orbit(float longitude, float latitude, float radius, const glm::vec3& centerPoint) {
+void ofNode::orbit(float longitude, float latitude, float radius, const glm::vec3 &centerPoint) {
 	orbitDeg(longitude, latitude, radius, centerPoint);
 }
 
 //----------------------------------------
-void ofNode::orbit(float longitude, float latitude, float radius, ofNode& centerNode) {
+void ofNode::orbit(float longitude, float latitude, float radius, ofNode &centerNode) {
 	orbitDeg(longitude, latitude, radius, centerNode);
 }
 
 //----------------------------------------
-void ofNode::orbitDeg(float longitude, float latitude, float radius, ofNode& centerNode) {
+void ofNode::orbitDeg(float longitude, float latitude, float radius, ofNode &centerNode) {
 	orbitDeg(longitude, latitude, radius, centerNode.getGlobalPosition());
 }
 
 //----------------------------------------
-void ofNode::orbitDeg(float longitude, float latitude, float radius, const glm::vec3& centerPoint) {
-	glm::quat q = 
-	          glm::angleAxis(ofDegToRad(longitude), glm::vec3(0, 1, 0)) 
-	        * glm::angleAxis(ofDegToRad(latitude),  glm::vec3(1, 0, 0));
+void ofNode::orbitDeg(float longitude, float latitude, float radius, const glm::vec3 &centerPoint) {
+	glm::quat q = glm::angleAxis(ofDegToRad(longitude), glm::vec3(0, 1, 0)) *
+	              glm::angleAxis(ofDegToRad(latitude), glm::vec3(1, 0, 0));
 
-	glm::vec4 p { 0.f, 0.f, 1.f, 0.f };	   // p is a direction, not a position, so .w == 0
-	
-	p = q * p;							   // rotate p on unit sphere based on quaternion
-	p = p * radius;						   // scale p by radius from its position on unit sphere
+	glm::vec4 p{0.f, 0.f, 1.f, 0.f}; // p is a direction, not a position, so .w == 0
+
+	p = q * p;      // rotate p on unit sphere based on quaternion
+	p = p * radius; // scale p by radius from its position on unit sphere
 
 	setGlobalPosition(centerPoint + p);
 	setOrientation(q);
@@ -606,20 +614,18 @@ void ofNode::orbitDeg(float longitude, float latitude, float radius, const glm::
 }
 
 //----------------------------------------
-void ofNode::orbitRad(float longitude, float latitude, float radius, ofNode& centerNode) {
+void ofNode::orbitRad(float longitude, float latitude, float radius, ofNode &centerNode) {
 	orbitRad(longitude, latitude, radius, centerNode.getGlobalPosition());
 }
 
 //----------------------------------------
-void ofNode::orbitRad(float longitude, float latitude, float radius, const glm::vec3& centerPoint) {
-	glm::quat q = 
-	          glm::angleAxis(longitude, glm::vec3(0, 1, 0)) 
-	        * glm::angleAxis(latitude,  glm::vec3(1, 0, 0));
+void ofNode::orbitRad(float longitude, float latitude, float radius, const glm::vec3 &centerPoint) {
+	glm::quat q = glm::angleAxis(longitude, glm::vec3(0, 1, 0)) * glm::angleAxis(latitude, glm::vec3(1, 0, 0));
 
-	glm::vec4 p { 0.f, 0.f, 1.f, 0.f };	   // p is a direction, not a position, so .w == 0
-	
-	p = q * p;							   // rotate p on unit sphere based on quaternion
-	p = p * radius;						   // scale p by radius from its position on unit sphere
+	glm::vec4 p{0.f, 0.f, 1.f, 0.f}; // p is a direction, not a position, so .w == 0
+
+	p = q * p;      // rotate p on unit sphere based on quaternion
+	p = p * radius; // scale p by radius from its position on unit sphere
 
 	setGlobalPosition(centerPoint + p);
 	setOrientation(q);
@@ -630,42 +636,42 @@ void ofNode::orbitRad(float longitude, float latitude, float radius, const glm::
 
 //----------------------------------------
 void ofNode::resetTransform() {
-	setPosition({0.f,0.f,0.f});
-	setOrientation({0.f,0.f,0.f});
-    setScale({1.f,1.f,1.f});
+	setPosition({0.f, 0.f, 0.f});
+	setOrientation({0.f, 0.f, 0.f});
+	setScale({1.f, 1.f, 1.f});
 }
 
 //----------------------------------------
-void ofNode::draw()  const{
+void ofNode::draw() const {
 	ofGetCurrentRenderer()->draw(*this);
 }
 
 //----------------------------------------
-void ofNode::customDraw(const ofBaseRenderer * renderer) const{
-	const_cast<ofNode*>(this)->customDraw();
-	if(!legacyCustomDrawOverrided){
+void ofNode::customDraw(const ofBaseRenderer *renderer) const {
+	const_cast<ofNode *>(this)->customDraw();
+	if(!legacyCustomDrawOverrided) {
 		renderer->drawBox(10);
-		renderer->draw(ofMesh::axis(20),OF_MESH_FILL);
+		renderer->draw(ofMesh::axis(20), OF_MESH_FILL);
 	}
 }
 
 //----------------------------------------
-void ofNode::customDraw(){
+void ofNode::customDraw() {
 	legacyCustomDrawOverrided = false;
 }
 
 //----------------------------------------
-void ofNode::transformGL(ofBaseRenderer * renderer) const {
-	if( renderer == nullptr ) {
+void ofNode::transformGL(ofBaseRenderer *renderer) const {
+	if(renderer == nullptr) {
 		renderer = ofGetCurrentRenderer().get();
 	}
 	renderer->pushMatrix();
-	renderer->multMatrix( getGlobalTransformMatrix() );
+	renderer->multMatrix(getGlobalTransformMatrix());
 }
 
 //----------------------------------------
-void ofNode::restoreTransformGL(ofBaseRenderer * renderer) const {
-	if( renderer == nullptr ) {
+void ofNode::restoreTransformGL(ofBaseRenderer *renderer) const {
+	if(renderer == nullptr) {
 		renderer = ofGetCurrentRenderer().get();
 	}
 	renderer->popMatrix();
@@ -674,10 +680,8 @@ void ofNode::restoreTransformGL(ofBaseRenderer * renderer) const {
 //----------------------------------------
 void ofNode::createMatrix() {
 	localTransformMatrix = glm::translate(glm::mat4(1.0), toGlm(position));
-	localTransformMatrix = localTransformMatrix * glm::toMat4((const glm::quat&)orientation);
+	localTransformMatrix = localTransformMatrix * glm::toMat4((const glm::quat &)orientation);
 	localTransformMatrix = glm::scale(localTransformMatrix, toGlm(scale));
-	
+
 	updateAxis();
 }
-
-

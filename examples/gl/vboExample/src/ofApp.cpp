@@ -12,27 +12,27 @@
  vertices, or texture coordinates.
  */
 //--------------------------------------------------------------
-void ofApp::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
+void ofApp::addFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
 	mesh.addVertex(a);
 	mesh.addVertex(b);
 	mesh.addVertex(c);
 }
 
 //--------------------------------------------------------------
-void ofApp::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
+void ofApp::addFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
 	addFace(mesh, a, b, c);
 	addFace(mesh, a, c, d);
 }
 
 //--------------------------------------------------------------
-void ofApp::addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c) {
+void ofApp::addTexCoords(ofMesh &mesh, ofVec2f a, ofVec2f b, ofVec2f c) {
 	mesh.addTexCoord(a);
 	mesh.addTexCoord(b);
 	mesh.addTexCoord(c);
 }
 
 //--------------------------------------------------------------
-void ofApp::addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c, ofVec2f d) {
+void ofApp::addTexCoords(ofMesh &mesh, ofVec2f a, ofVec2f b, ofVec2f c, ofVec2f d) {
 	addTexCoords(mesh, a, b, c);
 	addTexCoords(mesh, a, c, d);
 }
@@ -42,7 +42,7 @@ void ofApp::addTexCoords(ofMesh& mesh, ofVec2f a, ofVec2f b, ofVec2f c, ofVec2f 
  a 3d point from the current x,y image position.
  */
 //--------------------------------------------------------------
-ofVec3f ofApp::getVertexFromImg(ofImage& img, int x, int y) {
+ofVec3f ofApp::getVertexFromImg(ofImage &img, int x, int y) {
 	ofColor color = img.getColor(x, y);
 	if(color.a > 0) {
 		float z = ofMap(color.a, 0, 255, -480, 480);
@@ -55,24 +55,24 @@ ofVec3f ofApp::getVertexFromImg(ofImage& img, int x, int y) {
 //--------------------------------------------------------------
 void ofApp::setup() {
 
-    #ifdef TARGET_OPENGLES
-    // While this will will work on normal OpenGL as well, it is
-    // required for OpenGL ES because ARB textures are not supported.
-    // If this IS set, then we conditionally normalize our
-    // texture coordinates below.
-    ofEnableNormalizedTexCoords();
-    #endif
+#ifdef TARGET_OPENGLES
+	// While this will will work on normal OpenGL as well, it is
+	// required for OpenGL ES because ARB textures are not supported.
+	// If this IS set, then we conditionally normalize our
+	// texture coordinates below.
+	ofEnableNormalizedTexCoords();
+#endif
 
 	img.load("linzer.png");
 
 	// OF_PRIMITIVE_TRIANGLES means every three vertices create a triangle
 	mesh.setMode(OF_PRIMITIVE_TRIANGLES);
-	int skip = 10;	// this controls the resolution of the mesh
+	int skip = 10; // this controls the resolution of the mesh
 
 	int width = img.getWidth();
 	int height = img.getHeight();
 
-	ofVec2f imageSize(width,height);
+	ofVec2f imageSize(width, height);
 
 	ofVec3f zero(0, 0, 0);
 	for(int y = 0; y < height - skip; y += skip) {
@@ -114,9 +114,7 @@ void ofApp::setup() {
 }
 
 //--------------------------------------------------------------
-void ofApp::update() {
-
-}
+void ofApp::update() {}
 
 //--------------------------------------------------------------
 void ofApp::draw() {
@@ -126,15 +124,15 @@ void ofApp::draw() {
 
 	ofRotateYDeg(ofGetElapsedTimef() * 30); // slowly rotate the model
 
-	ofScale(1, -1, 1); // make y point down
+	ofScale(1, -1, 1);   // make y point down
 	ofScale(.5, .5, .5); // make everything a bit smaller
 
-	img.bind(); // bind the image to begin texture mapping
-	int n = 5; // make a 5x5 grid
-	ofVec2f spacing(img.getWidth(), img.getHeight()); // spacing between meshes
+	img.bind();                                             // bind the image to begin texture mapping
+	int n = 5;                                              // make a 5x5 grid
+	ofVec2f spacing(img.getWidth(), img.getHeight());       // spacing between meshes
 	ofTranslate(-spacing.x * n / 2, -spacing.y * n / 2, 0); // center the grid
-	for(int i = 0; i < n; i++) { // loop through the rows
-		for(int j = 0; j < n; j++) { // loop through the columns
+	for(int i = 0; i < n; i++) {                            // loop through the rows
+		for(int j = 0; j < n; j++) {                        // loop through the columns
 			ofPushMatrix();
 			ofTranslate(i * spacing.x, j * spacing.y); // position the current mesh
 			ofTranslate(spacing.x / 2, spacing.y / 2); // center the mesh
@@ -152,65 +150,45 @@ void ofApp::draw() {
 	cam.end();
 
 	// draw the framerate in the top left corner
-	ofDrawBitmapString(ofToString((int) ofGetFrameRate()) + " fps", 10, 20);
+	ofDrawBitmapString(ofToString((int)ofGetFrameRate()) + " fps", 10, 20);
 	ofDrawBitmapString("Hold any key for ofVboMesh mode.", 10, 40);
 	string mode = (ofGetKeyPressed() ? "ofVboMesh" : "ofMesh");
 	ofDrawBitmapString("Current mode: " + mode, 10, 60);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
 	if(key == ' ') {
 		ofToggleFullscreen();
 	}
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

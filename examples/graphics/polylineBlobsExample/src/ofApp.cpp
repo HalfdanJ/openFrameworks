@@ -57,12 +57,12 @@ void ofApp::update() {
 }
 
 //--------------------------------------------------------------
-void drawWithNormals(const ofPolyline_<ofPoint>& polyline) {
-	for(int i=0; i< (int) polyline.size(); i++ ) {
+void drawWithNormals(const ofPolyline_<ofPoint> &polyline) {
+	for(int i = 0; i < (int)polyline.size(); i++) {
 		bool repeatNext = i == (int)polyline.size() - 1;
 
-		const ofPoint& cur = polyline[i];
-		const ofPoint& next = repeatNext ? polyline[0] : polyline[i + 1];
+		const ofPoint &cur = polyline[i];
+		const ofPoint &next = repeatNext ? polyline[0] : polyline[i + 1];
 
 		float angle = atan2f(next.y - cur.y, next.x - cur.x) * RAD_TO_DEG;
 		float distance = cur.distance(next);
@@ -108,62 +108,42 @@ void ofApp::draw() {
 	}
 
 	ofSetColor(255, 0, 0);
-	ofDrawBitmapString(ofToString((int) ofGetFrameRate()) + " fps", 10, 20);
+	ofDrawBitmapString(ofToString((int)ofGetFrameRate()) + " fps", 10, 20);
 	ofDrawBitmapString("Click and drag to set a new threshold.", 10, 40);
 	ofDrawBitmapString("Hold down any key to invert the thresholding.", 10, 60);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
+void ofApp::mouseDragged(int x, int y, int button) {
 	threshold = x;
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

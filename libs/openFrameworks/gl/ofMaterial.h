@@ -19,63 +19,61 @@ class ofGLProgrammableRenderer;
 /// \brief material parameter properties that can be applied to vertices in the OpenGL lighting model
 /// used in determining both the intensity and color of reflected light based on the lighting model in use
 /// and if the vertices are on a front or back sided face
-class ofBaseMaterial{
+class ofBaseMaterial {
 public:
-
 	virtual ~ofBaseMaterial(){};
 
 	/// \return the diffuse reflectance
-	virtual ofFloatColor getDiffuseColor() const=0;
+	virtual ofFloatColor getDiffuseColor() const = 0;
 
 	/// \return the ambient reflectance
-	virtual ofFloatColor getAmbientColor() const=0;
+	virtual ofFloatColor getAmbientColor() const = 0;
 
 	/// \return the specular reflectance
-	virtual ofFloatColor getSpecularColor() const=0;
+	virtual ofFloatColor getSpecularColor() const = 0;
 
 	/// \return the emitted light intensity
-	virtual ofFloatColor getEmissiveColor() const=0;
+	virtual ofFloatColor getEmissiveColor() const = 0;
 
 	/// \return the specular exponent
-	virtual float getShininess() const=0;
+	virtual float getShininess() const = 0;
 
 	/// \brief begin using this material's properties
-	virtual void begin() const=0;
+	virtual void begin() const = 0;
 
 	/// \brief end using this material's properties
-	virtual void end() const=0;
+	virtual void end() const = 0;
 
 	/// \brief create and return a shader used to implement the materials effect for a given renderer
 	/// \param textureTarget an implementation-specific value to specify the type of shader to use
 	/// \param renderer programmable renderer instance to create the material shader for
-	virtual const ofShader & getShader(int textureTarget, bool geometryHasColor, ofGLProgrammableRenderer & renderer) const=0;
+	virtual const ofShader &getShader(int textureTarget, bool geometryHasColor,
+	                                  ofGLProgrammableRenderer &renderer) const = 0;
 
 	/// \brief upload the given renderer's normal matrix to the material shader
 	/// \param shader the material shader, created by getShader()
 	/// \param renderer programmable renderer instance that uses the material shader
-	virtual void uploadMatrices(const ofShader & shader,ofGLProgrammableRenderer & renderer) const;
+	virtual void uploadMatrices(const ofShader &shader, ofGLProgrammableRenderer &renderer) const;
 
 	/// \brief update the material properties to the material shader
 	/// \param shader the material shader, created by getShader()
 	/// \param renderer programmable renderer instance that uses the material shader
-	virtual void updateMaterial(const ofShader & shader,ofGLProgrammableRenderer & renderer) const=0;
+	virtual void updateMaterial(const ofShader &shader, ofGLProgrammableRenderer &renderer) const = 0;
 
 	/// \brief update the given renderer's lights to the material shader
 	/// \param shader the material shader, created by getShader()
 	/// \param renderer programmable renderer instance that uses the material shader
-	virtual void updateLights(const ofShader & shader,ofGLProgrammableRenderer & renderer) const=0;
+	virtual void updateLights(const ofShader &shader, ofGLProgrammableRenderer &renderer) const = 0;
 };
-
 
 /// \class ofMaterial
 /// \brief material parameter properties that can be applied to vertices in the OpenGL lighting model
 /// used in determining both the intensity and color of reflected light based on the lighting model in use
 /// and if the vertices are on a front or back sided face
-class ofMaterial: public ofBaseMaterial {
+class ofMaterial : public ofBaseMaterial {
 public:
 	ofMaterial();
 	virtual ~ofMaterial(){};
-
 
 	/// \class Data
 	/// wrapper for material color properties and other settings
@@ -156,40 +154,40 @@ public:
 	///     vec3 lights[i].up;
 	///
 	struct Settings {
-		ofFloatColor diffuse{ 0.8f, 0.8f, 0.8f, 1.0f }; ///< diffuse reflectance
-		ofFloatColor ambient{ 0.2f, 0.2f, 0.2f, 1.0f }; //< ambient reflectance
-		ofFloatColor specular{ 0.0f, 0.0f, 0.0f, 1.0f }; //< specular reflectance
-		ofFloatColor emissive{ 0.0f, 0.0f, 0.0f, 1.0f }; //< emitted light intensity
-		float shininess{ 0.2f }; //< specular exponent
+		ofFloatColor diffuse{0.8f, 0.8f, 0.8f, 1.0f};  ///< diffuse reflectance
+		ofFloatColor ambient{0.2f, 0.2f, 0.2f, 1.0f};  //< ambient reflectance
+		ofFloatColor specular{0.0f, 0.0f, 0.0f, 1.0f}; //< specular reflectance
+		ofFloatColor emissive{0.0f, 0.0f, 0.0f, 1.0f}; //< emitted light intensity
+		float shininess{0.2f};                         //< specular exponent
 		std::string postFragment;
 		std::string customUniforms;
 	};
 
-	void setup(const ofMaterial::Settings & settings);
-	
+	void setup(const ofMaterial::Settings &settings);
+
 	/// \brief set all material colors: reflectance type & light intensity
 	/// \param oDiffuse the diffuse reflectance
 	/// \param oAmbient the ambient reflectance
 	/// \param oSpecular the specular reflectance
 	/// \param oEmmissive the emitted light intensity
 	void setColors(ofFloatColor oDiffuse, ofFloatColor oAmbient, ofFloatColor oSpecular, ofFloatColor emissive);
-	
+
 	/// \brief set the diffuse reflectance
 	/// \param oDiffuse the diffuse reflectance
 	void setDiffuseColor(ofFloatColor oDiffuse);
-	
+
 	/// \brief set the ambient reflectance
 	/// \param oAmbient the ambient reflectance
 	void setAmbientColor(ofFloatColor oAmbient);
-	
+
 	/// \brief set the specular reflectance
 	/// \param oSpecular the specular reflectance
 	void setSpecularColor(ofFloatColor oSpecular);
-	
+
 	/// \brief set the emitted light intensity
 	/// \param oEmmissive the emitted light intensity
 	void setEmissiveColor(ofFloatColor oEmmisive);
-	
+
 	/// \brief set the specular exponent
 	void setShininess(float nShininess);
 
@@ -199,45 +197,42 @@ public:
 	ofFloatColor getSpecularColor() const;
 	ofFloatColor getEmissiveColor() const;
 	float getShininess() const;
-	
+
 	/// \return material color properties data struct
 	typedef Settings Data;
 	OF_DEPRECATED_MSG("Use getSettings instead", Data getData() const);
 	Settings getSettings() const;
-	
+
 	/// \brief set the material color properties data struct
-	OF_DEPRECATED_MSG("Use setup(settings) instead", void setData(const ofMaterial::Data& data));
-	
+	OF_DEPRECATED_MSG("Use setup(settings) instead", void setData(const ofMaterial::Data &data));
+
 	// documented in ofBaseMaterial
 	void begin() const;
 	void end() const;
 
+	void setCustomUniform1f(const std::string &name, float value);
+	void setCustomUniform2f(const std::string &name, glm::vec2 value);
+	void setCustomUniform3f(const std::string &name, glm::vec3 value);
+	void setCustomUniform4f(const std::string &name, glm::vec4 value);
+	void setCustomUniformMatrix4f(const std::string &name, glm::mat4 value);
+	void setCustomUniformMatrix3f(const std::string &name, glm::mat3 value);
 
-	void setCustomUniform1f(const std::string & name, float value);
-	void setCustomUniform2f(const std::string & name, glm::vec2 value);
-	void setCustomUniform3f(const std::string & name, glm::vec3 value);
-	void setCustomUniform4f(const std::string & name, glm::vec4 value);
-	void setCustomUniformMatrix4f(const std::string & name, glm::mat4 value);
-	void setCustomUniformMatrix3f(const std::string & name, glm::mat3 value);
-
-	void setCustomUniform1i(const std::string & name, int value);
-	void setCustomUniform2i(const std::string & name, glm::tvec2<int, glm::precision::defaultp> value);
-	void setCustomUniform3i(const std::string & name, glm::tvec3<int, glm::precision::defaultp> value);
-	void setCustomUniform4i(const std::string & name, glm::tvec4<int, glm::precision::defaultp> value);
-	void setCustomUniformTexture(const std::string & name, const ofTexture & value, int textureLocation);
-	void setCustomUniformTexture(const std::string & name, int textureTarget, GLint textureID, int textureLocation);
-
-
+	void setCustomUniform1i(const std::string &name, int value);
+	void setCustomUniform2i(const std::string &name, glm::tvec2<int, glm::precision::defaultp> value);
+	void setCustomUniform3i(const std::string &name, glm::tvec3<int, glm::precision::defaultp> value);
+	void setCustomUniform4i(const std::string &name, glm::tvec4<int, glm::precision::defaultp> value);
+	void setCustomUniformTexture(const std::string &name, const ofTexture &value, int textureLocation);
+	void setCustomUniformTexture(const std::string &name, int textureTarget, GLint textureID, int textureLocation);
 
 private:
-	void initShaders(ofGLProgrammableRenderer & renderer) const;
-	const ofShader & getShader(int textureTarget, bool geometryHasColor, ofGLProgrammableRenderer & renderer) const;
-	void updateMaterial(const ofShader & shader,ofGLProgrammableRenderer & renderer) const;
-	void updateLights(const ofShader & shader,ofGLProgrammableRenderer & renderer) const;
+	void initShaders(ofGLProgrammableRenderer &renderer) const;
+	const ofShader &getShader(int textureTarget, bool geometryHasColor, ofGLProgrammableRenderer &renderer) const;
+	void updateMaterial(const ofShader &shader, ofGLProgrammableRenderer &renderer) const;
+	void updateLights(const ofShader &shader, ofGLProgrammableRenderer &renderer) const;
 
 	Settings data;
 
-	struct Shaders{
+	struct Shaders {
 		ofShader noTexture;
 		ofShader color;
 		ofShader texture2DColor;
@@ -246,14 +241,14 @@ private:
 		ofShader textureRect;
 		size_t numLights;
 	};
-	struct TextureUnifom{
+	struct TextureUnifom {
 		int textureTarget;
 		GLint textureID;
 		int textureLocation;
 	};
 
-	mutable std::map<ofGLProgrammableRenderer*,std::shared_ptr<Shaders>> shaders;
-	static std::map<ofGLProgrammableRenderer*, std::map<std::string,std::weak_ptr<Shaders>>> shadersMap;
+	mutable std::map<ofGLProgrammableRenderer *, std::shared_ptr<Shaders>> shaders;
+	static std::map<ofGLProgrammableRenderer *, std::map<std::string, std::weak_ptr<Shaders>>> shadersMap;
 	static std::string vertexShader;
 	static std::string fragmentShader;
 	std::map<std::string, float> uniforms1f;

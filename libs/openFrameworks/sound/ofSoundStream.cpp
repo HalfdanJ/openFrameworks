@@ -20,16 +20,17 @@
 #define OF_SOUND_STREAM_TYPE ofxEmscriptenSoundStream
 #endif
 
-namespace{
-    ofSoundStream systemSoundStream;
+namespace {
+ofSoundStream systemSoundStream;
 }
 
 using namespace std;
 
 //------------------------------------------------------------
-bool ofSoundStreamSettings::setInDevice(const ofSoundDevice & device){
-	if(api!=ofSoundDevice::UNSPECIFIED && device.api!=api){
-		ofLogWarning("ofSoundStreamSettings") << "Setting IN device with api: " << toString(device.api) << " will override the previously set: " << toString(api);
+bool ofSoundStreamSettings::setInDevice(const ofSoundDevice &device) {
+	if(api != ofSoundDevice::UNSPECIFIED && device.api != api) {
+		ofLogWarning("ofSoundStreamSettings") << "Setting IN device with api: " << toString(device.api)
+		                                      << " will override the previously set: " << toString(api);
 	}
 	api = device.api;
 	inDevice = device;
@@ -37,9 +38,10 @@ bool ofSoundStreamSettings::setInDevice(const ofSoundDevice & device){
 }
 
 //------------------------------------------------------------
-bool ofSoundStreamSettings::setOutDevice(const ofSoundDevice & device){
-	if(api!=ofSoundDevice::UNSPECIFIED && device.api!=api){
-		ofLogWarning("ofSoundStreamSettings") << "Setting OUT device with api: " << toString(device.api) << " will override the previously set: " << toString(api);
+bool ofSoundStreamSettings::setOutDevice(const ofSoundDevice &device) {
+	if(api != ofSoundDevice::UNSPECIFIED && device.api != api) {
+		ofLogWarning("ofSoundStreamSettings") << "Setting OUT device with api: " << toString(device.api)
+		                                      << " will override the previously set: " << toString(api);
 	}
 	api = device.api;
 	outDevice = device;
@@ -47,13 +49,15 @@ bool ofSoundStreamSettings::setOutDevice(const ofSoundDevice & device){
 }
 
 //------------------------------------------------------------
-bool ofSoundStreamSettings::setApi(ofSoundDevice::Api api){
-	if(api!=ofSoundDevice::UNSPECIFIED && inDevice.deviceID!=-1 && inDevice.api != api){
-		ofLogError("ofSoundStreamSettings") << "Setting API after setting IN device with api: " << toString(inDevice.api) << " won't do anything";
+bool ofSoundStreamSettings::setApi(ofSoundDevice::Api api) {
+	if(api != ofSoundDevice::UNSPECIFIED && inDevice.deviceID != -1 && inDevice.api != api) {
+		ofLogError("ofSoundStreamSettings")
+		    << "Setting API after setting IN device with api: " << toString(inDevice.api) << " won't do anything";
 		return false;
 	}
-	if(api!=ofSoundDevice::UNSPECIFIED && outDevice.deviceID!=-1 && outDevice.api != api){
-		ofLogError("ofSoundStreamSettings") << "Setting API after setting IN device with api: " << toString(outDevice.api) << " won't do anything";
+	if(api != ofSoundDevice::UNSPECIFIED && outDevice.deviceID != -1 && outDevice.api != api) {
+		ofLogError("ofSoundStreamSettings")
+		    << "Setting API after setting IN device with api: " << toString(outDevice.api) << " won't do anything";
 		return false;
 	}
 	this->api = api;
@@ -61,24 +65,23 @@ bool ofSoundStreamSettings::setApi(ofSoundDevice::Api api){
 }
 
 //------------------------------------------------------------
-const ofSoundDevice * ofSoundStreamSettings::getInDevice() const{
-	return inDevice.deviceID==-1 ? nullptr : &inDevice;
+const ofSoundDevice *ofSoundStreamSettings::getInDevice() const {
+	return inDevice.deviceID == -1 ? nullptr : &inDevice;
 }
 
 //------------------------------------------------------------
-const ofSoundDevice * ofSoundStreamSettings::getOutDevice() const{
-	return outDevice.deviceID==-1 ? nullptr : &outDevice;
+const ofSoundDevice *ofSoundStreamSettings::getOutDevice() const {
+	return outDevice.deviceID == -1 ? nullptr : &outDevice;
 }
 
 //------------------------------------------------------------
-ofSoundDevice::Api ofSoundStreamSettings::getApi() const{
+ofSoundDevice::Api ofSoundStreamSettings::getApi() const {
 	return api;
 }
 
-
 //------------------------------------------------------------
-void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, ofBaseApp * appPtr){
-	if( appPtr == nullptr ){
+void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, ofBaseApp *appPtr) {
+	if(appPtr == nullptr) {
 		appPtr = ofGetAppPtr();
 	}
 	ofSoundStreamSettings settings;
@@ -90,7 +93,7 @@ void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, ofBaseApp * app
 }
 
 //------------------------------------------------------------
-void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, int sampleRate, int bufferSize, int nBuffers){
+void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, int sampleRate, int bufferSize, int nBuffers) {
 	ofSoundStreamSettings settings;
 	settings.numOutputChannels = nOutputChannels;
 	settings.numInputChannels = nInputChannels;
@@ -103,7 +106,8 @@ void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, int sampleRate,
 }
 
 //------------------------------------------------------------
-void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, ofBaseApp * appPtr, int sampleRate, int bufferSize, int nBuffers){
+void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, ofBaseApp *appPtr, int sampleRate, int bufferSize,
+                        int nBuffers) {
 	ofSoundStreamSettings settings;
 	settings.numOutputChannels = nOutputChannels;
 	settings.numInputChannels = nInputChannels;
@@ -116,52 +120,52 @@ void ofSoundStreamSetup(int nOutputChannels, int nInputChannels, ofBaseApp * app
 }
 
 //------------------------------------------------------------
-void ofSoundStreamSetup(ofSoundStreamSettings & settings) {
+void ofSoundStreamSetup(ofSoundStreamSettings &settings) {
 	systemSoundStream.setup(settings);
 }
 
 //------------------------------------------------------------
-void ofSoundStreamStop(){
-    systemSoundStream.stop();
+void ofSoundStreamStop() {
+	systemSoundStream.stop();
 }
 
 //------------------------------------------------------------
-void ofSoundStreamStart(){
-    systemSoundStream.start();
+void ofSoundStreamStart() {
+	systemSoundStream.start();
 }
 
 //------------------------------------------------------------
-void ofSoundStreamClose(){
-    systemSoundStream.close();
+void ofSoundStreamClose() {
+	systemSoundStream.close();
 }
 
 //------------------------------------------------------------
-vector<ofSoundDevice> ofSoundStreamListDevices(){
+vector<ofSoundDevice> ofSoundStreamListDevices() {
 	vector<ofSoundDevice> deviceList = systemSoundStream.getDeviceList();
 	ofLogNotice("ofSoundStreamListDevices") << std::endl << deviceList;
 	return deviceList;
 }
 
 //------------------------------------------------------------
-ofSoundStream::ofSoundStream(){
-	#ifdef OF_SOUND_STREAM_TYPE
-		setSoundStream(std::make_shared<OF_SOUND_STREAM_TYPE>());
-	#endif
+ofSoundStream::ofSoundStream() {
+#ifdef OF_SOUND_STREAM_TYPE
+	setSoundStream(std::make_shared<OF_SOUND_STREAM_TYPE>());
+#endif
 }
 
 //------------------------------------------------------------
-void ofSoundStream::setSoundStream(shared_ptr<ofBaseSoundStream> soundStreamPtr){
+void ofSoundStream::setSoundStream(shared_ptr<ofBaseSoundStream> soundStreamPtr) {
 	soundStream = soundStreamPtr;
 }
 
 //------------------------------------------------------------
-shared_ptr<ofBaseSoundStream> ofSoundStream::getSoundStream(){
+shared_ptr<ofBaseSoundStream> ofSoundStream::getSoundStream() {
 	return soundStream;
 }
 
 //------------------------------------------------------------
-vector<ofSoundDevice> ofSoundStream::getDeviceList(ofSoundDevice::Api api) const{
-	if( soundStream ){
+vector<ofSoundDevice> ofSoundStream::getDeviceList(ofSoundDevice::Api api) const {
+	if(soundStream) {
 		return soundStream->getDeviceList(api);
 	} else {
 		return vector<ofSoundDevice>();
@@ -169,37 +173,36 @@ vector<ofSoundDevice> ofSoundStream::getDeviceList(ofSoundDevice::Api api) const
 }
 
 //------------------------------------------------------------
-vector<ofSoundDevice> ofSoundStream::listDevices() const{
+vector<ofSoundDevice> ofSoundStream::listDevices() const {
 	vector<ofSoundDevice> deviceList = getDeviceList();
 	ofLogNotice("ofSoundStream::listDevices") << std::endl << deviceList;
 	return deviceList;
 }
 
 //------------------------------------------------------------
-void ofSoundStream::printDeviceList()  const{
-	if( soundStream ) {
+void ofSoundStream::printDeviceList() const {
+	if(soundStream) {
 		soundStream->printDeviceList();
 	}
 }
 
 //------------------------------------------------------------
-void ofSoundStream::setDeviceID(int deviceID){
-	if( soundStream ){
+void ofSoundStream::setDeviceID(int deviceID) {
+	if(soundStream) {
 		tmpDeviceId = deviceID;
-	}	
+	}
 }
 
 //------------------------------------------------------------
 void ofSoundStream::setDevice(const ofSoundDevice &device) {
-    if( soundStream ){
-        tmpDeviceId = device.deviceID;
-    }
+	if(soundStream) {
+		tmpDeviceId = device.deviceID;
+	}
 }
 
 //------------------------------------------------------------
-bool ofSoundStream::setup(const ofSoundStreamSettings & settings)
-{
-	if (soundStream) {
+bool ofSoundStream::setup(const ofSoundStreamSettings &settings) {
+	if(soundStream) {
 #if defined(OF_SOUND_PLAYER_FMOD)
 		ofFmodSetBuffersize(settings.bufferSize);
 #endif
@@ -209,8 +212,9 @@ bool ofSoundStream::setup(const ofSoundStreamSettings & settings)
 }
 
 //------------------------------------------------------------
-bool ofSoundStream::setup(ofBaseApp * app, int outChannels, int inChannels, int sampleRate, int bufferSize, int nBuffers){
-	if( soundStream ){
+bool ofSoundStream::setup(ofBaseApp *app, int outChannels, int inChannels, int sampleRate, int bufferSize,
+                          int nBuffers) {
+	if(soundStream) {
 		ofSoundStreamSettings settings;
 		settings.setInListener(app);
 		settings.setOutListener(app);
@@ -219,7 +223,7 @@ bool ofSoundStream::setup(ofBaseApp * app, int outChannels, int inChannels, int 
 		settings.sampleRate = sampleRate;
 		settings.bufferSize = bufferSize;
 		settings.numBuffers = nBuffers;
-		if(tmpDeviceId!=-1){
+		if(tmpDeviceId != -1) {
 			ofSoundDevice device;
 			device.deviceID = tmpDeviceId;
 			settings.setInDevice(device);
@@ -231,8 +235,8 @@ bool ofSoundStream::setup(ofBaseApp * app, int outChannels, int inChannels, int 
 }
 
 //------------------------------------------------------------
-bool ofSoundStream::setup(int outChannels, int inChannels, int sampleRate, int bufferSize, int nBuffers){
-	if( soundStream ){
+bool ofSoundStream::setup(int outChannels, int inChannels, int sampleRate, int bufferSize, int nBuffers) {
+	if(soundStream) {
 		ofSoundStreamSettings settings;
 		settings.setInListener(ofGetAppPtr());
 		settings.setOutListener(ofGetAppPtr());
@@ -241,7 +245,7 @@ bool ofSoundStream::setup(int outChannels, int inChannels, int sampleRate, int b
 		settings.sampleRate = sampleRate;
 		settings.bufferSize = bufferSize;
 		settings.numBuffers = nBuffers;
-		if(tmpDeviceId!=-1){
+		if(tmpDeviceId != -1) {
 			ofSoundDevice device;
 			device.deviceID = tmpDeviceId;
 			settings.setInDevice(device);
@@ -253,104 +257,105 @@ bool ofSoundStream::setup(int outChannels, int inChannels, int sampleRate, int b
 }
 
 //------------------------------------------------------------
-void ofSoundStream::setInput(ofBaseSoundInput * soundInput){
-	if( soundStream ){
+void ofSoundStream::setInput(ofBaseSoundInput *soundInput) {
+	if(soundStream) {
 		soundStream->setInput(soundInput);
 	}
 }
 
 //------------------------------------------------------------
-void ofSoundStream::setInput(ofBaseSoundInput &soundInput){
+void ofSoundStream::setInput(ofBaseSoundInput &soundInput) {
 	setInput(&soundInput);
 }
 
 //------------------------------------------------------------
-void ofSoundStream::setOutput(ofBaseSoundOutput * soundOutput){
-	if( soundStream ){
+void ofSoundStream::setOutput(ofBaseSoundOutput *soundOutput) {
+	if(soundStream) {
 		soundStream->setOutput(soundOutput);
 	}
 }
 
 //------------------------------------------------------------
-void ofSoundStream::setOutput(ofBaseSoundOutput &soundOutput){
+void ofSoundStream::setOutput(ofBaseSoundOutput &soundOutput) {
 	setOutput(&soundOutput);
 }
 
 //------------------------------------------------------------
-void ofSoundStream::start(){
-	if( soundStream ){
+void ofSoundStream::start() {
+	if(soundStream) {
 		soundStream->start();
 	}
 }
 
 //------------------------------------------------------------
-void ofSoundStream::stop(){
-	if( soundStream ){
+void ofSoundStream::stop() {
+	if(soundStream) {
 		soundStream->stop();
 	}
 }
 
 //------------------------------------------------------------
-void ofSoundStream::close(){
-	if( soundStream ){
+void ofSoundStream::close() {
+	if(soundStream) {
 		soundStream->close();
 	}
 }
 
 //------------------------------------------------------------
-uint64_t ofSoundStream::getTickCount() const{
-	if( soundStream ){
+uint64_t ofSoundStream::getTickCount() const {
+	if(soundStream) {
 		return soundStream->getTickCount();
 	}
 	return 0;
 }
 
 //------------------------------------------------------------
-int ofSoundStream::getNumInputChannels() const{
-	if( soundStream ){
+int ofSoundStream::getNumInputChannels() const {
+	if(soundStream) {
 		return soundStream->getNumInputChannels();
 	}
 	return 0;
 }
 
 //------------------------------------------------------------
-int ofSoundStream::getNumOutputChannels() const{
-	if( soundStream ){
+int ofSoundStream::getNumOutputChannels() const {
+	if(soundStream) {
 		return soundStream->getNumOutputChannels();
 	}
 	return 0;
 }
 
 //------------------------------------------------------------
-int ofSoundStream::getSampleRate() const{
-	if( soundStream ){
+int ofSoundStream::getSampleRate() const {
+	if(soundStream) {
 		return soundStream->getSampleRate();
 	}
 	return 0;
 }
 
 //------------------------------------------------------------
-int ofSoundStream::getBufferSize() const{
-	if( soundStream ){
+int ofSoundStream::getBufferSize() const {
+	if(soundStream) {
 		return soundStream->getBufferSize();
 	}
 	return 0;
 }
 
 //------------------------------------------------------------
-vector<ofSoundDevice> ofSoundStream::getMatchingDevices(const std::string& name, unsigned int inChannels, unsigned int outChannels, ofSoundDevice::Api api) const {
+vector<ofSoundDevice> ofSoundStream::getMatchingDevices(const std::string &name, unsigned int inChannels,
+                                                        unsigned int outChannels, ofSoundDevice::Api api) const {
 	vector<ofSoundDevice> devs = getDeviceList(api);
 	vector<ofSoundDevice> hits;
-	
+
 	for(size_t i = 0; i < devs.size(); i++) {
 		bool nameMatch = devs[i].name.find(name) != string::npos;
 		bool inMatch = (inChannels == UINT_MAX) || (devs[i].inputChannels == inChannels);
 		bool outMatch = (outChannels == UINT_MAX) || (devs[i].outputChannels == outChannels);
-		
+
 		if(nameMatch && inMatch && outMatch) {
 			hits.push_back(devs[i]);
 		}
 	}
-	
+
 	return hits;
 }

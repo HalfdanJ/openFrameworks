@@ -1,17 +1,16 @@
 #include "ofApp.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	// open an outgoing connection to HOST:PORT
 	sender.setup(HOST, PORT);
 	imgAsBuffer = ofBufferFromFile("of-logo.png", true);
 
 	ofSetWindowTitle("osc sender");
-
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 	ofxOscMessage m;
 	m.setAddress("/mouse/position");
 	m.addFloatArg(ofMap(ofGetMouseX(), 0, ofGetWidth(), 0.f, 1.f, true));
@@ -20,13 +19,12 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	ofBackgroundGradient(255, 100);
 
-	if(img.getWidth() > 0){
+	if(img.getWidth() > 0) {
 		ofSetColor(255);
-		img.draw(ofGetWidth()/2-img.getWidth()/2,
-			ofGetHeight()/2-img.getHeight()/2);
+		img.draw(ofGetWidth() / 2 - img.getWidth() / 2, ofGetHeight() / 2 - img.getHeight() / 2);
 	}
 
 	// display instructions
@@ -38,8 +36,8 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-	if(key == 'a' || key == 'A'){
+void ofApp::keyPressed(int key) {
+	if(key == 'a' || key == 'A') {
 		ofxOscMessage m;
 		m.setAddress("/test");
 		m.addIntArg(1);
@@ -49,9 +47,10 @@ void ofApp::keyPressed(int key){
 		sender.sendMessage(m, false);
 	}
 
-	//send an image. (Note: the size of the image depends greatly on your network buffer sizes - if an image is too big the message won't come through )
+	// send an image. (Note: the size of the image depends greatly on your network buffer sizes - if an image is too big
+	// the message won't come through )
 
-	if( key == 'i' || key == 'I'){
+	if(key == 'i' || key == 'I') {
 		img.load(imgAsBuffer);
 
 		ofxOscMessage m;
@@ -63,22 +62,16 @@ void ofApp::keyPressed(int key){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
+void ofApp::mousePressed(int x, int y, int button) {
 	ofxOscMessage m;
 	m.setAddress("/mouse/button");
 	m.addIntArg(1);
@@ -87,7 +80,7 @@ void ofApp::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
+void ofApp::mouseReleased(int x, int y, int button) {
 	ofxOscMessage m;
 	m.setAddress("/mouse/button");
 	m.addIntArg(0);
@@ -96,27 +89,16 @@ void ofApp::mouseReleased(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
-
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

@@ -11,31 +11,27 @@
 
 #define SPRING_CONSTANT 0.5
 
-class Swarm : public ofNode
-{
+class Swarm : public ofNode {
 public:
 	Swarm();
-	void	init(int _nParticles, float positionDispersion, float velocityDispersion);
-	
-	
-	void	customDraw();
-	
-	//light
-	ofLight		light;
-	
+	void init(int _nParticles, float positionDispersion, float velocityDispersion);
+
+	void customDraw();
+
+	// light
+	ofLight light;
+
 protected:
-	
-	//we call this update function ourselves
-	//at the beginning of customDraw
-	void	update();
-	
-	//useful variables
-	int			nParticles;
-	float		timeLastUpdate;
-	
-	//objects
-	ofVec3f		*positions;
-	ofVec3f		*velocities;
-	ofColor		*colors;	
-	
+	// we call this update function ourselves
+	// at the beginning of customDraw
+	void update();
+
+	// useful variables
+	int nParticles;
+	float timeLastUpdate;
+
+	// objects
+	ofVec3f *positions;
+	ofVec3f *velocities;
+	ofColor *colors;
 };

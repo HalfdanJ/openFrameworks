@@ -3,8 +3,8 @@
 #include "ofAppNoWindow.h"
 
 int main() {
-	// if you want to see the window	
-	// comment these two lines 
+	// if you want to see the window
+	// comment these two lines
 	ofAppNoWindow window;
 	ofSetupOpenGL(&window, 1024, 768, OF_WINDOW);
 

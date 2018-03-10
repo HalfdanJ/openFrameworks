@@ -6,45 +6,42 @@
 #include "ofConstants.h"
 #include "ofGLUtils.h"
 
-template<class V, class N, class C, class T>
-class ofMeshFace_;
+template<class V, class N, class C, class T> class ofMeshFace_;
 
-template<typename T>
-struct ofArrayView{
-		const T * data;
-		std::size_t size;
+template<typename T> struct ofArrayView {
+	const T *data;
+	std::size_t size;
 };
 
-class ofMeshData{
-	public:
-		virtual ~ofMeshData();
-		virtual ofArrayView<void> getVerticesData() const = 0;
-		virtual ofArrayView<void> getNormalsData() const = 0;
-		virtual ofArrayView<void> getTextureCoordsData() const = 0;
-		virtual ofArrayView<void> getColorsData() const = 0;
-		virtual ofArrayView<ofIndexType> getIndicesData() const = 0;
+class ofMeshData {
+public:
+	virtual ~ofMeshData();
+	virtual ofArrayView<void> getVerticesData() const = 0;
+	virtual ofArrayView<void> getNormalsData() const = 0;
+	virtual ofArrayView<void> getTextureCoordsData() const = 0;
+	virtual ofArrayView<void> getColorsData() const = 0;
+	virtual ofArrayView<ofIndexType> getIndicesData() const = 0;
 
-		virtual int getVerticesDim() const = 0;
-		virtual int getNormalsDim() const = 0;
-		virtual int getTextureCoordsDim() const = 0;
-		virtual int getColorsDim() const = 0;
-		virtual int getIndicesDim() const = 0;
+	virtual int getVerticesDim() const = 0;
+	virtual int getNormalsDim() const = 0;
+	virtual int getTextureCoordsDim() const = 0;
+	virtual int getColorsDim() const = 0;
+	virtual int getIndicesDim() const = 0;
 
-		virtual std::size_t getNumVertices() const = 0;
-		virtual std::size_t getNumNormals() const = 0;
-		virtual std::size_t getNumTextureCoords() const = 0;
-		virtual std::size_t getNumColors() const = 0;
-		virtual std::size_t getNumIndices() const = 0;
+	virtual std::size_t getNumVertices() const = 0;
+	virtual std::size_t getNumNormals() const = 0;
+	virtual std::size_t getNumTextureCoords() const = 0;
+	virtual std::size_t getNumColors() const = 0;
+	virtual std::size_t getNumIndices() const = 0;
 
-		virtual bool usingVertices() const = 0;
-		virtual bool usingNormals() const = 0;
-		virtual bool usingColors() const = 0;
-		virtual bool usingTextures() const = 0;
+	virtual bool usingVertices() const = 0;
+	virtual bool usingNormals() const = 0;
+	virtual bool usingColors() const = 0;
+	virtual bool usingTextures() const = 0;
 
-		virtual bool hasNormals() const = 0;
-		virtual bool hasColors() const = 0;
-		virtual bool hasTexCoords() const = 0;
-
+	virtual bool hasNormals() const = 0;
+	virtual bool hasColors() const = 0;
+	virtual bool hasTexCoords() const = 0;
 };
 
 /// \brief Represents a set of vertices in 3D spaces with normals, colors,
@@ -113,10 +110,8 @@ class ofMeshData{
 /// 	}
 /// }
 /// ~~~~
-template<class V, class N, class C, class T>
-class ofMesh_{
+template<class V, class N, class C, class T> class ofMesh_ {
 public:
-
 	/// \name Construction
 	/// \{
 
@@ -129,11 +124,11 @@ public:
 	/// OF_PRIMITIVE_TRIANGLE_FAN, OF_PRIMITIVE_LINES, OF_PRIMITIVE_LINE_STRIP,
 	/// OF_PRIMITIVE_LINE_LOOP, OF_PRIMITIVE_POINTS.
 	/// See [ofGLUtils](../gl/ofGLUtils.htm) for more information on these types.
-	ofMesh_(ofPrimitiveMode mode, const std::vector<V>& verts);
+	ofMesh_(ofPrimitiveMode mode, const std::vector<V> &verts);
 
-	virtual ~ofMesh_(){}
+	virtual ~ofMesh_() {}
 
-	void setFromTriangles( const std::vector<ofMeshFace_<V,N,C,T>>& tris, bool bUseFaceNormal=false );
+	void setFromTriangles(const std::vector<ofMeshFace_<V, N, C, T>> &tris, bool bUseFaceNormal = false);
 
 	/// \}
 	/// \name Mesh Mode
@@ -152,12 +147,11 @@ public:
 	/// \}
 	/// \name Primitive constructor helper methods
 	/// \{
-	static ofMesh_ plane(float width, float height, int columns=2, int rows=2,
-		ofPrimitiveMode mode=OF_PRIMITIVE_TRIANGLE_STRIP);
-	static ofMesh_ sphere(float radius, int res=12,
-		ofPrimitiveMode mode=OF_PRIMITIVE_TRIANGLE_STRIP);
+	static ofMesh_ plane(float width, float height, int columns = 2, int rows = 2,
+	                     ofPrimitiveMode mode = OF_PRIMITIVE_TRIANGLE_STRIP);
+	static ofMesh_ sphere(float radius, int res = 12, ofPrimitiveMode mode = OF_PRIMITIVE_TRIANGLE_STRIP);
 	static ofMesh_ icosahedron(float radius);
-	static ofMesh_ icosphere(float radius, std::size_t iterations=2);
+	static ofMesh_ icosphere(float radius, std::size_t iterations = 2);
 	///
 	///	\brief A helper method that returns a cylinder made of triangles.
 	/// The resolution settings for the radius, height, and cap are optional
@@ -172,9 +166,9 @@ public:
 	///
 	///	![image of a simple cylinder](3d/cylinder.jpg)
 	///
-	static ofMesh_ cylinder(float radius, float height, int radiusSegments=12,
-		int heightSegments=6, int numCapSegments=2, bool bCapped = true,
-		ofPrimitiveMode mode=OF_PRIMITIVE_TRIANGLE_STRIP);
+	static ofMesh_ cylinder(float radius, float height, int radiusSegments = 12, int heightSegments = 6,
+	                        int numCapSegments = 2, bool bCapped = true,
+	                        ofPrimitiveMode mode = OF_PRIMITIVE_TRIANGLE_STRIP);
 
 	/// \brief A helper method that returns a cone made of triangles.
 	/// The resolution settings for the radius, height, and cap are optional
@@ -187,9 +181,8 @@ public:
 	/// ~~~~
 	///
 	/// ![image of a simple cone](3d/cone.jpg)
-	static ofMesh_ cone(float radius, float height, int radiusSegments=12,
-		int heightSegments=6, int capSegments=2,
-		ofPrimitiveMode mode=OF_PRIMITIVE_TRIANGLE_STRIP);
+	static ofMesh_ cone(float radius, float height, int radiusSegments = 12, int heightSegments = 6,
+	                    int capSegments = 2, ofPrimitiveMode mode = OF_PRIMITIVE_TRIANGLE_STRIP);
 
 	/// \brief A helper method that returns a box made of triangles.
 	/// The resolution settings for the width and height are optional
@@ -200,11 +193,10 @@ public:
 	/// ~~~~
 	///
 	/// ![image of a simple box](3d/box.jpg)
-	static ofMesh_ box(float width, float height, float depth, int resX=2,
-		int resY=2, int resZ=2);
+	static ofMesh_ box(float width, float height, float depth, int resX = 2, int resY = 2, int resZ = 2);
 
 	/// \returns an ofMesh representing an XYZ coordinate system.
-	static ofMesh_ axis(float size=1.0);
+	static ofMesh_ axis(float size = 1.0);
 
 	/// \}
 	/// \name Vertices
@@ -215,23 +207,23 @@ public:
 	/// the list determines how they link they form the polygons and strips
 	/// (assuming you do not change their indeces). See the ofMesh class
 	/// description for details.
-	void addVertex(const V& v);
+	void addVertex(const V &v);
 
 	/// \brief Add a vector of vertices to a mesh, allowing you to push out
 	/// many at once rather than adding one at a time. The vector of vertices
 	/// is added after the end of the current vertices list.
-	void addVertices(const std::vector<V>& verts);
+	void addVertices(const std::vector<V> &verts);
 
 	/// \brief Add an array of vertices to the mesh.
 	/// Because you are using a pointer to the array you also have to define
 	/// the length of the array as an int (amt). The vertices are added at the
 	/// end of the current vertices list.
-	void addVertices(const V* verts, std::size_t amt);
+	void addVertices(const V *verts, std::size_t amt);
 
 	/// \brief Removes the vertex at the index in the vector.
 	void removeVertex(ofIndexType index);
 
-	void setVertex(ofIndexType index, const V& v);
+	void setVertex(ofIndexType index, const V &v);
 
 	/// \brief Removes all the vertices.
 	void clearVertices();
@@ -239,25 +231,24 @@ public:
 	/// \brief Removes all the vertices, colors, and indices from the mesh.
 	void clear();
 
-
 	/// \returns the size of the vertices vector for the mesh.
 	/// This will tell you how many vertices are contained in the mesh.
 	std::size_t getNumVertices() const;
 
 	/// \returns a pointer to the vertices that the mesh contains.
-	V* getVerticesPointer();
+	V *getVerticesPointer();
 
 	/// \returns a pointer to the vertices that the mesh contains.
-	const V* getVerticesPointer() const;
+	const V *getVerticesPointer() const;
 
 	/// \returns the vertex at the index.
 	V getVertex(ofIndexType i) const;
 
 	/// \returns the vector that contains all of the vertices of the mesh.
-	std::vector<V> & getVertices();
+	std::vector<V> &getVertices();
 
 	/// \returns the vector that contains all of the vertices of the mesh.
-	const std::vector<V> & getVertices() const;
+	const std::vector<V> &getVertices() const;
 
 	/// \returns If the vertices of the mesh have changed, been added or removed.
 	bool haveVertsChanged();
@@ -268,13 +259,12 @@ public:
 	/// \brief Add the vertices, normals, texture coordinates and indices of one mesh onto another mesh.
 	/// Everything from the referenced mesh is simply added at the end
 	/// of the current mesh's lists.
-	void append(const ofMesh_ & mesh);
+	void append(const ofMesh_ &mesh);
 
 	void mergeDuplicateVertices();
 
 	/// \returns a ofVec3f defining the centroid of all the vetices in the mesh.
 	V getCentroid() const;
-
 
 	/// \}
 
@@ -293,25 +283,25 @@ public:
 	/// computing the normals.
 	/// addNormal adds the 3D vector to the end of the list, so you need to
 	/// make sure you add normals at the same index of the matching vertex.
-	void addNormal(const N& n);
+	void addNormal(const N &n);
 
 	/// \brief Add a vector of normals to a mesh,
 	/// allowing you to push out many normals at once rather than
 	/// adding one at a time. The vector of normals is added after the end of
 	/// the current normals list.
-	void addNormals(const std::vector<N>& norms);
+	void addNormals(const std::vector<N> &norms);
 
 	/// \brief Add an array of normals to the mesh.
 	/// Because you are using a pointer to the array you also have to define
 	/// the length of the array as an std::size_t (amt). The normals are added at the
 	/// end of the current normals list.
-	void addNormals(const N* norms, std::size_t amt);
+	void addNormals(const N *norms, std::size_t amt);
 
 	/// \brief Remove a normal.
 	void removeNormal(ofIndexType index);
 
 	/// \todo Documentation.
-	void setNormal(ofIndexType index, const N& n);
+	void setNormal(ofIndexType index, const N &n);
 
 	/// \brief Remove all the normals.
 	void clearNormals();
@@ -321,20 +311,20 @@ public:
 	std::size_t getNumNormals() const;
 
 	/// \returns a pointer to the normals that the mesh contains.
-	N* getNormalsPointer();
+	N *getNormalsPointer();
 
 	/// \returns a pointer to the normals that the mesh contains.
-	const N* getNormalsPointer() const;
+	const N *getNormalsPointer() const;
 
 	/// Use this if you plan to change the normals as part of this call as it
 	/// will force a reset of the cache.
 	/// \returns the vector that contains all of the normals of the mesh,
 	/// if it has any.
-	std::vector<N> & getNormals();
+	std::vector<N> &getNormals();
 
 	/// \returns the vector that contains all of the normals of the mesh, if
 	/// it has any. (read only)
-	const std::vector<N> & getNormals() const;
+	const std::vector<N> &getNormals() const;
 
 	/// \returns If the normals of the mesh have changed, been added or removed.
 	bool haveNormalsChanged();
@@ -351,28 +341,28 @@ public:
 	virtual void disableNormals();
 	virtual bool usingNormals() const;
 
-	void smoothNormals( float angle );
-        
-        /// \brief Duplicates vertices and updates normals to get a low-poly look.
-        void flatNormals();
+	void smoothNormals(float angle);
+
+	/// \brief Duplicates vertices and updates normals to get a low-poly look.
+	void flatNormals();
 
 	/// \}
 	/// \name Faces
 	/// \{
 
 	/// \returns the vector that contains all of the faces of the mesh. This isn't currently implemented.
-	ofMeshFace_<V,N,C,T> getFace(ofIndexType faceId) const;
+	ofMeshFace_<V, N, C, T> getFace(ofIndexType faceId) const;
 
 	/// \brief Get normals for each face
 	/// As a default it only calculates the normal for the face as a whole but
 	/// by setting (perVertex = true) it will return the same normal value for
 	/// each of the three vertices making up a face.
 	/// \returns a vector containing the calculated normals of each face in the mesh.
-	std::vector<N> getFaceNormals( bool perVetex=false) const;
+	std::vector<N> getFaceNormals(bool perVetex = false) const;
 
 	/// \returns the mesh as a vector of unique ofMeshFace_s
 	/// a list of triangles that do not share vertices or indices
-	const std::vector<ofMeshFace_<V,N,C,T>> & getUniqueFaces() const;
+	const std::vector<ofMeshFace_<V, N, C, T>> &getUniqueFaces() const;
 
 	/// \}
 	/// \name Colors
@@ -384,20 +374,20 @@ public:
 
 	/// \brief This adds a color to the mesh,
 	/// the color will be associated with the vertex in the same position.
-	void addColor(const C& c);
+	void addColor(const C &c);
 
 	/// \brief This adds colors using a reference to a vector of ofColors.
 	/// For each color in the vector, this will put the colors at the corresponding vertex.
-	void addColors(const std::vector<C>& cols);
+	void addColors(const std::vector<C> &cols);
 
 	/// \brief This adds a pointer of colors to the ofMesh instance with the amount passed as the second parameter.
-	void addColors(const C* cols, std::size_t amt);
+	void addColors(const C *cols, std::size_t amt);
 
 	/// \brief Remove a color at the index in the colors vector.
 	void removeColor(ofIndexType index);
 
 	/// \brief Set the color at the index in the colors vector.
-	void setColor(ofIndexType index, const C& c);
+	void setColor(ofIndexType index, const C &c);
 
 	/// \brief Clear all the colors.
 	void clearColors();
@@ -408,17 +398,17 @@ public:
 
 	/// Use this if you plan to change the colors as part of this call as it will force a reset of the cache.
 	/// \returns a pointer that contains all of the colors of the mesh, if it has any.
-	C* getColorsPointer();
+	C *getColorsPointer();
 
 	/// \returns a pointer that contains all of the colors of the mesh, if it has any. (read only)
-	const C* getColorsPointer() const;
+	const C *getColorsPointer() const;
 
 	/// Use this if you plan to change the colors as part of this call as it will force a reset of the cache.
 	/// \returns the vector that contains all of the colors of the mesh, if it has any.
-	std::vector<C> & getColors();
+	std::vector<C> &getColors();
 
 	/// \returns the vector that contains all of the colors of the mesh, if it has any. (read only)
-	const std::vector<C> & getColors() const;
+	const std::vector<C> &getColors() const;
 
 	/// \returns If the colors of the mesh have changed, been added or removed.
 	bool haveColorsChanged();
@@ -438,7 +428,6 @@ public:
 
 	/// \}
 
-
 	/// \name Texture Coordinates
 	/// \{
 
@@ -450,24 +439,24 @@ public:
 	/// \brief Add a Vec2f representing the texture coordinate.
 	/// Because OF uses ARB textures these are in pixels rather than
 	/// 0-1 normalized coordinates.
-	void addTexCoord(const T& t);
+	void addTexCoord(const T &t);
 
 	/// \brief Add a vector of texture coordinates to a mesh,
 	/// allowing you to push out many at once rather than adding one at a time.
 	/// The vector of texture coordinates is added after the end of the current
 	/// texture coordinates list.
-	void addTexCoords(const std::vector<T>& tCoords);
+	void addTexCoords(const std::vector<T> &tCoords);
 
 	/// \brief  Add an array of texture coordinates to the mesh.
 	/// Because you are using a pointer to the array you also have to define
 	/// the length of the array as an std::size_t (amt).
 	/// The texture coordinates are added at the end of the current texture
 	/// coordinates list.
-	void addTexCoords(const T* tCoords, std::size_t amt);
+	void addTexCoords(const T *tCoords, std::size_t amt);
 
 	/// \brief  Remove a Vec2f representing the texture coordinate.
 	void removeTexCoord(ofIndexType index);
-	void setTexCoord(ofIndexType index, const T& t);
+	void setTexCoord(ofIndexType index, const T &t);
 
 	/// \brief  Clear all the texture coordinates.
 	void clearTexCoords();
@@ -477,21 +466,21 @@ public:
 	std::size_t getNumTexCoords() const;
 
 	/// \returns a pointer to the texture coords that the mesh contains.
-	T* getTexCoordsPointer();
+	T *getTexCoordsPointer();
 
 	/// \brief Get a pointer to the ofVec2f texture coordinates that the mesh contains.
-	const T* getTexCoordsPointer() const;
+	const T *getTexCoordsPointer() const;
 
 	/// \brief Get a vector representing the texture coordinates of the mesh
 	/// Because OF uses ARB textures these are in pixels rather than 0-1 normalized coordinates.
 	/// Use this if you plan to change the texture coordinates as part of this
 	/// call as it will force a reset of the cache.
 	/// \returns a vector of Vec2f representing the texture coordinates for the whole mesh.
-	std::vector<T> & getTexCoords();
+	std::vector<T> &getTexCoords();
 
 	/// Because OF uses ARB textures these are in pixels rather than 0-1 normalized coordinates.
 	/// \returns a vector of Vec2f representing the texture coordinates for the whole mesh. (read only)
-	const std::vector<T> & getTexCoords() const;
+	const std::vector<T> &getTexCoords() const;
 
 	/// \returns If the texture coords of the mesh have changed, been added or removed.
 	bool haveTexCoordsChanged();
@@ -509,7 +498,6 @@ public:
 	virtual void disableTextures();
 	virtual bool usingTextures() const;
 
-
 	/// \}
 
 	/// \name Indices
@@ -521,12 +509,11 @@ public:
 	/// \brief Use this if you plan to change the indices as part of this call as it
 	/// will force a reset of the cache.
 	/// \returns the vector that contains all of the indices of the mesh, if it has any.
-	std::vector<ofIndexType> & getIndices();
+	std::vector<ofIndexType> &getIndices();
 
-
-	/// \returns the index from the index vector. Each index represents the index of the vertex in the vertices vector. This determines the way that the vertices are connected into the polgoynon type set in the primitiveMode.
+	/// \returns the index from the index vector. Each index represents the index of the vertex in the vertices vector.
+	/// This determines the way that the vertices are connected into the polgoynon type set in the primitiveMode.
 	ofIndexType getIndex(ofIndexType i) const;
-
 
 	/// Add an index to the index vector. Each index represents the order of
 	/// connection for  vertices. This determines the way that the vertices are
@@ -553,11 +540,11 @@ public:
 	void addIndex(ofIndexType i);
 
 	/// \brief This adds a vector of indices.
-	void addIndices(const std::vector<ofIndexType>& inds);
+	void addIndices(const std::vector<ofIndexType> &inds);
 
 	/// \brief This adds indices to the ofMesh by pointing to an array of indices.
 	/// The "amt" defines the length of the array.
-	void addIndices(const ofIndexType* inds, std::size_t amt);
+	void addIndices(const ofIndexType *inds, std::size_t amt);
 
 	/// \brief Removes an index.
 	void removeIndex(ofIndexType index);
@@ -574,14 +561,13 @@ public:
 	std::size_t getNumIndices() const;
 
 	/// \returns a pointer to the indices that the mesh contains.
-	ofIndexType* getIndexPointer();
+	ofIndexType *getIndexPointer();
 
 	/// \returns a pointer to the indices that the mesh contains.
-	const ofIndexType* getIndexPointer() const;
-
+	const ofIndexType *getIndexPointer() const;
 
 	/// \returns the vector that contains all of the indices of the mesh, if it has any. (read only)
-	const std::vector<ofIndexType> & getIndices() const;
+	const std::vector<ofIndexType> &getIndices() const;
 
 	/// \returns If the indices of the mesh have changed, been added or removed.
 	bool haveIndicesChanged();
@@ -590,7 +576,8 @@ public:
 	bool hasIndices() const;
 
 	/// \brief Adding a triangle means using three of the vertices that have already been added to create a triangle.
-	/// This is an easy way to create triangles in the mesh. The indices refer to the index of the vertex in the vector of vertices.
+	/// This is an easy way to create triangles in the mesh. The indices refer to the index of the vertex in the vector
+	/// of vertices.
 	void addTriangle(ofIndexType index1, ofIndexType index2, ofIndexType index3);
 
 	/// \brief Enable mesh indices.
@@ -603,13 +590,13 @@ public:
 	virtual void disableIndices();
 	virtual bool usingIndices() const;
 
-	void setColorForIndices( ofIndexType startIndex, ofIndexType endIndex, C color );
+	void setColorForIndices(ofIndexType startIndex, ofIndexType endIndex, C color);
 
-	/// The new mesh includes the mesh mode, colors, textures, and normals of the original mesh (assuming any were added).
-	/// \returns a mesh made up of a range of indices from startIndex to the endIndex.
-	ofMesh_<V,N,C,T> getMeshForIndices( ofIndexType startIndex, ofIndexType endIndex ) const;
-	ofMesh_<V,N,C,T> getMeshForIndices( ofIndexType startIndex, ofIndexType endIndex, ofIndexType startVertIndex, ofIndexType endVertIndex ) const;
-
+	/// The new mesh includes the mesh mode, colors, textures, and normals of the original mesh (assuming any were
+	/// added). \returns a mesh made up of a range of indices from startIndex to the endIndex.
+	ofMesh_<V, N, C, T> getMeshForIndices(ofIndexType startIndex, ofIndexType endIndex) const;
+	ofMesh_<V, N, C, T> getMeshForIndices(ofIndexType startIndex, ofIndexType endIndex, ofIndexType startVertIndex,
+	                                      ofIndexType endVertIndex) const;
 
 	/// \}
 	/// \name Drawing
@@ -641,7 +628,7 @@ public:
 	///
 	/// It expects that the file will be in the [PLY Format](http://en.wikipedia.org/wiki/PLY_(file_format)).
 	/// It will only load meshes saved in the PLY ASCII format; the binary format is not supported.
-    void load(const std::filesystem::path& path);
+	void load(const std::filesystem::path &path);
 
 	///  \brief Saves the mesh at the passed path in the [PLY Format](http://en.wikipedia.org/wiki/PLY_(file_format)).
 	///
@@ -652,12 +639,11 @@ public:
 	///  If you're planning on reloading the mesh into ofMesh, ofMesh currently only supports loading the ASCII format.
 	///
 	///  For more information, see the [PLY format specification](http://paulbourke.net/dataformats/ply/).
-    void save(const std::filesystem::path& path, bool useBinary = false) const;
+	void save(const std::filesystem::path &path, bool useBinary = false) const;
 
 	/// \}
 
 private:
-
 	std::vector<V> vertices;
 	std::vector<C> colors;
 	std::vector<N> normals;
@@ -666,11 +652,10 @@ private:
 
 	// this variables are only caches and returned always as const
 	// mutable allows to change them from const methods
-	mutable std::vector<ofMeshFace_<V,N,C,T>> faces;
+	mutable std::vector<ofMeshFace_<V, N, C, T>> faces;
 	mutable bool bFacesDirty;
 
-	bool bVertsChanged, bColorsChanged, bNormalsChanged, bTexCoordsChanged,
-		bIndicesChanged;
+	bool bVertsChanged, bColorsChanged, bNormalsChanged, bTexCoordsChanged, bIndicesChanged;
 	ofPrimitiveMode mode;
 
 	bool useColors;
@@ -678,9 +663,8 @@ private:
 	bool useNormals;
 	bool useIndices;
 
-//	ofMaterial *mat;
+	//	ofMaterial *mat;
 };
-
 
 /// \brief An ofMeshFace_ is a face on one of the ofPrimitive instances.
 /// In the ofPrimitive a face consists of 3 points connected together.
@@ -697,28 +681,27 @@ private:
 /// things with intersection and boundary testing, among many many other things.
 ///
 /// this is always a triangle
-template<class V, class N, class C, class T>
-class ofMeshFace_ {
+template<class V, class N, class C, class T> class ofMeshFace_ {
 public:
 	ofMeshFace_();
 
-	const N & getFaceNormal() const;
+	const N &getFaceNormal() const;
 
-	void setVertex( ofIndexType index, const V& v );
-	const V& getVertex( ofIndexType index ) const;
+	void setVertex(ofIndexType index, const V &v);
+	const V &getVertex(ofIndexType index) const;
 
-	void setNormal( ofIndexType index, const N& n );
-	const N& getNormal( ofIndexType  index ) const;
+	void setNormal(ofIndexType index, const N &n);
+	const N &getNormal(ofIndexType index) const;
 
-	void setColor( ofIndexType index, const C& color );
-	const C& getColor(ofIndexType  index) const;
+	void setColor(ofIndexType index, const C &color);
+	const C &getColor(ofIndexType index) const;
 
-	void setTexCoord( ofIndexType index, const T& tCoord );
-	const T& getTexCoord( ofIndexType index ) const;
+	void setTexCoord(ofIndexType index, const T &tCoord);
+	const T &getTexCoord(ofIndexType index) const;
 
-	void setHasColors( bool bColors );
-	void setHasNormals( bool bNormals );
-	void setHasTexcoords( bool bTexcoords );
+	void setHasColors(bool bColors);
+	void setHasNormals(bool bNormals);
+	void setHasTexcoords(bool bTexcoords);
 
 	bool hasColors() const;
 	bool hasNormals() const;

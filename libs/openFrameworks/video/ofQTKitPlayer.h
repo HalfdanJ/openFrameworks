@@ -12,7 +12,7 @@
 #include "ofTexture.h"
 
 #ifdef __OBJC__
- #import "ofQTKitMovieRenderer.h"
+#import "ofQTKitMovieRenderer.h"
 #endif
 
 // ofQTKitDecodeMode allows for highly efficient decoding of video
@@ -21,137 +21,131 @@
 
 enum ofQTKitDecodeMode {
 	OF_QTKIT_DECODE_PIXELS_ONLY = 0,
-    // OF_QTKIT_DECODE_PIXELS_ONLY: This mode decodes pixels only and can't
-    // be drawn directly to the screen without an an additional step.
+	// OF_QTKIT_DECODE_PIXELS_ONLY: This mode decodes pixels only and can't
+	// be drawn directly to the screen without an an additional step.
 
 	OF_QTKIT_DECODE_TEXTURE_ONLY,
-    // OF_QTKIT_DECODE_TEXTURE_ONLY: This is the fastest mode, but doesn't
-    // allow direct pixel access because video rendering skips the CPU and RAM.
-    // Pixels ARE available to texture / fragment shaders though.
+	// OF_QTKIT_DECODE_TEXTURE_ONLY: This is the fastest mode, but doesn't
+	// allow direct pixel access because video rendering skips the CPU and RAM.
+	// Pixels ARE available to texture / fragment shaders though.
 
 	OF_QTKIT_DECODE_PIXELS_AND_TEXTURE
-    // OF_QTKIT_DECODE_PIXELS_AND_TEXTURE: This mode combines both
-    // OF_QTKIT_DECODE_PIXELS_ONLY AND OF_QTKIT_DECODE_TEXTURE_ONLY modes.
-    // It is slightly slower OF_QTKIT_DECODE_TEXTURE_ONLY, but faster than
-    // managing your own ofTexture.
+	// OF_QTKIT_DECODE_PIXELS_AND_TEXTURE: This mode combines both
+	// OF_QTKIT_DECODE_PIXELS_ONLY AND OF_QTKIT_DECODE_TEXTURE_ONLY modes.
+	// It is slightly slower OF_QTKIT_DECODE_TEXTURE_ONLY, but faster than
+	// managing your own ofTexture.
 };
 
+class ofQTKitPlayer : public ofBaseVideoPlayer {
+public:
+	ofQTKitPlayer();
+	virtual ~ofQTKitPlayer();
 
-class ofQTKitPlayer  : public ofBaseVideoPlayer {
-	public:
+	bool load(std::string path); // default mode is PIXELS_ONLY
+	bool load(std::string path, ofQTKitDecodeMode mode);
 
-		ofQTKitPlayer();
-		virtual ~ofQTKitPlayer();
+	void closeMovie();
+	void close();
 
-		bool                load(std::string path); //default mode is PIXELS_ONLY
-		bool                load(std::string path, ofQTKitDecodeMode mode);
+	void idleMovie();
+	void update();
+	void play();
+	void stop();
 
-		void                closeMovie();
-		void                close();
+	bool isFrameNew() const; // returns true if the frame has changed in this update cycle
 
-		void                idleMovie();
-		void                update();
-		void                play();
-		void                stop();
+	// Returns openFrameworks compatible RGBA pixels.
+	// Be aware of your current render mode.
 
-		bool                isFrameNew() const; //returns true if the frame has changed in this update cycle
+	ofPixels &getPixels();
+	const ofPixels &getPixels() const;
 
-		// Returns openFrameworks compatible RGBA pixels.
-        // Be aware of your current render mode.
+	// Returns openFrameworks compatible ofTexture pointer.
+	// if decodeMode == OF_QTKIT_DECODE_PIXELS_ONLY,
+	// the returned pointer will be NULL.
+	ofTexture *getTexturePtr();
 
-        ofPixels&     getPixels();
-        const ofPixels& getPixels() const;
+	float getPosition() const;
+	float getPositionInSeconds() const;
+	float getSpeed() const;
+	ofLoopType getLoopState() const;
+	float getDuration() const;
+	bool getIsMovieDone() const;
+	int getTotalNumFrames() const;
+	int getCurrentFrame() const;
 
+	void setPaused(bool bPaused);
+	void setPosition(float pct);
+	void setVolume(float volume);
+	void setBalance(float balance);
+	void setLoopState(ofLoopType state);
+	void setSpeed(float speed);
+	void setFrame(int frame); // frame 0 = first frame...
 
-		// Returns openFrameworks compatible ofTexture pointer.
-        // if decodeMode == OF_QTKIT_DECODE_PIXELS_ONLY,
-        // the returned pointer will be NULL.
-		ofTexture * getTexturePtr();
+	// ofQTKitPlayer only supports OF_PIXELS_RGB and OF_PIXELS_RGBA.
+	bool setPixelFormat(ofPixelFormat pixelFormat);
+	ofPixelFormat getPixelFormat() const;
 
-		float               getPosition() const;
-		float               getPositionInSeconds() const;
-		float               getSpeed() const;
-		ofLoopType          getLoopState() const;
-		float               getDuration() const;
-		bool                getIsMovieDone() const;
-		int                 getTotalNumFrames() const;
-		int                 getCurrentFrame() const;
+	ofQTKitDecodeMode getDecodeMode() const;
 
-		void                setPaused(bool bPaused);
-		void                setPosition(float pct);
-		void                setVolume(float volume);
-		void                setBalance(float balance);
-		void                setLoopState(ofLoopType state);
-		void                setSpeed(float speed);
-		void                setFrame(int frame); // frame 0 = first frame...
+	// Enabling synchronous seeing ensures that any call to
+	// setFrame(), setPosition() or jump(), will result in pixels
+	// from the desired frame are loaded correctly.
 
-        // ofQTKitPlayer only supports OF_PIXELS_RGB and OF_PIXELS_RGBA.
-		bool                setPixelFormat(ofPixelFormat pixelFormat);
-		ofPixelFormat       getPixelFormat() const;
+	// Disabling synchronous seeking will result in a speed boost
+	// during playback, but won't guarantee that frames are available
+	// when seeking frames manually (i.e. asynchronously).
 
-		ofQTKitDecodeMode   getDecodeMode() const;
+	void setSynchronousSeeking(bool synchronous);
+	bool getSynchronousSeeking() const;
 
-        // Enabling synchronous seeing ensures that any call to
-        // setFrame(), setPosition() or jump(), will result in pixels
-        // from the desired frame are loaded correctly.
+	void draw(float x, float y, float w, float h);
+	void draw(float x, float y);
 
-        // Disabling synchronous seeking will result in a speed boost
-        // during playback, but won't guarantee that frames are available
-        // when seeking frames manually (i.e. asynchronously).
+	float getWidth() const;
+	float getHeight() const;
 
-        void                setSynchronousSeeking(bool synchronous);
-		bool                getSynchronousSeeking() const;
+	bool isPaused() const;
+	bool isLoaded() const;
+	bool isPlaying() const;
 
-		void                draw(float x, float y, float w, float h);
-		void                draw(float x, float y);
+	void firstFrame();
+	void nextFrame();
+	void previousFrame();
 
-		float               getWidth() const;
-		float               getHeight() const;
+protected:
+	ofLoopType currentLoopState;
 
-		bool                isPaused() const;
-		bool                isLoaded() const;
-		bool                isPlaying() const;
+	bool bPaused;
+	bool bNewFrame;
+	bool bHavePixelsChanged;
 
+	float duration;
+	float speed;
 
-		void                firstFrame();
-		void                nextFrame();
-		void                previousFrame();
+	ofQTKitDecodeMode decodeMode;
 
-	protected:
+	std::string moviePath;
 
-        ofLoopType currentLoopState;
+	bool bSynchronousSeek;
 
-        bool bPaused;
-        bool bNewFrame;
-		bool bHavePixelsChanged;
+	// updateTexture() pulls texture data from the movie QTKit
+	// renderer into our internal ofTexture.
+	void updateTexture();
+	void reallocatePixels();
 
-        float duration;
-		float speed;
+	ofTexture tex;
 
-        ofQTKitDecodeMode decodeMode;
+	ofPixels pixels;
+	ofPixelFormat pixelFormat;
 
-        std::string moviePath;
-
-        bool bSynchronousSeek;
-
-        // updateTexture() pulls texture data from the movie QTKit
-        // renderer into our internal ofTexture.
-		void updateTexture();
-		void reallocatePixels();
-
-		ofTexture tex;
-
-        ofPixels pixels;
-		ofPixelFormat pixelFormat;
-
-        // This #ifdef is so you can include this .h file in .cpp files
-		// and avoid ugly casts in the .m file
-		#ifdef __OBJC__
-			QTKitMovieRenderer * moviePlayer;
-		#else
-			void * moviePlayer;
-		#endif
-
+// This #ifdef is so you can include this .h file in .cpp files
+// and avoid ugly casts in the .m file
+#ifdef __OBJC__
+	QTKitMovieRenderer *moviePlayer;
+#else
+	void *moviePlayer;
+#endif
 };
 
 #endif

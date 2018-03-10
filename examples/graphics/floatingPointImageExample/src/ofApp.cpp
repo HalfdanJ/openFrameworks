@@ -1,8 +1,8 @@
 #include "ofApp.h"
 
-//Some helper functions
+// Some helper functions
 //--------------------------------------------------------------
-void ofApp::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
+void ofApp::addFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
 	ofVec3f normal = ((b - a).cross(c - a)).normalize();
 	mesh.addNormal(normal);
 	mesh.addVertex(a);
@@ -13,21 +13,21 @@ void ofApp::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c) {
 }
 
 //--------------------------------------------------------------
-void ofApp::addFace(ofMesh& mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
+void ofApp::addFace(ofMesh &mesh, ofVec3f a, ofVec3f b, ofVec3f c, ofVec3f d) {
 	addFace(mesh, a, b, c);
 	addFace(mesh, a, c, d);
 }
 
 //--------------------------------------------------------------
-ofVec3f ofApp::getVertexFromImg(ofFloatImage& img, int x, int y) {
+ofVec3f ofApp::getVertexFromImg(ofFloatImage &img, int x, int y) {
 	return ofVec3f(x, y, 100 * img.getColor(x, y).getBrightness());
 }
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 
-	//note: you can get nicer anti-aliased rendering ( with slower fps )
-	//if you uncomment the appropriate line in main.cpp
+	// note: you can get nicer anti-aliased rendering ( with slower fps )
+	// if you uncomment the appropriate line in main.cpp
 
 	img.load("nyc-small.exr");
 
@@ -51,76 +51,52 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
-}
+void ofApp::update() {}
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	ofBackground(0);
 
 	easyCam.begin();
-		ofScale(1, -1, 1);
-		ofRotateXDeg(60);
-		ofTranslate(-img.getWidth() / 2, -img.getHeight() / 2, 0);
-		ofSetColor(255);
-		ofEnableDepthTest();
-		mesh.draw();
-		ofDisableDepthTest();
+	ofScale(1, -1, 1);
+	ofRotateXDeg(60);
+	ofTranslate(-img.getWidth() / 2, -img.getHeight() / 2, 0);
+	ofSetColor(255);
+	ofEnableDepthTest();
+	mesh.draw();
+	ofDisableDepthTest();
 	easyCam.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

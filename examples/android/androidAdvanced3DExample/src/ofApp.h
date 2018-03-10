@@ -27,60 +27,60 @@
 
 #define N_CAMERAS 4
 
-class ofApp : public ofxAndroidApp{
+class ofApp : public ofxAndroidApp {
 
-	public:
-		void setup();
-		void update();
-		void draw();
-	
-		void setupViewports();
-		void drawScene(int iCameraDraw);
-		void updateMouseRay();
-	
-		void keyPressed  (int key);
-		void keyReleased(int key);
-		void windowResized(int w, int h);
+public:
+	void setup();
+	void update();
+	void draw();
 
-		void touchDown(int x, int y, int id);
-		void touchMoved(int x, int y, int id);
-		void touchUp(int x, int y, int id);
-		void touchDoubleTap(int x, int y, int id);
-		void touchCancelled(int x, int y, int id);
-		void swipe(ofxAndroidSwipeDir swipeDir, int id);
+	void setupViewports();
+	void drawScene(int iCameraDraw);
+	void updateMouseRay();
 
-		void pause();
-		void stop();
-		void resume();
-		void reloadTextures();
+	void keyPressed(int key);
+	void keyReleased(int key);
+	void windowResized(int w, int h);
 
-		bool backPressed();
-		void okPressed();
-		void cancelPressed();
+	void touchDown(int x, int y, int id);
+	void touchMoved(int x, int y, int id);
+	void touchUp(int x, int y, int id);
+	void touchDoubleTap(int x, int y, int id);
+	void touchCancelled(int x, int y, int id);
+	void swipe(ofxAndroidSwipeDir swipeDir, int id);
 
-		//cameras (all these inherit from ofCamera)
-		ofEasyCam				camEasyCam;
-		OrthoCamera				camFront;
-		OrthoCamera				camTop;
-		OrthoCamera				camLeft;
-	
-		//cameras have parent?
-		bool					bCamParent;
+	void pause();
+	void stop();
+	void resume();
+	void reloadTextures();
 
-		//camera pointers
-		ofCamera*				cameras[N_CAMERAS];
-		int						iMainCamera;
-	
-		//viewports
-		ofRectangle				viewMain;
-		ofRectangle				viewGrid[N_CAMERAS];	
-	
-		//my custom node
-		Swarm					nodeSwarm;
-		Grid					nodeGrid;
+	bool backPressed();
+	void okPressed();
+	void cancelPressed();
 
-		//ray drawn under mouse cursor [start,end]
-		ofVec3f					ray[2];
+	// cameras (all these inherit from ofCamera)
+	ofEasyCam camEasyCam;
+	OrthoCamera camFront;
+	OrthoCamera camTop;
+	OrthoCamera camLeft;
+
+	// cameras have parent?
+	bool bCamParent;
+
+	// camera pointers
+	ofCamera *cameras[N_CAMERAS];
+	int iMainCamera;
+
+	// viewports
+	ofRectangle viewMain;
+	ofRectangle viewGrid[N_CAMERAS];
+
+	// my custom node
+	Swarm nodeSwarm;
+	Grid nodeGrid;
+
+	// ray drawn under mouse cursor [start,end]
+	ofVec3f ray[2];
 };
 
 /*
@@ -91,15 +91,14 @@ class ofApp : public ofxAndroidApp{
 
 */
 
-
 /*
  Can we change the global size of objects?
-	there appears to be an arbitrary scale of '100'
-	i.e. a ofBox(100) fills the screen.
- 
+    there appears to be an arbitrary scale of '100'
+    i.e. a ofBox(100) fills the screen.
+
  Should customDraw be public?
  Add customUpdate?
- 
+
  test isActive on camera end
- 
+
 */

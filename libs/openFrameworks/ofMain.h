@@ -37,9 +37,9 @@
 
 //--------------------------
 // communication
-#if !defined( TARGET_OF_IOS ) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN)
-	#include "ofSerial.h"
-	#include "ofArduino.h"
+#if !defined(TARGET_OF_IOS) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN)
+#include "ofSerial.h"
+#include "ofArduino.h"
 #endif
 
 //--------------------------
@@ -60,8 +60,8 @@
 
 //--------------------------
 // graphics
-#if !defined( TARGET_OF_IOS ) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN)
-	#include "ofCairoRenderer.h"
+#if !defined(TARGET_OF_IOS) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN)
+#include "ofCairoRenderer.h"
 #endif
 #include "ofGraphics.h"
 #include "ofImage.h"
@@ -79,19 +79,19 @@
 #include "ofAppBaseWindow.h"
 #include "ofWindowSettings.h"
 #include "ofMainLoop.h"
-#if !defined( TARGET_OF_IOS ) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN) & !defined(TARGET_RASPBERRY_PI)
-	#include "ofAppGLFWWindow.h"
-	#if !defined( TARGET_LINUX_ARM )
-		#include "ofAppGlutWindow.h"
-	#endif
+#if !defined(TARGET_OF_IOS) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN) & !defined(TARGET_RASPBERRY_PI)
+#include "ofAppGLFWWindow.h"
+#if !defined(TARGET_LINUX_ARM)
+#include "ofAppGlutWindow.h"
+#endif
 #endif
 
 //--------------------------
 // audio
 #ifndef TARGET_NO_SOUND
-	#include "ofSoundStream.h"
-	#include "ofSoundPlayer.h"
-	#include "ofSoundBuffer.h"
+#include "ofSoundStream.h"
+#include "ofSoundPlayer.h"
+#include "ofSoundBuffer.h"
 #endif
 
 //--------------------------

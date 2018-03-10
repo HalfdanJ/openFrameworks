@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
-
-
 // this example uses code from glew and from Brian Paul
 //
 /*
@@ -31,334 +27,287 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-
 struct token_name {
-    GLuint count;
-    GLenum token;
-    const char *name;
+	GLuint count;
+	GLenum token;
+	const char *name;
 };
 
+void print_extension_list(char *ext) {
+	const char *indentString = "    ";
+	const int indent = 4;
+	const int max = 79;
+	int width, i, j;
 
-void
-print_extension_list(char *ext)
-{
-    const char *indentString = "    ";
-    const int indent = 4;
-    const int max = 79;
-    int width, i, j;
+	if(!ext || !ext[0])
+		return;
 
-    if (!ext || !ext[0])
-        return;
-
-    width = indent;
-    cout << indentString;
-    i = j = 0;
-    while (1) {
-        if (ext[j] == ' ' || ext[j] == 0) {
-            /* found end of an extension name */
-            const int len = j - i;
-            if (width + len > max) {
-                /* start a new line */
-                cout << "\n";
-                width = indent;
-                cout << indentString;
-            }
-            /* print the extension name between ext[i] and ext[j] */
-            while (i < j) {
-                cout << ext[i];
-                i++;
-            }
-            /* either we're all done, or we'll continue with next extension */
-            width += len + 1;
-            if (ext[j] == 0) {
-                break;
-            }
-            else {
-                i++;
-                j++;
-                if (ext[j] == 0)
-                    break;
-                cout << ", ";
-                width += 2;
-            }
-        }
-        j++;
-    }
-    cout << "\n";
+	width = indent;
+	cout << indentString;
+	i = j = 0;
+	while(1) {
+		if(ext[j] == ' ' || ext[j] == 0) {
+			/* found end of an extension name */
+			const int len = j - i;
+			if(width + len > max) {
+				/* start a new line */
+				cout << "\n";
+				width = indent;
+				cout << indentString;
+			}
+			/* print the extension name between ext[i] and ext[j] */
+			while(i < j) {
+				cout << ext[i];
+				i++;
+			}
+			/* either we're all done, or we'll continue with next extension */
+			width += len + 1;
+			if(ext[j] == 0) {
+				break;
+			} else {
+				i++;
+				j++;
+				if(ext[j] == 0)
+					break;
+				cout << ", ";
+				width += 2;
+			}
+		}
+		j++;
+	}
+	cout << "\n";
 }
 
-static void
-print_limits(void)
-{
+static void print_limits(void) {
 
-    static const struct token_name openglLimits[] = {
-        { 1, GL_MAX_ATTRIB_STACK_DEPTH, "GL_MAX_ATTRIB_STACK_DEPTH" },
-        { 1, GL_MAX_CLIENT_ATTRIB_STACK_DEPTH, "GL_MAX_CLIENT_ATTRIB_STACK_DEPTH" },
-        { 1, GL_MAX_CLIP_PLANES, "GL_MAX_CLIP_PLANES" },
-        { 1, GL_MAX_COLOR_MATRIX_STACK_DEPTH, "GL_MAX_COLOR_MATRIX_STACK_DEPTH" },
-        { 1, GL_MAX_ELEMENTS_VERTICES, "GL_MAX_ELEMENTS_VERTICES" },
-        { 1, GL_MAX_ELEMENTS_INDICES, "GL_MAX_ELEMENTS_INDICES" },
-        { 1, GL_MAX_EVAL_ORDER, "GL_MAX_EVAL_ORDER" },
-        { 1, GL_MAX_LIGHTS, "GL_MAX_LIGHTS" },
-        { 1, GL_MAX_LIST_NESTING, "GL_MAX_LIST_NESTING" },
-        { 1, GL_MAX_MODELVIEW_STACK_DEPTH, "GL_MAX_MODELVIEW_STACK_DEPTH" },
-        { 1, GL_MAX_NAME_STACK_DEPTH, "GL_MAX_NAME_STACK_DEPTH" },
-        { 1, GL_MAX_PIXEL_MAP_TABLE, "GL_MAX_PIXEL_MAP_TABLE" },
-        { 1, GL_MAX_PROJECTION_STACK_DEPTH, "GL_MAX_PROJECTION_STACK_DEPTH" },
-        { 1, GL_MAX_TEXTURE_STACK_DEPTH, "GL_MAX_TEXTURE_STACK_DEPTH" },
-        { 1, GL_MAX_TEXTURE_SIZE, "GL_MAX_TEXTURE_SIZE" },
-        { 1, GL_MAX_3D_TEXTURE_SIZE, "GL_MAX_3D_TEXTURE_SIZE" },
-        { 1, GL_MAX_CUBE_MAP_TEXTURE_SIZE_ARB, "GL_MAX_CUBE_MAP_TEXTURE_SIZE_ARB" },
-        { 1, GL_MAX_RECTANGLE_TEXTURE_SIZE_NV, "GL_MAX_RECTANGLE_TEXTURE_SIZE_NV" },
-        { 1, GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB, "GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB" },
-        { 1, GL_MAX_TEXTURE_UNITS_ARB, "GL_MAX_TEXTURE_UNITS_ARB" },
-        { 1, GL_MAX_TEXTURE_LOD_BIAS_EXT, "GL_MAX_TEXTURE_LOD_BIAS_EXT" },
-        { 1, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, "GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT" },
-        { 2, GL_MAX_VIEWPORT_DIMS, "GL_MAX_VIEWPORT_DIMS" },
-        { 2, GL_ALIASED_LINE_WIDTH_RANGE, "GL_ALIASED_LINE_WIDTH_RANGE" },
-        { 2, GL_SMOOTH_LINE_WIDTH_RANGE, "GL_SMOOTH_LINE_WIDTH_RANGE" },
-        { 2, GL_ALIASED_POINT_SIZE_RANGE, "GL_ALIASED_POINT_SIZE_RANGE" },
-        { 2, GL_SMOOTH_POINT_SIZE_RANGE, "GL_SMOOTH_POINT_SIZE_RANGE" },
-        { 0, (GLenum) 0, NULL }
-    };
-    GLint i, max[2];
-    cout << "OpenGL limits:\n";
-    for (i = 0; openglLimits[i].count; i++) {
-        glGetIntegerv(openglLimits[i].token, max);
-        if (glGetError() == GL_NONE) {
-            if (openglLimits[i].count == 1)
-                cout << "    " << openglLimits[i].name << " = " << max[0] << "\n";
-            else /* XXX fix if we ever query something with more than 2 values */
-                cout << "    " << openglLimits[i].name << " = " << max[0] << ", " << max[1] << "\n";
-        }
-    }
+	static const struct token_name openglLimits[] = {
+	    {1, GL_MAX_ATTRIB_STACK_DEPTH, "GL_MAX_ATTRIB_STACK_DEPTH"},
+	    {1, GL_MAX_CLIENT_ATTRIB_STACK_DEPTH, "GL_MAX_CLIENT_ATTRIB_STACK_DEPTH"},
+	    {1, GL_MAX_CLIP_PLANES, "GL_MAX_CLIP_PLANES"},
+	    {1, GL_MAX_COLOR_MATRIX_STACK_DEPTH, "GL_MAX_COLOR_MATRIX_STACK_DEPTH"},
+	    {1, GL_MAX_ELEMENTS_VERTICES, "GL_MAX_ELEMENTS_VERTICES"},
+	    {1, GL_MAX_ELEMENTS_INDICES, "GL_MAX_ELEMENTS_INDICES"},
+	    {1, GL_MAX_EVAL_ORDER, "GL_MAX_EVAL_ORDER"},
+	    {1, GL_MAX_LIGHTS, "GL_MAX_LIGHTS"},
+	    {1, GL_MAX_LIST_NESTING, "GL_MAX_LIST_NESTING"},
+	    {1, GL_MAX_MODELVIEW_STACK_DEPTH, "GL_MAX_MODELVIEW_STACK_DEPTH"},
+	    {1, GL_MAX_NAME_STACK_DEPTH, "GL_MAX_NAME_STACK_DEPTH"},
+	    {1, GL_MAX_PIXEL_MAP_TABLE, "GL_MAX_PIXEL_MAP_TABLE"},
+	    {1, GL_MAX_PROJECTION_STACK_DEPTH, "GL_MAX_PROJECTION_STACK_DEPTH"},
+	    {1, GL_MAX_TEXTURE_STACK_DEPTH, "GL_MAX_TEXTURE_STACK_DEPTH"},
+	    {1, GL_MAX_TEXTURE_SIZE, "GL_MAX_TEXTURE_SIZE"},
+	    {1, GL_MAX_3D_TEXTURE_SIZE, "GL_MAX_3D_TEXTURE_SIZE"},
+	    {1, GL_MAX_CUBE_MAP_TEXTURE_SIZE_ARB, "GL_MAX_CUBE_MAP_TEXTURE_SIZE_ARB"},
+	    {1, GL_MAX_RECTANGLE_TEXTURE_SIZE_NV, "GL_MAX_RECTANGLE_TEXTURE_SIZE_NV"},
+	    {1, GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB, "GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB"},
+	    {1, GL_MAX_TEXTURE_UNITS_ARB, "GL_MAX_TEXTURE_UNITS_ARB"},
+	    {1, GL_MAX_TEXTURE_LOD_BIAS_EXT, "GL_MAX_TEXTURE_LOD_BIAS_EXT"},
+	    {1, GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, "GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT"},
+	    {2, GL_MAX_VIEWPORT_DIMS, "GL_MAX_VIEWPORT_DIMS"},
+	    {2, GL_ALIASED_LINE_WIDTH_RANGE, "GL_ALIASED_LINE_WIDTH_RANGE"},
+	    {2, GL_SMOOTH_LINE_WIDTH_RANGE, "GL_SMOOTH_LINE_WIDTH_RANGE"},
+	    {2, GL_ALIASED_POINT_SIZE_RANGE, "GL_ALIASED_POINT_SIZE_RANGE"},
+	    {2, GL_SMOOTH_POINT_SIZE_RANGE, "GL_SMOOTH_POINT_SIZE_RANGE"},
+	    {0, (GLenum)0, NULL}};
+	GLint i, max[2];
+	cout << "OpenGL limits:\n";
+	for(i = 0; openglLimits[i].count; i++) {
+		glGetIntegerv(openglLimits[i].token, max);
+		if(glGetError() == GL_NONE) {
+			if(openglLimits[i].count == 1)
+				cout << "    " << openglLimits[i].name << " = " << max[0] << "\n";
+			else /* XXX fix if we ever query something with more than 2 values */
+				cout << "    " << openglLimits[i].name << " = " << max[0] << ", " << max[1] << "\n";
+		}
+	}
 }
 
-void printShaderLimits(){
+void printShaderLimits() {
 
-    static const struct token_name lll[] = {
-        { 1, GL_MAX_VERTEX_ATTRIBS, "GL_MAX_VERTEX_ATTRIBS" },
-        { 1, GL_MAX_VERTEX_UNIFORM_COMPONENTS, "GL_MAX_VERTEX_UNIFORM_COMPONENTS" },
-        { 1, GL_MAX_VARYING_FLOATS, "GL_MAX_VARYING_FLOATS" },
-        { 1, GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, "GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS" },
-        { 1, GL_MAX_TEXTURE_IMAGE_UNITS, "GL_MAX_TEXTURE_IMAGE_UNITS" },
-        { 0, (GLenum) 0, NULL }
-    };
+	static const struct token_name lll[] = {{1, GL_MAX_VERTEX_ATTRIBS, "GL_MAX_VERTEX_ATTRIBS"},
+	                                        {1, GL_MAX_VERTEX_UNIFORM_COMPONENTS, "GL_MAX_VERTEX_UNIFORM_COMPONENTS"},
+	                                        {1, GL_MAX_VARYING_FLOATS, "GL_MAX_VARYING_FLOATS"},
+	                                        {1, GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, "GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS"},
+	                                        {1, GL_MAX_TEXTURE_IMAGE_UNITS, "GL_MAX_TEXTURE_IMAGE_UNITS"},
+	                                        {0, (GLenum)0, NULL}};
 
-    GLint i, max[2];
-    cout << "Shader limits:\n";
-    for (i = 0; lll[i].count; i++) {
-        glGetIntegerv(lll[i].token, max);
-        if (glGetError() == GL_NONE) {
-            if (lll[i].count == 1)
-                cout << "    " << lll[i].name << " = " << max[0] << "\n";
-            else /* XXX fix if we ever query something with more than 2 values */
-                cout << "    " << lll[i].name << " = " << max[0] << ", " << max[1] << "\n";
-        }
-    }
+	GLint i, max[2];
+	cout << "Shader limits:\n";
+	for(i = 0; lll[i].count; i++) {
+		glGetIntegerv(lll[i].token, max);
+		if(glGetError() == GL_NONE) {
+			if(lll[i].count == 1)
+				cout << "    " << lll[i].name << " = " << max[0] << "\n";
+			else /* XXX fix if we ever query something with more than 2 values */
+				cout << "    " << lll[i].name << " = " << max[0] << ", " << max[1] << "\n";
+		}
+	}
 }
 
+void printGLInfo() {
 
-void printGLInfo(){
+	char *version = NULL;
+	char *vendor = NULL;
+	char *renderer = NULL;
+	//    char *extensions = NULL;
+	//    int   glutVersion;
 
-    char *version = NULL;
-    char *vendor = NULL;
-    char *renderer = NULL;
-//    char *extensions = NULL;
-//    int   glutVersion;
+	// glutVersion = glutGet(0x01FC);
+	version = (char *)glGetString(GL_VERSION);
+	vendor = (char *)glGetString(GL_VENDOR);
+	renderer = (char *)glGetString(GL_RENDERER);
 
-    //glutVersion = glutGet(0x01FC);
-    version =     (char*)glGetString(GL_VERSION);
-    vendor =      (char*)glGetString(GL_VENDOR);
-    renderer =    (char*)glGetString(GL_RENDERER);
-
-    cout << "version=" << version << "\nvendor=" << vendor << "\nrenderer=" << renderer << "\n";
-
-}
-
-
-//--------------------------------------------------------------
-void ofApp::setup(){
-
-
-    info.version = (char*)glGetString(GL_VERSION);
-    info.vendor = (char*)glGetString(GL_VENDOR);
-    info.renderer = (char*)glGetString(GL_RENDERER);
-    info.bVboSupported = false;
-    info.bShadersSupported = false;
-    info.bPointSpritesSupported = false;
-
-
-    if(glewIsSupported("GL_VERSION_1_4  GL_ARB_point_sprite")) {
-        info.bPointSpritesSupported = true;
-    }
-
-    if(glewIsSupported("GL_ARB_vertex_buffer_object")) {
-        info.bVboSupported = true;
-    }
-
-    if(glewIsSupported("GL_ARB_vertex_shader")) {
-        info.bShadersSupported = true;
-    }
-
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &info.maxTextureSize);
-    glGetIntegerv(GL_MAX_VIEWPORT_DIMS, info.maxDimensions);
-    glGetIntegerv(GL_MAX_LIGHTS, &info.maxLights);
-
+	cout << "version=" << version << "\nvendor=" << vendor << "\nrenderer=" << renderer << "\n";
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::setup() {
 
+	info.version = (char *)glGetString(GL_VERSION);
+	info.vendor = (char *)glGetString(GL_VENDOR);
+	info.renderer = (char *)glGetString(GL_RENDERER);
+	info.bVboSupported = false;
+	info.bShadersSupported = false;
+	info.bPointSpritesSupported = false;
+
+	if(glewIsSupported("GL_VERSION_1_4  GL_ARB_point_sprite")) {
+		info.bPointSpritesSupported = true;
+	}
+
+	if(glewIsSupported("GL_ARB_vertex_buffer_object")) {
+		info.bVboSupported = true;
+	}
+
+	if(glewIsSupported("GL_ARB_vertex_shader")) {
+		info.bShadersSupported = true;
+	}
+
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &info.maxTextureSize);
+	glGetIntegerv(GL_MAX_VIEWPORT_DIMS, info.maxDimensions);
+	glGetIntegerv(GL_MAX_LIGHTS, &info.maxLights);
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::update() {}
 
-    string output = "";
+//--------------------------------------------------------------
+void ofApp::draw() {
 
-    string pointSprites = ((info.bPointSpritesSupported == true) ? "yes" : "no");
-    string shaders = ((info.bShadersSupported == true) ? "yes" : "no");
-    string vbo = ((info.bVboSupported == true) ? "yes" : "no");
+	string output = "";
 
+	string pointSprites = ((info.bPointSpritesSupported == true) ? "yes" : "no");
+	string shaders = ((info.bShadersSupported == true) ? "yes" : "no");
+	string vbo = ((info.bVboSupported == true) ? "yes" : "no");
 
-    output += "opengl version: " + info.version + "\n";
-    output += "vendor: " + info.vendor + "\n";
-    output += "renderer: " + info.renderer + "\n";
-    output += "\n";
-    output += "point sprites support: " + pointSprites + "\n";
-    output += "shader support: " + shaders + "\n";
-    output += "vbo support: " + vbo + "\n";
-    output += "\n";
-    output += "max texture size: " + ofToString(info.maxTextureSize) + "\n";
-    output += "max viewport dimensions: " + ofToString(info.maxDimensions[0]) + "," +  ofToString(info.maxDimensions[1]) + "\n";
-    output += "max lights: " + ofToString(info.maxLights) + "\n";
+	output += "opengl version: " + info.version + "\n";
+	output += "vendor: " + info.vendor + "\n";
+	output += "renderer: " + info.renderer + "\n";
+	output += "\n";
+	output += "point sprites support: " + pointSprites + "\n";
+	output += "shader support: " + shaders + "\n";
+	output += "vbo support: " + vbo + "\n";
+	output += "\n";
+	output += "max texture size: " + ofToString(info.maxTextureSize) + "\n";
+	output += "max viewport dimensions: " + ofToString(info.maxDimensions[0]) + "," +
+	          ofToString(info.maxDimensions[1]) + "\n";
+	output += "max lights: " + ofToString(info.maxLights) + "\n";
 
-
-
-    ofDrawBitmapStringHighlight(output, ofPoint(20,20));
-    ofDrawBitmapStringHighlight("press ' ' to load full report", ofPoint(20,220), ofColor::magenta, ofColor::white);
-
+	ofDrawBitmapStringHighlight(output, ofPoint(20, 20));
+	ofDrawBitmapStringHighlight("press ' ' to load full report", ofPoint(20, 220), ofColor::magenta, ofColor::white);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
+void ofApp::keyPressed(int key) {
 
-    if (key == ' '){
+	if(key == ' ') {
 
-        // todo: rewrite this with ofLog:
+		// todo: rewrite this with ofLog:
 
-        FILE *fp;
+		FILE *fp;
 
+		if((fp = freopen(ofToDataPath("openglReport.txt").c_str(), "w", stdout)) == NULL) {
+			cout << "Cannot open file.\n";
+			return;
+		}
 
-        if((fp=freopen(ofToDataPath("openglReport.txt").c_str(), "w" ,stdout))==NULL) {
-            cout << "Cannot open file.\n";
-            return;
-        }
+		cout << "-------------------------------------------------\n";
+		cout << "opengl info\n";
+		cout << "-------------------------------------------------\n";
 
+		printGLInfo();
 
-        cout << "-------------------------------------------------\n";
-        cout << "opengl info\n";
-        cout << "-------------------------------------------------\n";
+		cout << "-------------------------------------------------\n";
+		cout << "opengl limits\n";
+		cout << "-------------------------------------------------\n";
 
-        printGLInfo();
+		print_limits();
 
-        cout << "-------------------------------------------------\n";
-        cout << "opengl limits\n";
-        cout << "-------------------------------------------------\n";
+		cout << "-------------------------------------------------\n";
+		cout << "shader limits\n";
+		cout << "-------------------------------------------------\n";
 
+		printShaderLimits();
 
-        print_limits();
+		cout << "-------------------------------------------------\n";
+		cout << "available extensions\n";
+		cout << "-------------------------------------------------\n";
 
-        cout << "-------------------------------------------------\n";
-        cout << "shader limits\n";
-        cout << "-------------------------------------------------\n";
+		const GLubyte *strExt;
+		strExt = glGetString(GL_EXTENSIONS);
 
-        printShaderLimits();
+		// cout << "extensions: " << strExt << endl;
+		print_extension_list((char *)strExt);
 
+		// isShade = gluCheckExtension ((const GLubyte*)"GL_ARB_shading_language_100", strExt);
 
-        cout << "-------------------------------------------------\n";
-        cout << "available extensions\n";
-        cout << "-------------------------------------------------\n";
+		cout << "-------------------------------------------------\n";
+		cout << "opengl calls available\n";
+		cout << "-------------------------------------------------\n";
 
-        const GLubyte * strExt;
-        strExt = glGetString (GL_EXTENSIONS);
+		printGlewInfo();
 
-        //cout << "extensions: " << strExt << endl;
-        print_extension_list((char *)strExt);
+		fclose(fp);
 
+#ifdef TARGET_WIN32
+		string command = "start " + ofToString(ofToDataPath("openglReport.txt").c_str());
+#elif defined(TARGET_LINUX)
+		string command = "xdg-open " + ofToString(ofToDataPath("openglReport.txt").c_str());
+#else
+		string command = "open " + ofToString(ofToDataPath("openglReport.txt").c_str());
+#endif
 
-        //isShade = gluCheckExtension ((const GLubyte*)"GL_ARB_shading_language_100", strExt);
-
-        cout << "-------------------------------------------------\n";
-        cout << "opengl calls available\n";
-        cout << "-------------------------------------------------\n";
-
-
-        printGlewInfo();
-
-        fclose(fp);
-
-        #ifdef TARGET_WIN32
-        string command = "start " + ofToString(ofToDataPath("openglReport.txt").c_str());
-        #elif defined(TARGET_LINUX)
-        string command = "xdg-open " + ofToString(ofToDataPath("openglReport.txt").c_str());
-        #else
-        string command = "open " + ofToString(ofToDataPath("openglReport.txt").c_str());
-        #endif
-
-        if (0 != system(command.c_str())){
+		if(0 != system(command.c_str())) {
 			ofLogWarning() << "Command " << command.c_str() << " did not return 0. Something may have gone wrong.";
 		}
-    }
+	}
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

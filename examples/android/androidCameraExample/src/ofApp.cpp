@@ -2,14 +2,14 @@
 #include "ofxAndroidVideoGrabber.h"
 
 //--------------------------------------------------------------
-void ofApp::setup(){
-	ofBackground(0,0,0);
+void ofApp::setup() {
+	ofBackground(0, 0, 0);
 
 	// List devices
 	// The device name contains information about the direction of the camera
 	vector<ofVideoDevice> devices = grabber.listDevices();
-	for(int i=0;i<devices.size(); i++){
-		ofLog()<<"Device "<<i<<": "<<devices[i].deviceName;
+	for(int i = 0; i < devices.size(); i++) {
+		ofLog() << "Device " << i << ": " << devices[i].deviceName;
 	}
 
 	// Set the pixel format for getPixels to monochrome
@@ -20,11 +20,11 @@ void ofApp::setup(){
 	//((ofxAndroidVideoGrabber*)grabber.getGrabber().get())->setUsePixels(false);
 
 	// Start the grabber
-	grabber.setup(1280,960);
+	grabber.setup(1280, 960);
 
 	// Get the orientation and facing of the current camera
-	cameraOrientation = ((ofxAndroidVideoGrabber*)grabber.getGrabber().get())->getCameraOrientation();
-	cameraFacingFront = ((ofxAndroidVideoGrabber*)grabber.getGrabber().get())->getFacingOfCamera();
+	cameraOrientation = ((ofxAndroidVideoGrabber *)grabber.getGrabber().get())->getCameraOrientation();
+	cameraFacingFront = ((ofxAndroidVideoGrabber *)grabber.getGrabber().get())->getFacingOfCamera();
 
 	one_second_time = ofGetElapsedTimeMillis();
 	camera_fps = 0;
@@ -32,11 +32,11 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 	grabber.update();
-	if(grabber.isFrameNew()){
+	if(grabber.isFrameNew()) {
 		frames_one_sec++;
-		if( ofGetElapsedTimeMillis() - one_second_time >= 1000){
+		if(ofGetElapsedTimeMillis() - one_second_time >= 1000) {
 			camera_fps = frames_one_sec;
 			frames_one_sec = 0;
 			one_second_time = ofGetElapsedTimeMillis();
@@ -47,7 +47,7 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	// Calculate aspect ratio of grabber image
 	float grabberAspectRatio = grabber.getWidth() / grabber.getHeight();
 
@@ -74,17 +74,15 @@ void ofApp::draw(){
 	int height = ofGetHeight();
 
 	// If its landscape mode, then swap width and height
-	if(appOrientation == 90 || appOrientation == 270){
+	if(appOrientation == 90 || appOrientation == 270) {
 		std::swap(width, height);
 	}
 
 	// Draw the image
 	if(width < height) {
-		grabber.draw(0,0, width * grabberAspectRatio,
-					 width);
+		grabber.draw(0, 0, width * grabberAspectRatio, width);
 	} else {
-		grabber.draw(0,0, height,
-					 height * 1.0/grabberAspectRatio);
+		grabber.draw(0, 0, height, height * 1.0 / grabberAspectRatio);
 	}
 
 	ofPopMatrix();
@@ -93,48 +91,42 @@ void ofApp::draw(){
 	// Draw text gui
 	ofDrawRectangle(0, 0, 300, 120);
 	ofSetColor(0);
-	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate()),20,20);
-	ofDrawBitmapString("camera fps: " + ofToString(camera_fps),20,40);
+	ofDrawBitmapString("fps: " + ofToString(ofGetFrameRate()), 20, 20);
+	ofDrawBitmapString("camera fps: " + ofToString(camera_fps), 20, 40);
 
 	if(cameraFacingFront) {
 		ofDrawBitmapString("facing: front (click to swap)", 20, 60);
-	}  else {
+	} else {
 		ofDrawBitmapString("facing: back (click to swap)", 20, 60);
 	}
-	ofDrawBitmapString("camera orientation: " + ofToString(cameraOrientation) ,20,80);
-	ofDrawBitmapString("app orientation: " + ofToString(appOrientation) ,20,100);
+	ofDrawBitmapString("camera orientation: " + ofToString(cameraOrientation), 20, 80);
+	ofDrawBitmapString("app orientation: " + ofToString(appOrientation), 20, 100);
 
 	// Draw the image through raw pixels
 	ofSetColor(255);
 	ofDrawRectangle(0, 130, 300, 20);
 	ofSetColor(0);
-	ofDrawBitmapString("raw pixel data" ,20,143);
+	ofDrawBitmapString("raw pixel data", 20, 143);
 
 	ofSetColor(255);
-	grabberImage.draw(0,150, 300, 300*1.0/grabberAspectRatio);
+	grabberImage.draw(0, 150, 300, 300 * 1.0 / grabberAspectRatio);
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed  (int key){
-
-}
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::touchDown(int x, int y, int id){
+void ofApp::touchDown(int x, int y, int id) {
 	// Swap between back and front camera
 
 	// Get the native android video grabber
-	ofxAndroidVideoGrabber* androidGrabber = (ofxAndroidVideoGrabber*)grabber.getGrabber().get();
+	ofxAndroidVideoGrabber *androidGrabber = (ofxAndroidVideoGrabber *)grabber.getGrabber().get();
 
 	// If the current camera is frontal, then choose the back camera
 	if(cameraFacingFront) {
@@ -148,66 +140,44 @@ void ofApp::touchDown(int x, int y, int id){
 	cameraFacingFront = androidGrabber->getFacingOfCamera();
 }
 
-void ofApp::deviceOrientationChanged(ofOrientation newOrientation){
+void ofApp::deviceOrientationChanged(ofOrientation newOrientation) {
 	appOrientation = ofOrientationToDegrees(newOrientation);
 }
 
 //--------------------------------------------------------------
-void ofApp::touchMoved(int x, int y, int id){
-
-}
+void ofApp::touchMoved(int x, int y, int id) {}
 
 //--------------------------------------------------------------
-void ofApp::touchUp(int x, int y, int id){
-
-}
+void ofApp::touchUp(int x, int y, int id) {}
 
 //--------------------------------------------------------------
-void ofApp::touchDoubleTap(int x, int y, int id){
-
-}
+void ofApp::touchDoubleTap(int x, int y, int id) {}
 
 //--------------------------------------------------------------
-void ofApp::touchCancelled(int x, int y, int id){
-
-}
+void ofApp::touchCancelled(int x, int y, int id) {}
 
 //--------------------------------------------------------------
-void ofApp::swipe(ofxAndroidSwipeDir swipeDir, int id){
-
-}
+void ofApp::swipe(ofxAndroidSwipeDir swipeDir, int id) {}
 
 //--------------------------------------------------------------
-void ofApp::pause(){
-
-}
+void ofApp::pause() {}
 
 //--------------------------------------------------------------
-void ofApp::stop(){
-
-}
+void ofApp::stop() {}
 
 //--------------------------------------------------------------
-void ofApp::resume(){
-
-}
+void ofApp::resume() {}
 
 //--------------------------------------------------------------
-void ofApp::reloadTextures(){
-
-}
+void ofApp::reloadTextures() {}
 
 //--------------------------------------------------------------
-bool ofApp::backPressed(){
+bool ofApp::backPressed() {
 	return false;
 }
 
 //--------------------------------------------------------------
-void ofApp::okPressed(){
-
-}
+void ofApp::okPressed() {}
 
 //--------------------------------------------------------------
-void ofApp::cancelPressed(){
-
-}
+void ofApp::cancelPressed() {}

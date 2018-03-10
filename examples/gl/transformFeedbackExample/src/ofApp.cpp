@@ -1,10 +1,9 @@
 #include "ofApp.h"
 
-
 constexpr int numVertices = 256;
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	// allocate numVertices without setting them, the vertex
 	// shader will fill the positions and colors
 	ofMesh mesh;
@@ -17,7 +16,7 @@ void ofApp::setup(){
 	ofShader::TransformFeedbackSettings settings;
 	settings.shaderFiles[GL_VERTEX_SHADER] = "vert.glsl";
 	settings.bindDefaults = false;
-	settings.varyingsToCapture = { "v_position", "v_color" };
+	settings.varyingsToCapture = {"v_position", "v_color"};
 
 	ofShader shader;
 	shader.setup(settings);
@@ -25,7 +24,6 @@ void ofApp::setup(){
 	// allocate enough space for all the vertices in a gpu buffer
 	buffer.allocate(sizeof(glm::vec4) * 2 * numVertices, GL_STATIC_DRAW);
 
-	
 	// bind the full buffer using glBindBaseBuffer to default index 0
 	// and draw the mesh which will end up stored in our buffer
 	shader.beginTransformFeedback(GL_POINTS, buffer);
@@ -53,68 +51,44 @@ void ofApp::setup(){
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
-
-}
+void ofApp::update() {}
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	cam.begin();
 	vbo.draw(GL_POINTS, 0, numVertices);
 	cam.end();
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}

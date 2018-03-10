@@ -3,17 +3,16 @@
 #include "ofxiOS.h"
 
 class ImageApp : public ofxiOSApp {
-	
+
 public:
-    
-     ImageApp ();
-    ~ImageApp ();
-    
+	ImageApp();
+	~ImageApp();
+
 	void setup();
 	void update();
 	void draw();
 	void exit();
-	
+
 	void touchDown(ofTouchEventArgs &touch);
 	void touchMoved(ofTouchEventArgs &touch);
 	void touchUp(ofTouchEventArgs &touch);
@@ -25,8 +24,6 @@ public:
 	void gotMemoryWarning();
 	void deviceOrientationChanged(int newOrientation);
 
-    ofTrueTypeFont font;
-    ofImage image;
+	ofTrueTypeFont font;
+	ofImage image;
 };
-
-

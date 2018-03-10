@@ -3,17 +3,16 @@
 #include "ofxiOS.h"
 
 class TriangleApp : public ofxiOSApp {
-	
+
 public:
-    
-     TriangleApp ();
-    ~TriangleApp ();
-    
+	TriangleApp();
+	~TriangleApp();
+
 	void setup();
 	void update();
 	void draw();
 	void exit();
-	
+
 	void touchDown(ofTouchEventArgs &touch);
 	void touchMoved(ofTouchEventArgs &touch);
 	void touchUp(ofTouchEventArgs &touch);
@@ -25,7 +24,5 @@ public:
 	void gotMemoryWarning();
 	void deviceOrientationChanged(int newOrientation);
 
-    ofTrueTypeFont font;
+	ofTrueTypeFont font;
 };
-
-

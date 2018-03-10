@@ -4,18 +4,16 @@
 #include "Bullet.h"
 
 class GameEvent : public ofEventArgs {
-    
+
 public:
+	Bullet *bullet;
+	Bug *bug;
+	string message;
 
-    Bullet * bullet;
-    Bug    * bug;
-    string   message;
-    
-    GameEvent() {
-        bullet = NULL;
-        bug    = NULL;
-    }
-    
-    static ofEvent <GameEvent> events;
+	GameEvent() {
+		bullet = NULL;
+		bug = NULL;
+	}
+
+	static ofEvent<GameEvent> events;
 };
-

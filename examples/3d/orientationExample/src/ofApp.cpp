@@ -1,10 +1,10 @@
 #include "ofApp.h"
 
 /*
-	rotateToNormal will rotate everything using ofRotate. the rotation amount
-	and axis are generated using an ofQuaternion. the trick is to use ofQuaternion
-	to determine the rotation that is required from a standard axis (0,0,1) to the
-	desired normal vector, then apply that rotation.
+    rotateToNormal will rotate everything using ofRotate. the rotation amount
+    and axis are generated using an ofQuaternion. the trick is to use ofQuaternion
+    to determine the rotation that is required from a standard axis (0,0,1) to the
+    desired normal vector, then apply that rotation.
 */
 //--------------------------------------------------------------
 void rotateToNormal(ofVec3f normal) {
@@ -21,14 +21,14 @@ void rotateToNormal(ofVec3f normal) {
 }
 
 //--------------------------------------------------------------
-void ofApp::setup(){
+void ofApp::setup() {
 	ofSetVerticalSync(true);
 	// draw the vertices in pathLines as a line strip
 	pathLines.setMode(OF_PRIMITIVE_LINE_STRIP);
 }
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 	previous = current;
 
 	// generate a noisy 3d position over time
@@ -54,7 +54,7 @@ void ofApp::update(){
 }
 
 //--------------------------------------------------------------
-void ofApp::draw(){
+void ofApp::draw() {
 	ofColor cyan = ofColor::fromHex(0x00abec);
 	ofColor magenta = ofColor::fromHex(0xec008c);
 	ofColor yellow = ofColor::fromHex(0xffee00);
@@ -78,10 +78,11 @@ void ofApp::draw(){
 	ofDrawLine(current.x, current.y, current.z, current.x, 0, current.z);
 
 	ofTranslate(current.x, current.y, current.z);
-    if( (current - previous ).length() > 0.0 ){
-        // translate and rotate every 3D object after this line to the current position and orientation of our line, but only if the line is longer than 0 or has a length
-        rotateToNormal(current - previous);
-    }
+	if((current - previous).length() > 0.0) {
+		// translate and rotate every 3D object after this line to the current position and orientation of our line, but
+		// only if the line is longer than 0 or has a length
+		rotateToNormal(current - previous);
+	}
 	ofSetColor(255);
 	ofDrawBox(32);
 	ofDrawAxis(32);
@@ -90,56 +91,34 @@ void ofApp::draw(){
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key){
-
-}
+void ofApp::keyPressed(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
+void ofApp::keyReleased(int key) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y){
-
-}
+void ofApp::mouseMoved(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
+void ofApp::mousePressed(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
+void ofApp::mouseReleased(int x, int y, int button) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
+void ofApp::mouseEntered(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
+void ofApp::mouseExited(int x, int y) {}
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
+void ofApp::windowResized(int w, int h) {}
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
+void ofApp::gotMessage(ofMessage msg) {}
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){
-
-}
+void ofApp::dragEvent(ofDragInfo dragInfo) {}
