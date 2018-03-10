@@ -142,7 +142,7 @@ install:
         scripts/ci/$TARGET/install.sh;
     fi
   - if [ "$TARGET" == "lint" ]; then
-       return
+       return;
     elif [ "$TARGET" == "linux64" ]; then
         scripts/linux/download_libs.sh -a 64gcc4;
     elif [ "$TARGET" == "linuxarmv6l" ]; then
