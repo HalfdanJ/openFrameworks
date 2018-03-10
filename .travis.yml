@@ -21,7 +21,7 @@ matrix:
           - llvm-toolchain-precise
           - ubuntu-toolchain-r-test
         packages:
-          - clang-format
+          - clang-format-5.0
 
   - os: linux
     dist: trusty
