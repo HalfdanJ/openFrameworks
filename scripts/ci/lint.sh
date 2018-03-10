@@ -9,7 +9,7 @@ cd "$SCRIPT_DIR/../../"
 
 ./scripts/dev/clang-format-all.sh
 
-cd libs/openframeWorks
+cd libs/openFrameWorks
 dirty=$(git ls-files --modified)
 
 if [[ $dirty ]]; then
