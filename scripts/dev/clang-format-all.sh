@@ -4,12 +4,12 @@ cd $SCRIPT_DIR
 
 OF_ROOT="../.."
 
-if type clang-format-5.0 2> /dev/null ; then
-    CLANG_FORMAT=clang-format-5.0
+if type clang-format-7 2> /dev/null ; then
+    CLANG_FORMAT=clang-format-7
 elif type clang-format 2> /dev/null ; then
     CLANG_FORMAT=clang-format
 else 
-    echo "No appropriate clang-format found (expected clang-format-5.0, or clang-format)"
+    echo "No appropriate clang-format found (expected clang-format-7, or clang-format)"
     exit 1
 fi
 
